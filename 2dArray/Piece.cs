@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace _2dArray
 {
-    public abstract class Piece
+    public interface Piece
     {
-        public int inherentValue;
-        public int distanceCapacity;
-        public string moveDirection;
-        public string colour;
+        int InherentValue { get; set; }
+        int DistanceCapacity { get; set; }
+        string MoveDirection { get; set; }
+        string Colour { get; set; }
     }
 }

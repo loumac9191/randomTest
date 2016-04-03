@@ -10,37 +10,47 @@ namespace _2dArray
     {
         static void Main(string[] args)
         {
+            //Board board = new Board();
+            //LoadBoard lBoard = new LoadBoard(board);
+
+            //int SIZE = 8;
+            //Piece rook = new Rook();
+            //List<Dictionary<string, Piece[]>> board2 = new List<Dictionary<string, Piece[]>>();
+
+            //Dictionary<string, Piece[]> eight = new Dictionary<string, Piece[]>();
+            //Dictionary<string, Piece[]> seven = new Dictionary<string, Piece[]>();
+            //Dictionary<string, Piece[]> six = new Dictionary<string, Piece[]>();
+            //Dictionary<string, Piece[]> five = new Dictionary<string, Piece[]>();
+            //Dictionary<string, Piece[]> four = new Dictionary<string, Piece[]>();
+            //Dictionary<string, Piece[]> three = new Dictionary<string, Piece[]>();
+            //Dictionary<string, Piece[]> two = new Dictionary<string, Piece[]>();
+            //Dictionary<string, Piece[]> one = new Dictionary<string, Piece[]>();
+            //KeyValuePair<int, Piece> yep = new KeyValuePair<int, Piece>(SIZE, rook);
+
+            //Bishop bBishop = new Bishop();
+
+            //Console.WriteLine(bBishop.colour);
+            //Rook bRook1 = new Rook()
+            //{
+            //    colour = "black"
+            //};
+
+            //Dictionary<string, Piece> test = new Dictionary<string, Piece>
+            //{
+            //    {"A", bRook1 }
+            //};
+            //int ind = test.Values.ToList().IndexOf(bRook1);
+            //Console.WriteLine(ind);
+
+
+            //int count = board.board.Count();
+            //Console.WriteLine(count);
+
             Board board = new Board();
-            LoadBoard lBoard = new LoadBoard(board);
 
-            int SIZE = 8;
-            Piece rook = new Rook();
-            List<Dictionary<string, Piece[]>> board2 = new List<Dictionary<string, Piece[]>>();
-
-            Dictionary<string, Piece[]> eight = new Dictionary<string, Piece[]>();
-            Dictionary<string, Piece[]> seven = new Dictionary<string, Piece[]>();
-            Dictionary<string, Piece[]> six = new Dictionary<string, Piece[]>();
-            Dictionary<string, Piece[]> five = new Dictionary<string, Piece[]>();
-            Dictionary<string, Piece[]> four = new Dictionary<string, Piece[]>();
-            Dictionary<string, Piece[]> three = new Dictionary<string, Piece[]>();
-            Dictionary<string, Piece[]> two = new Dictionary<string, Piece[]>();
-            Dictionary<string, Piece[]> one = new Dictionary<string, Piece[]>();
-            KeyValuePair<int, Piece> yep = new KeyValuePair<int, Piece>(SIZE, rook);
-
-            Bishop bBishop = new Bishop();
-
-            Console.WriteLine(bBishop.colour);
-            Rook bRook1 = new Rook()
-            {
-                colour = "black"
-            };
-
-            Dictionary<string, Piece> test = new Dictionary<string, Piece>
-            {
-                {"A", bRook1 }
-            };
-            int ind = test.Values.ToList().IndexOf(bRook1);
-            Console.WriteLine(ind);            
+            string s = board.board.ElementAt(0).ElementAt(0).Value.moveDirection;
+            var r = board.board.ElementAt(0);
+            Console.WriteLine(s);
 
             //Board board = new Board();
 

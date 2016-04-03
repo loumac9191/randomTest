@@ -8,9 +8,36 @@ namespace _2dArray
 {
     public class Bishop : Piece
     {
-        public int value = 4;
-        public int move = 8;
-        public string direction = "diagonal";
-        public new string colour = "black/white";
+        private int inherentValue = 4;
+
+        public int InherentValue
+        {
+            get { return this.inherentValue; }
+            set { this.inherentValue = value; }
+        }
+
+        private int distanceCapacity = 8;
+
+        public int DistanceCapacity
+        {
+            get { return this.distanceCapacity; }
+            set { this.distanceCapacity = value; }
+        }
+
+        private string moveDirection = "diagonal";
+
+        public string MoveDirection
+        {
+            get { return this.moveDirection; }
+            set { this.moveDirection = value; }
+        }
+
+        private string colour;
+
+        public string Colour
+        {
+            get { return this.colour; }
+            set { this.colour = value; }
+        }
     }
 }
