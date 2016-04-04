@@ -48,9 +48,35 @@ namespace _2dArray
 
             Board board = new Board();
 
-            string s = board.board.ElementAt(0).ElementAt(0).Value.moveDirection;
+            string s = board.board.ElementAt(0).ElementAt(0).Value.Colour;
+            string s3 = board.board.ElementAt(7).ElementAt(7).Value.Colour;
+            string s2 = board.board.ElementAt(0).ElementAt(4).Value.Colour.ToString();
+            string s4 = board.board.ElementAt(6).ElementAt(3).Value.InherentValue.ToString();
             var r = board.board.ElementAt(0);
             Console.WriteLine(s);
+            Console.WriteLine(s2);
+            Console.WriteLine(s3);
+            Console.WriteLine(s4);
+
+            int pCount = 0;
+
+            foreach (var piece in board.board)
+            {
+                pCount++;
+            }
+
+            Console.WriteLine(pCount);
+
+            foreach (var item in r)
+            {
+                Console.WriteLine(item.Value);
+            }
+
+            Console.WriteLine(1);
+
+            Console.WriteLine(board.board);
+
+
 
             //Board board = new Board();
 

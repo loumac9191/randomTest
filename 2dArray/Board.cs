@@ -59,27 +59,91 @@ namespace _2dArray
                 {
                     one = new Dictionary<string, Piece>
                     {
-                        {"A", bRook1 = new Rook()},
-                        {"B", bKnight1 = new Knight()},
-                        {"C", bBishop1 = new Bishop()},
-                        {"D", bKing = new King()},
-                        {"E", bQueen = new Queen()},
-                        {"F", bBishop2 = new Bishop()},
-                        {"G", bKnight2 = new Knight()},
-                        {"H", bRook2 = new Rook()}
+                        {"A", bRook1 = new Rook
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"B", bKnight1 = new Knight
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"C", bBishop1 = new Bishop
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"D", bKing = new King
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"E", bQueen = new Queen
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"F", bBishop2 = new Bishop
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"G", bKnight2 = new Knight
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"H", bRook2 = new Rook
+                            {
+                                Colour = "Black"
+                            }
+                        }
                     }
                 },
                 {
                     two = new Dictionary<string, Piece>
                     {
-                        {"A", bPawn1 = new Pawn()},
-                        {"B", bPawn2 = new Pawn()},
-                        {"C", bPawn3 = new Pawn()},
-                        {"D", bPawn4 = new Pawn()},
-                        {"E", bPawn5 = new Pawn()},
-                        {"F", bPawn6 = new Pawn()},
-                        {"G", bPawn7 = new Pawn()},
-                        {"H", bPawn8 = new Pawn()}
+                        {"A", bPawn1 = new Pawn
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"B", bPawn2 = new Pawn
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"C", bPawn3 = new Pawn
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"D", bPawn4 = new Pawn
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"E", bPawn5 = new Pawn
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"F", bPawn6 = new Pawn
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"G", bPawn7 = new Pawn
+                            {
+                                Colour = "Black"
+                            }
+                        },
+                        {"H", bPawn8 = new Pawn
+                            {
+                                Colour = "Black"
+                            }
+                        }
                     }
                 },
                 {
@@ -137,27 +201,91 @@ namespace _2dArray
                 {
                     seven = new Dictionary<string, Piece>
                     {
-                        {"A", wPawn1 = new Pawn()},
-                        {"B", wPawn2 = new Pawn()},
-                        {"C", wPawn3 = new Pawn()},
-                        {"D", wPawn4 = new Pawn()},
-                        {"E", wPawn5 = new Pawn()},
-                        {"F", wPawn6 = new Pawn()},
-                        {"G", wPawn7 = new Pawn()},
-                        {"H", wPawn8 = new Pawn()}
+                        {"A", wPawn1 = new Pawn
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"B", wPawn2 = new Pawn
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"C", wPawn3 = new Pawn
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"D", wPawn4 = new Pawn
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"E", wPawn5 = new Pawn
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"F", wPawn6 = new Pawn
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"G", wPawn7 = new Pawn
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"H", wPawn8 = new Pawn
+                            {
+                                Colour = "White"
+                            }
+                        }
                     }
                 },
                 {
                     eight = new Dictionary<string, Piece>
                     {
-                        {"A", wRook1 = new Rook()},
-                        {"B", wKnight1 = new Knight()},
-                        {"C", wBishop1 = new Bishop()},
-                        {"D", wKing = new King()},
-                        {"E", wQueen = new Queen()},
-                        {"F", wBishop2 = new Bishop()},
-                        {"G", wKnight2 = new Knight()},
-                        {"H", wRook2 = new Rook()}
+                        {"A", wRook1 = new Rook
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"B", wKnight1 = new Knight
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"C", wBishop1 = new Bishop
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"D", wKing = new King
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"E", wQueen = new Queen
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"F", wBishop2 = new Bishop
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"G", wKnight2 = new Knight
+                            {
+                                Colour = "White"
+                            }
+                        },
+                        {"H", wRook2 = new Rook
+                            {
+                                Colour = "White"
+                            }
+                        }
                     }
                 }
             };            

@@ -8,9 +8,41 @@ namespace _2dArray
 {
     public class Pawn : Piece
     {
-        public int value = 1;
-        public int move = 1;
-        public string direction = "any";
-        public string pColour = "black/white";
+        //public int value = 1;
+        //public int move = 1;
+        //public string direction = "any";
+        //public string pColour = "black/white";
+
+        private int inherentValue = 1;
+
+        public int InherentValue
+        {
+            get { return this.inherentValue; }
+            set { this.inherentValue = value; }
+        }
+
+        private int distanceCapacity = 1;
+
+        public int DistanceCapacity
+        {
+            get { return this.distanceCapacity; }
+            set { this.distanceCapacity = value; }
+        }
+
+        private string moveDirection = "any";
+
+        public string MoveDirection
+        {
+            get { return this.moveDirection; }
+            set { this.moveDirection = value; }
+        }
+
+        private string colour;
+
+        public string Colour
+        {
+            get { return this.colour; }
+            set { this.colour = value; }
+        }
     }
 }
