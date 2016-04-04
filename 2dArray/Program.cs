@@ -62,7 +62,8 @@ namespace _2dArray
 
             foreach (var piece in board.board)
             {
-                pCount++;
+                //How to count the pieces on the board  
+                pCount = pCount + piece.Where(x => x.Value is Piece).Count();
             }
 
             Console.WriteLine(pCount);
