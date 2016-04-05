@@ -8,11 +8,6 @@ namespace _2dArray
 {
     public class Rook : Piece
     {
-        //private int inherentValue = 2;
-        //public new int distanceCapacity = 8;
-        //public new string moveDirection = "verticle/horizontal";
-        //public new string colour = "black/white";
-
         private int inherentValue = 2;
 
         public int InherentValue

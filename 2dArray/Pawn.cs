@@ -8,11 +8,6 @@ namespace _2dArray
 {
     public class Pawn : Piece
     {
-        //public int value = 1;
-        //public int move = 1;
-        //public string direction = "any";
-        //public string pColour = "black/white";
-
         private int inherentValue = 1;
 
         public int InherentValue

@@ -11,83 +11,74 @@ namespace _2dArray
         static void Main(string[] args)
         {
             //Board board = new Board();
-            //LoadBoard lBoard = new LoadBoard(board);
 
-            //int SIZE = 8;
-            //Piece rook = new Rook();
-            //List<Dictionary<string, Piece[]>> board2 = new List<Dictionary<string, Piece[]>>();
+            //string s = board.board.ElementAt(0).ElementAt(0).Value.Colour;
+            //string s3 = board.board.ElementAt(7).ElementAt(7).Value.Colour;
+            //string s2 = board.board.ElementAt(0).ElementAt(4).Value.Colour.ToString();
+            //string s4 = board.board.ElementAt(6).ElementAt(3).Value.InherentValue.ToString();
+            //int yAxis = 0;
+            //int xAxis = 3;
+            //var r = board.board.ElementAt(0);
+            //var u = board.board.ElementAt(0).ElementAt(4).Value;
 
-            //Dictionary<string, Piece[]> eight = new Dictionary<string, Piece[]>();
-            //Dictionary<string, Piece[]> seven = new Dictionary<string, Piece[]>();
-            //Dictionary<string, Piece[]> six = new Dictionary<string, Piece[]>();
-            //Dictionary<string, Piece[]> five = new Dictionary<string, Piece[]>();
-            //Dictionary<string, Piece[]> four = new Dictionary<string, Piece[]>();
-            //Dictionary<string, Piece[]> three = new Dictionary<string, Piece[]>();
-            //Dictionary<string, Piece[]> two = new Dictionary<string, Piece[]>();
-            //Dictionary<string, Piece[]> one = new Dictionary<string, Piece[]>();
-            //KeyValuePair<int, Piece> yep = new KeyValuePair<int, Piece>(SIZE, rook);
+            //Console.WriteLine(s);
+            //Console.WriteLine(s2);
+            //Console.WriteLine(s3);
+            //Console.WriteLine(s4);
 
-            //Bishop bBishop = new Bishop();
+            //int pCount = 0;
 
-            //Console.WriteLine(bBishop.colour);
-            //Rook bRook1 = new Rook()
+            //foreach (var piece in board.board)
             //{
-            //    colour = "black"
-            //};
+            //    //How to count the pieces on the board  
+            //    pCount = pCount + piece.Where(x => x.Value is Piece).Count();
+            //}
 
-            //Dictionary<string, Piece> test = new Dictionary<string, Piece>
+            //Console.WriteLine(pCount);
+
+            //foreach (var item in r)
             //{
-            //    {"A", bRook1 }
-            //};
-            //int ind = test.Values.ToList().IndexOf(bRook1);
-            //Console.WriteLine(ind);
+            //    Console.WriteLine(item.Value);
+            //}
 
+            ////remove
+            //board.board.ElementAt(yAxis).Remove(board.board.ElementAt(yAxis).ElementAt(xAxis).Key);
 
-            //int count = board.board.Count();
-            //Console.WriteLine(count);
+            //foreach (var item in r)
+            //{
+            //    Console.WriteLine(item.Value);
+            //}
 
             Board board = new Board();
 
-            string s = board.board.ElementAt(0).ElementAt(0).Value.Colour;
-            string s3 = board.board.ElementAt(7).ElementAt(7).Value.Colour;
-            string s2 = board.board.ElementAt(0).ElementAt(4).Value.Colour.ToString();
-            string s4 = board.board.ElementAt(6).ElementAt(3).Value.InherentValue.ToString();
-            var r = board.board.ElementAt(0);
-            Console.WriteLine(s);
-            Console.WriteLine(s2);
-            Console.WriteLine(s3);
-            Console.WriteLine(s4);
+            Game game = new Game(board);
 
-            int pCount = 0;
-
-            foreach (var piece in board.board)
+            foreach (var item in game._board.board.ElementAt(2).Keys)
             {
-                //How to count the pieces on the board  
-                pCount = pCount + piece.Where(x => x.Value is Piece).Count();
+                Console.WriteLine(item);
             }
 
-            Console.WriteLine(pCount);
-
-            foreach (var item in r)
+            foreach (var item in game._board.board.ElementAt(2).Values)
             {
-                Console.WriteLine(item.Value);
+                Console.WriteLine(item);
             }
 
-            Console.WriteLine(1);
+            string shouldBeBlank = game._board.board.ElementAt(4).ElementAt(1).Key;
+            Console.WriteLine(shouldBeBlank);
 
-            Console.WriteLine(board.board);
+            Mover moveSomething = new Mover();
 
+            Piece randomPiece = game._board.board.ElementAt(0).ElementAt(4).Value;
 
+            int[] testCords = new int[]
+            {
+                4,
+                1
+            };
 
-            //Board board = new Board();
+            moveSomething.MovePiece(game, randomPiece, testCords);
 
-            //Console.WriteLine(board.board[1][2]);
-
-            //int s = Array.IndexOf(board.board[0], 0);
-            //Console.WriteLine(s);
-            ////board.board[1][2] = board.board[1][2] + 2;
-
-            //Console.WriteLine(board.board[1][2]);
+            Console.WriteLine(shouldBeBlank);
         }
     }
 }

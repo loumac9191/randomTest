@@ -45,12 +45,12 @@
   <ItemGroup>
     <Compile Include="Bishop.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="Converter.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="IPlayable.cs" />
     <Compile Include="King.cs" />
     <Compile Include="Knight.cs" />
-    <Compile Include="LoadBoard.cs" />
-    <Compile Include="Move.cs" />
+    <Compile Include="Mover.cs" />
     <Compile Include="Pawn.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="Program.cs" />

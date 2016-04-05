@@ -8,11 +8,6 @@ namespace _2dArray
 {
     public class Queen : Piece
     {
-        //public int value = 6;
-        //public int move = 8;
-        //public string direction = "any ";
-        //public string pColour = "black/white";
-
         private int inherentValue = 6;
 
         public int InherentValue
