@@ -9,6 +9,7 @@ namespace _2dArray
     public class Converter
     {
         private string xAxisToConvert;
+        private string yAxisToConvert;
 
         public string Convert(int XAxisToConvert)
         {

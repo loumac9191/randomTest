@@ -13,7 +13,6 @@ namespace _2dArray
         private Piece _pieceToMove;
         private SortedDictionary<string, Piece> pieceContainedIn;
         private int[] _moveToCoOrdinates = new int[2];
-        private int[] _whereAmI;
         private int xAxis;
         private int yAxis;
         private string co0rd;
@@ -23,7 +22,10 @@ namespace _2dArray
         {
             _currentGame = CurrentGame;
             _pieceToMove = PieceToMove;
+            //When coOrdinates are given by the player it will be numbered 1-8, this WONT factor in zero indexing, therefore -1 on yValues
             _moveToCoOrdinates = MoveToCoOrdinates;
+            _moveToCoOrdinates[0] -= 1;           
+
             xAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);
             pieceContainedIn = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove));
             yAxis = _currentGame._board.board.IndexOf(pieceContainedIn);

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace _2dArray
 {
-    public class Knight : Piece
+    public class Queen : Piece
     {
-        private int inherentValue = 3;
+        private int inherentValue = 6;
 
         public int InherentValue
         {
@@ -16,7 +16,7 @@ namespace _2dArray
             set { this.inherentValue = value; }
         }
 
-        private int distanceCapacity = 3;
+        private int distanceCapacity = 8;
 
         public int DistanceCapacity
         {
@@ -24,7 +24,7 @@ namespace _2dArray
             set { this.distanceCapacity = value; }
         }
 
-        private string moveDirection = "two verticle one horizontal, two horizontal one verticle";
+        private string moveDirection = "any";
 
         public string MoveDirection
         {
@@ -38,6 +38,14 @@ namespace _2dArray
         {
             get { return this.colour; }
             set { this.colour = value; }
+        }
+
+        private string owner;
+
+        public string Owner
+        {
+            get { return this.owner; }
+            set { this.owner = value; }
         }
     }
 }

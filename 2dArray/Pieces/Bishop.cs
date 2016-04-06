@@ -39,5 +39,13 @@ namespace _2dArray
             get { return this.colour; }
             set { this.colour = value; }
         }
+
+        private string owner;
+
+        public string Owner
+        {
+            get { return this.owner; }
+            set { this.owner = value; }
+        }
     }
 }

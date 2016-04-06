@@ -12,5 +12,6 @@ namespace _2dArray
         int DistanceCapacity { get; set; }
         string MoveDirection { get; set; }
         string Colour { get; set; }
+        string Owner { get; set; }
     }
 }

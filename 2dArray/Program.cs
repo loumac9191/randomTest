@@ -50,8 +50,10 @@ namespace _2dArray
             //}
 
             Board board = new Board();
+            Player playerOne = new Player();
+            Player playerTwo = new Player();
 
-            Game game = new Game(board);
+            Game game = new Game(board, playerOne, playerTwo);
 
             foreach (var item in game._board.board.ElementAt(2).Keys)
             {
