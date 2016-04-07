@@ -8,8 +8,28 @@ namespace _2dArray
 {
     public class Player
     {
-        SortedDictionary<string, string> listOfPieces;
-        SortedDictionary<string, string> listOfMovesMade;
-        bool winLose;
+        private SortedDictionary<string, string> listOfPieces = new SortedDictionary<string, string>();
+
+        public SortedDictionary<string,string> ListOfPieces
+        {
+            get { return listOfPieces; }
+            set { listOfPieces = value; }
+        }
+
+        private SortedDictionary<string, string> listOfMovesMade = new SortedDictionary<string, string>();
+
+        public SortedDictionary<string, string> ListOfMovesMade
+        {
+            get { return listOfMovesMade; }
+            set { listOfMovesMade = value; }
+        }
+
+        private bool winLose;
+
+        public bool WinLose
+        {
+            get { return winLose; }
+            set { winLose = value; }
+        }
     }
 }

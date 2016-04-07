@@ -11,12 +11,16 @@ namespace _2dArray
         private Game _currentGame;
         private Converter _converter = new Converter();
         private Piece _pieceToMove;
+        //Now in Move Evaluator
         private SortedDictionary<string, Piece> pieceContainedIn;
         private int[] _moveToCoOrdinates = new int[2];
+        //Move Evaluator
         private int xAxis;
+        //Move Evaluator
         private int yAxis;
         private string co0rd;
         private string reservedKey;
+        private bool toPositionPopulated;
 
         public void MovePiece(Game CurrentGame, Piece PieceToMove, int[] MoveToCoOrdinates)
         {
