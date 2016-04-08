@@ -29,7 +29,7 @@ namespace _2dArray
             int xHorizontalBorder = _board.board.ElementAt(0).Count();
             int yVericalBorder = _board.board.Count();
 
-            //players must be given pieces in their lists
+            //Load all Black pieces to playerOne, load all White pieces to playerTwo
             foreach (var rowOfPieces in _board.board)
             {
                 foreach (var piece in rowOfPieces)
@@ -48,14 +48,60 @@ namespace _2dArray
                                 coOrds = moveEval.GetPosition(piece.Value);
                                 _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()),"Pawn");
                                 break;
-                        }
-                        
+                            case 2:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Rook");
+                                break;
+                            case 3:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Knight");
+                                break;
+                            case 4:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Bishop");
+                                break;
+                            case 5:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "King");
+                                break;
+                            case 6:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Queen");
+                                break;
+                        }                     
                     }
                     else
                     {
+                        piece.Value.Owner = "Player Two";
 
+                        switch (piece.Value.InherentValue)
+                        {
+                            case 1:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Pawn");
+                                break;
+                            case 2:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Rook");
+                                break;
+                            case 3:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Knight");
+                                break;
+                            case 4:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Bishop");
+                                break;
+                            case 5:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "King");
+                                break;
+                            case 6:
+                                coOrds = moveEval.GetPosition(piece.Value);
+                                _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Queen");
+                                break;
+                        }
                     }
-                    //piece.Value.Colour
                 }
             }
         }
