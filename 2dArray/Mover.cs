@@ -22,9 +22,13 @@ namespace _2dArray
         private string reservedKey;
         private bool toPositionPopulated;
 
-        public void MovePiece(Game CurrentGame, Piece PieceToMove, int[] MoveToCoOrdinates)
+        public Mover(Game CurrentGame)
         {
             _currentGame = CurrentGame;
+        }
+
+        public void MovePiece(Game CurrentGame, Piece PieceToMove, int[] MoveToCoOrdinates)
+        {
             _pieceToMove = PieceToMove;
             //When coOrdinates are given by the player it will be numbered 1-8, this WONT factor in zero indexing, therefore -1 on yValues
             _moveToCoOrdinates = MoveToCoOrdinates;
@@ -36,6 +40,8 @@ namespace _2dArray
 
             co0rd = _converter.Convert(xAxis);
             reservedKey = _converter.Convert(_moveToCoOrdinates[1]);
+
+
 
             //Remove
             _currentGame._board.board.ElementAt(yAxis).Remove(_currentGame._board.board.ElementAt(yAxis).ElementAt(xAxis).Key);

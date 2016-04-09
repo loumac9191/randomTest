@@ -23,8 +23,8 @@ namespace _2dArray
             _board = Board;
             _playerOne = PlayerOne;
             _playerTwo = PlayerTwo;
-            mover = new Mover();
-            moveEval = new MoveEvaluator(_board);
+            mover = new Mover(this);
+            moveEval = new MoveEvaluator(this);
             int xHorizontalBorder = _board.board.ElementAt(0).Count();
             int yVericalBorder = _board.board.Count();
 
@@ -103,8 +103,9 @@ namespace _2dArray
                     }
                 }
             }
+            //NEED A WAY OF GIVING EVERY PAWN A STARTING BOOL OF TRUE
+            
         }
-
         //Games must have some rules
         //No piece must be able to go
     }

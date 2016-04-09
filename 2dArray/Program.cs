@@ -68,7 +68,7 @@ namespace _2dArray
             string shouldBeBlank = game._board.board.ElementAt(4).ElementAt(1).Key;
             Console.WriteLine(shouldBeBlank);
 
-            Mover moveSomething = new Mover();
+            Mover moveSomething = new Mover(game);
 
             Piece randomPiece = game._board.board.ElementAt(0).ElementAt(4).Value;
 
