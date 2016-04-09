@@ -18,7 +18,6 @@ namespace _2dArray
         public Player _playerTwo;
         private int[] coOrds;
 
-
         public Game(Board Board, Player PlayerOne, Player PlayerTwo)
         {
             _board = Board;
