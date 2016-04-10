@@ -27,8 +27,8 @@ namespace _2dArray
             mover = new Mover(this);
             //moveEval = new MoveEvaluator(this);
             PlayerWin = false;
-            int xHorizontalBorder = _board.board.ElementAt(0).Count();
-            int yVericalBorder = _board.board.Count();
+            xHorizontalBorder = _board.board.ElementAt(0).Count();
+            yVerticalBorder = _board.board.Count();
 
             //Load all Black pieces to playerOne, load all White pieces to playerTwo
             foreach (var rowOfPieces in _board.board)
@@ -107,10 +107,10 @@ namespace _2dArray
             }
             //Games must have some rules
             //No piece must be able to go
-            while (PlayerWin == false)
-            {
+            //while (PlayerWin == false)
+            //{
 
-            }
+            //}
         }
     }
 }

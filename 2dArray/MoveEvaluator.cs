@@ -14,13 +14,14 @@ namespace _2dArray
     //CASTLING
     public class MoveEvaluator
     {
-        private bool _canMove;
+        private bool _populated;
         private Game _currentGame;
         private SortedDictionary<string, Piece> pieceContainedIn;
         private Piece _pieceToEval;
         private int[] _moveToCoOrds;
         private int[] _currentPosition;
         private int[] positionResolved;
+        private int[] moveToMethodStore;
 
         public MoveEvaluator(Game CurrentGame)
         {
@@ -28,55 +29,72 @@ namespace _2dArray
             positionResolved = new int[2];
         }
 
-        public bool EvaluateMove(bool CanMove, Piece PieceToEval, int[] MoveToCoOrds)
+        public bool EvaluateMove(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
         {
-            _canMove = CanMove;
+            //dont think need canmove
             _pieceToEval = PieceToEval;
             _moveToCoOrds = MoveToCoOrds;
+            _populated = Populated;
+
 
             switch (_pieceToEval.InherentValue)
             {
                 case 1:
-                    //Pawn move logic
-                    if (MoveToPositionPopulated())
+                    _currentPosition = GetPosition(_pieceToEval);
+                    //Is it the same as the starting position? Don't move
+                    if (_currentPosition[0] == _moveToCoOrds[0] &&
+                        _currentPosition[1] == _moveToCoOrds[1])
                     {
-                        _currentPosition = GetPosition(_pieceToEval);
-                        //Is is the same as the starting position? Don't move
-                        if (_currentPosition[0] == _moveToCoOrds[0] &&
-                            _currentPosition[1] == _moveToCoOrds[1])
+                        break;
+                    }
+                    //Pawn move logic
+                    Pawn pawnToCheck = _pieceToEval as Pawn;
+                    //Is the property FirstMove set to true or false?
+                    if (pawnToCheck.FirstMove == true)
+                    {
+                        if (_populated == true)
                         {
+                            if (((_currentPosition[0] - 1) == _moveToCoOrds[0] || (_currentPosition[0] + 1) == _moveToCoOrds[0]) &&
+                                (_currentPosition[1] == _moveToCoOrds[1]))
+                            {
+                                return true;
+                            }
                             break;
                         }
-                        //Is the move valid?
-                        else if (((_currentPosition[0] -1) == _moveToCoOrds[0] || (_currentPosition[0] +1) == _moveToCoOrds[0]) &&
-                            ((_currentPosition[1] -1) == _moveToCoOrds[1] || (_currentPosition[1] +1) == _moveToCoOrds[1]))
+                        else if (((_currentPosition[0] - 2) == _moveToCoOrds[0] || (_currentPosition[0] + 2) == _moveToCoOrds[0] || (_currentPosition[0] + 1) == _moveToCoOrds[0] || (_currentPosition[0] - 1) == _moveToCoOrds[0]) &&
+                            (_currentPosition[1] == _moveToCoOrds[1]))
                         {
                             return true;
-                            //Is 
-                            if (true)
-                            {
-
-                            }
                         }
-                    }
-                    //If not populated, then check if it's the pawns first move
-                    else
+                        break;
+                    }                    
+                    //If desination is populated
+                    else if (_populated == true)
                     {
-                        ////first move?
-                        //if ()
-                        //{
-
-                        //}
-                        //else if(((_currentPosition[0] - 1) == _moveToCoOrds[0] || (_currentPosition[0] + 1) == _moveToCoOrds[0]) &&
-                        //    _currentPosition[1] == _moveToCoOrds[1])
-                        //{
-                        //    return true;
-                        //}
+                        //Then check if the move is legal
+                        if (((_currentPosition[0] - 1) == _moveToCoOrds[0] || (_currentPosition[0] + 1) == _moveToCoOrds[0]) &&
+                            ((_currentPosition[1] - 1) == _moveToCoOrds[1] || (_currentPosition[1] + 1) == _moveToCoOrds[1]))
+                        {
+                            return true;
+                        }
+                        break;
                     }
-                    
-                    break;
+                    else if (((_currentPosition[0] -1) == _moveToCoOrds[0] || (_currentPosition[0] +1) == _moveToCoOrds[0]) &&
+                        ((_currentPosition[1] -1) == _moveToCoOrds[1] || (_currentPosition[1] +1) == _moveToCoOrds[1]))
+                    {
+                        return true;
+                    }
+                    break;                  
                 case 2:
-                    //rook
+                    _currentPosition = GetPosition(_pieceToEval);
+                    //Is it the same as the starting position? Don't move
+                    if (_currentPosition[0] == _moveToCoOrds[0] &&
+                        _currentPosition[1] == _moveToCoOrds[1])
+                    {
+                        break;
+                    }
+                    //Rook move logic
+
                     break;
                 case 3:
                     //knight
@@ -92,13 +110,13 @@ namespace _2dArray
                     break;
             }
 
-            return _canMove = false;
+            return false;
         }
 
-        public bool MoveToPositionPopulated()
+        public bool MoveToPositionPopulated(int[] CoOrdinatesOfPositionToQuery)
         {
             //Check if Destination is populated
-            if(_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value != null)
+            if(_currentGame._board.board.ElementAt(CoOrdinatesOfPositionToQuery[0]).ElementAt(CoOrdinatesOfPositionToQuery[1]).Value != null)
             {
                 return true;
             }

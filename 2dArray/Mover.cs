@@ -23,6 +23,7 @@ namespace _2dArray
         private MoveEvaluator moveEval;
         private int yAxisBeforeCorrection;
         private int[] yx;
+        private bool _canMove;
 
         public Mover(Game CurrentGame)
         {
@@ -37,7 +38,7 @@ namespace _2dArray
             //i.e I want to move x to 4, A; this would be 3, 0 in index
             _moveToCoOrdinates = MoveToCoOrdinates;
             yAxisBeforeCorrection = _moveToCoOrdinates[0];
-            _moveToCoOrdinates[0] -= 1;           
+            //_moveToCoOrdinates[0] -= 1;           
 
             //Current Location Variables
             currentXAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);
@@ -48,63 +49,106 @@ namespace _2dArray
             incumbentKey = _converter.Convert(_moveToCoOrdinates[1]);
 
             //Initial checks
-            //Is The Range of CoOrdinates provided legal? i.e. less than or equal to the border of the board
-            //2) is the position the piece is moving to populated?
-
+            //1) Is The Range of CoOrdinates provided legal? i.e. less than or equal to the border of the board
+            //2) is the position the piece is moving to populated? Move as 
+            //
             if (yAxisBeforeCorrection > _currentGame.yVerticalBorder ||
                 _moveToCoOrdinates[1] > _currentGame.xHorizontalBorder)
             {
                 //Need to tell the game that the move wasn't valid
             }
-            else if(!moveEval.MoveToPositionPopulated())
+            else if(!moveEval.MoveToPositionPopulated(MoveToCoOrdinates))
             {
+                if (moveEval.EvaluateMove(false, _pieceToMove,_moveToCoOrdinates))
+                {
+                    //Remove the pieceToMove from its current location
+                    _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
 
+                    //Rename the XAxis key (string) and reorder
+                    switch (currentXAxis)
+                    {
+                        case 0:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 1:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 2:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 3:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 4:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 5:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 6:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 7:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                    };
+                    //Reorder
+                    _currentGame._board.board.ElementAt(currentYAxis).OrderBy(x => x.Key);
+
+                    //Remove the key from the pieces destination otherwise not unique
+                    _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Remove(incumbentKey);
+
+                    //Move and Reorder
+                    _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
+                    _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
+                }
             }
             else
             {
+                if (moveEval.EvaluateMove(true, _pieceToMove, _moveToCoOrdinates))
+                {
+                    //Remove the pieceToMove from its current location
+                    _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
 
+                    //Rename the XAxis key (string) and reorder
+                    switch (currentXAxis)
+                    {
+                        case 0:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 1:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 2:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 3:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 4:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 5:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 6:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                        case 7:
+                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                            break;
+                    };
+                    //Reorder
+                    _currentGame._board.board.ElementAt(currentYAxis).OrderBy(x => x.Key);
+
+                    //Remove the key from the pieces destination otherwise not unique
+                    _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Remove(incumbentKey);
+
+                    //Move and Reorder
+                    _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
+                    _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
+                }
             }
-
-            //Remove the pieceToMove from its current location
-            _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
-
-            //Rename the XAxis key (string) and reorder
-            switch (currentXAxis)
-            {
-                case 0:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                    break;
-                case 1:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                    break;
-                case 2:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                    break;
-                case 3:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                    break;
-                case 4:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                    break;
-                case 5:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                    break;
-                case 6:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                    break;
-                case 7:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                    break;
-            };
-            //Reorder
-            _currentGame._board.board.ElementAt(currentYAxis).OrderBy(x => x.Key);
-
-            //Remove the key from the pieces destination otherwise not unique
-            _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Remove(incumbentKey);
-
-            //Move and Reorder
-            _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
-            _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
         }
 
         public int[] ProvidePosition(Piece PositionOfPieceInQuery)
