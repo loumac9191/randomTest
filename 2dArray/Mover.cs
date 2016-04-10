@@ -11,79 +11,105 @@ namespace _2dArray
         private Game _currentGame;
         private Converter _converter = new Converter();
         private Piece _pieceToMove;
-        //Now in Move Evaluator
+        //Also in Move Evaluator
         private SortedDictionary<string, Piece> pieceContainedIn;
         private int[] _moveToCoOrdinates = new int[2];
         //Move Evaluator
-        private int xAxis;
+        private int currentXAxis;
         //Move Evaluator
-        private int yAxis;
-        private string co0rd;
-        private string reservedKey;
-        private bool toPositionPopulated;
+        private int currentYAxis;
+        private string coOrdAsCharacter;
+        private string incumbentKey;
+        private MoveEvaluator moveEval;
+        private int yAxisBeforeCorrection;
+        private int[] yx;
 
         public Mover(Game CurrentGame)
         {
             _currentGame = CurrentGame;
+            moveEval = new MoveEvaluator(CurrentGame);
         }
 
         public void MovePiece(Game CurrentGame, Piece PieceToMove, int[] MoveToCoOrdinates)
         {
             _pieceToMove = PieceToMove;
             //When coOrdinates are given by the player it will be numbered 1-8, this WONT factor in zero indexing, therefore -1 on yValues
+            //i.e I want to move x to 4, A; this would be 3, 0 in index
             _moveToCoOrdinates = MoveToCoOrdinates;
+            yAxisBeforeCorrection = _moveToCoOrdinates[0];
             _moveToCoOrdinates[0] -= 1;           
 
             //Current Location Variables
-            xAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);
+            currentXAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);
             pieceContainedIn = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove));
-            yAxis = _currentGame._board.board.IndexOf(pieceContainedIn);
+            currentYAxis = _currentGame._board.board.IndexOf(pieceContainedIn);
 
-            co0rd = _converter.Convert(xAxis);
-            reservedKey = _converter.Convert(_moveToCoOrdinates[1]);
+            coOrdAsCharacter = _converter.Convert(currentXAxis);
+            incumbentKey = _converter.Convert(_moveToCoOrdinates[1]);
 
+            //Initial checks
+            //Is The Range of CoOrdinates provided legal? i.e. less than or equal to the border of the board
+            //2) is the position the piece is moving to populated?
 
+            if (yAxisBeforeCorrection > _currentGame.yVerticalBorder ||
+                _moveToCoOrdinates[1] > _currentGame.xHorizontalBorder)
+            {
+                //Need to tell the game that the move wasn't valid
+            }
+            else if(!moveEval.MoveToPositionPopulated())
+            {
 
-            //Remove destination KVP
-            _currentGame._board.board.ElementAt(yAxis).Remove(_currentGame._board.board.ElementAt(yAxis).ElementAt(xAxis).Key);
+            }
+            else
+            {
 
-            //Rename the XAxis string and reorder
-            switch (xAxis)
+            }
+
+            //Remove the pieceToMove from its current location
+            _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
+
+            //Rename the XAxis key (string) and reorder
+            switch (currentXAxis)
             {
                 case 0:
-                    _currentGame._board.board.ElementAt(yAxis).Add(co0rd, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
                     break;
                 case 1:
-                    _currentGame._board.board.ElementAt(yAxis).Add(co0rd, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
                     break;
                 case 2:
-                    _currentGame._board.board.ElementAt(yAxis).Add(co0rd, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
                     break;
                 case 3:
-                    _currentGame._board.board.ElementAt(yAxis).Add(co0rd, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
                     break;
                 case 4:
-                    _currentGame._board.board.ElementAt(yAxis).Add(co0rd, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
                     break;
                 case 5:
-                    _currentGame._board.board.ElementAt(yAxis).Add(co0rd, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
                     break;
                 case 6:
-                    _currentGame._board.board.ElementAt(yAxis).Add(co0rd, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
                     break;
                 case 7:
-                    _currentGame._board.board.ElementAt(yAxis).Add(co0rd, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
                     break;
             };
-
-            _currentGame._board.board.ElementAt(yAxis).OrderBy(x => x.Key);
+            //Reorder
+            _currentGame._board.board.ElementAt(currentYAxis).OrderBy(x => x.Key);
 
             //Remove the key from the pieces destination otherwise not unique
-            _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Remove(reservedKey);
+            _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Remove(incumbentKey);
 
             //Move and Reorder
-            _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(reservedKey, _pieceToMove);
+            _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
             _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
+        }
+
+        public int[] ProvidePosition(Piece PositionOfPieceInQuery)
+        {
+            return yx = moveEval.GetPosition(PositionOfPieceInQuery);
         }
     }
 }

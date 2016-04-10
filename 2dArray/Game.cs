@@ -10,12 +10,12 @@ namespace _2dArray
     {
         public Board _board;
         public Mover mover;
-        public MoveEvaluator moveEval;
-        //bool _toPlay;
+        private bool PlayerWin;
         public int xHorizontalBorder;
         public int yVerticalBorder;
         public Player _playerOne;
         public Player _playerTwo;
+        //Pawns are having their FirstMove property set in the constructor of the Board
         private Pawn firstMovePopulater;
         private int[] coOrds;
 
@@ -25,7 +25,8 @@ namespace _2dArray
             _playerOne = PlayerOne;
             _playerTwo = PlayerTwo;
             mover = new Mover(this);
-            moveEval = new MoveEvaluator(this);
+            //moveEval = new MoveEvaluator(this);
+            PlayerWin = false;
             int xHorizontalBorder = _board.board.ElementAt(0).Count();
             int yVericalBorder = _board.board.Count();
 
@@ -45,27 +46,27 @@ namespace _2dArray
                         switch (piece.Value.InherentValue)
                         {
                             case 1:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()),"Pawn");
                                 break;
                             case 2:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Rook");
                                 break;
                             case 3:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Knight");
                                 break;
                             case 4:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Bishop");
                                 break;
                             case 5:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "King");
                                 break;
                             case 6:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerOne.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Queen");
                                 break;
                         }                     
@@ -77,35 +78,39 @@ namespace _2dArray
                         switch (piece.Value.InherentValue)
                         {
                             case 1:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Pawn");
                                 break;
                             case 2:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Rook");
                                 break;
                             case 3:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Knight");
                                 break;
                             case 4:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Bishop");
                                 break;
                             case 5:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "King");
                                 break;
                             case 6:
-                                coOrds = moveEval.GetPosition(piece.Value);
+                                coOrds = mover.ProvidePosition(piece.Value);
                                 _playerTwo.ListOfPieces.Add(String.Format("{0}, {1}", coOrds[0].ToString(), coOrds[1].ToString()), "Queen");
                                 break;
                         }
                     }
                 }
             }
+            //Games must have some rules
+            //No piece must be able to go
+            while (PlayerWin == false)
+            {
+
+            }
         }
-        //Games must have some rules
-        //No piece must be able to go
     }
 }
