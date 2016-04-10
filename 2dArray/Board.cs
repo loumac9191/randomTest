@@ -10,14 +10,14 @@ namespace _2dArray
     public class Board
     {
         public List<SortedDictionary<string, Piece>> board;
-        private SortedDictionary<string, Piece> one;
-        private SortedDictionary<string, Piece> two;
-        private SortedDictionary<string, Piece> three;
-        private SortedDictionary<string, Piece> four;
-        private SortedDictionary<string, Piece> five;
-        private SortedDictionary<string, Piece> six;
-        private SortedDictionary<string, Piece> seven;
         private SortedDictionary<string, Piece> eight;
+        private SortedDictionary<string, Piece> seven;
+        private SortedDictionary<string, Piece> six;
+        private SortedDictionary<string, Piece> five;
+        private SortedDictionary<string, Piece> four;
+        private SortedDictionary<string, Piece> three;
+        private SortedDictionary<string, Piece> two;
+        private SortedDictionary<string, Piece> one;
         private Rook bRook1;
         private Rook bRook2;
         private Knight bKnight1;
@@ -57,7 +57,7 @@ namespace _2dArray
             board = new List<SortedDictionary<string, Piece>>
             {
                 {
-                    one = new SortedDictionary<string, Piece>
+                    eight = new SortedDictionary<string, Piece>
                     {
                         {"A", bRook1 = new Rook
                             {
@@ -102,7 +102,7 @@ namespace _2dArray
                     }
                 },
                 {
-                    two = new SortedDictionary<string, Piece>
+                    seven = new SortedDictionary<string, Piece>
                     {
                         {"A", bPawn1 = new Pawn
                             {
@@ -155,20 +155,7 @@ namespace _2dArray
                     }
                 },
                 {
-                    three = new SortedDictionary<string, Piece>
-                    {
-                        {"A", null},
-                        {"B", null},
-                        {"C", null},
-                        {"D", null},
-                        {"E", null},
-                        {"F", null},
-                        {"G", null},
-                        {"H", null},
-                    }
-                },
-                {
-                    four = new SortedDictionary<string, Piece>
+                    six = new SortedDictionary<string, Piece>
                     {
                         {"A", null},
                         {"B", null},
@@ -194,7 +181,7 @@ namespace _2dArray
                     }
                 },
                 {
-                    six = new SortedDictionary<string, Piece>
+                    four = new SortedDictionary<string, Piece>
                     {
                         {"A", null},
                         {"B", null},
@@ -207,7 +194,20 @@ namespace _2dArray
                     }
                 },
                 {
-                    seven = new SortedDictionary<string, Piece>
+                    three = new SortedDictionary<string, Piece>
+                    {
+                        {"A", null},
+                        {"B", null},
+                        {"C", null},
+                        {"D", null},
+                        {"E", null},
+                        {"F", null},
+                        {"G", null},
+                        {"H", null},
+                    }
+                },
+                {
+                    two = new SortedDictionary<string, Piece>
                     {
                         {"A", wPawn1 = new Pawn
                             {
@@ -260,7 +260,7 @@ namespace _2dArray
                     }
                 },
                 {
-                    eight = new SortedDictionary<string, Piece>
+                    one = new SortedDictionary<string, Piece>
                     {
                         {"A", wRook1 = new Rook
                             {

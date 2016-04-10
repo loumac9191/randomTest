@@ -48,7 +48,7 @@ namespace _2dArray
                     {
                         break;
                     }
-                    //Pawn move logic
+                    //PAWN MOVE LOGIC
                     Pawn pawnToCheck = _pieceToEval as Pawn;
                     //Is the property FirstMove set to true or false?
                     if (pawnToCheck.FirstMove == true)
@@ -94,12 +94,66 @@ namespace _2dArray
                     {
                         break;
                     }
-                    //Rook move logic
+                    //ROOK MOVE LOGIC
                     //Need to check that the destination is not obstructed by other pieces
-                    if (_populated == true)
+                    //Vertical
+                    if ((_moveToCoOrds[0] > _currentPosition[0] || _moveToCoOrds[0] < _currentPosition[0]) &&
+                        _moveToCoOrds[1] == _currentPosition[1])
                     {
-                        
+                        //Up - **NEED TO CHECK IF THIS WORKS**
+                        if (_moveToCoOrds[0] < _currentPosition[0])
+                        {
+                            int iterate = _moveToCoOrds[0] + _currentPosition[0] - 8;
+                            for (int i = 1; i <= iterate; i++)
+                            {
+                                int positionTemp = _currentPosition[0] - i; 
+                                if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[1]).Value != null)
+                                {
+                                    //Define the new YAxis that the piece can move to
+                                    _moveToCoOrds[0] = positionTemp + 1;
+                                    //If this is the same as current position, don't move
+                                    if (_moveToCoOrds[0] == _currentPosition[0])
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        //NEW METHOD THAT RETURNS UPDATED
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                        //Down
+                        else
+                        {
+                            int iterate = _moveToCoOrds[0] - _currentPosition[0];
+                            for (int i = 1; i <= iterate; i++)
+                            {
+                                int positionTemp = _currentPosition[0] + i;
+                                if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[1]).Value != null)
+                                {
+                                    _moveToCoOrds[0] = positionTemp - 1;
+                                    if (_moveToCoOrds[0] == _currentPosition[0])
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        //NEW METHOD THAT RETURNS UPDATED
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+                        }
                     }
+                    //Horizontal
                     else
                     {
 
