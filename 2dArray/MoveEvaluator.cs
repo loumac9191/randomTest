@@ -12,6 +12,7 @@ namespace _2dArray
     //PROMOTION
     //KING:
     //CASTLING
+    //**NO PIECE CAN MOVE OVER ANOTHER PIECE**
     public class MoveEvaluator
     {
         private bool _populated;
@@ -94,6 +95,16 @@ namespace _2dArray
                         break;
                     }
                     //Rook move logic
+                    //Need to check that the destination is not obstructed by other pieces
+                    if (_populated == true)
+                    {
+                        
+                    }
+                    else
+                    {
+
+                    }
+
 
                     break;
                 case 3:
@@ -113,7 +124,7 @@ namespace _2dArray
             return false;
         }
 
-        public bool MoveToPositionPopulated(int[] CoOrdinatesOfPositionToQuery)
+        public bool MoveToDestinationPopulated(int[] CoOrdinatesOfPositionToQuery)
         {
             //Check if Destination is populated
             if(_currentGame._board.board.ElementAt(CoOrdinatesOfPositionToQuery[0]).ElementAt(CoOrdinatesOfPositionToQuery[1]).Value != null)
@@ -155,6 +166,11 @@ namespace _2dArray
             //    xAxisResolved = _currentGame._board.board.Find(x => x.ContainsValue(PieceToQuery)).Values.ToList().IndexOf(PieceToQuery)
             //};
             return positionResolved;
+        }
+
+        public void MoveToCorrection(int[] CorrectionToSendToMover)
+        {
+            //Send corrected coordinates to Mover to update where the piece can legally move to
         }
     }
 }

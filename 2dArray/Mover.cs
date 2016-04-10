@@ -57,7 +57,7 @@ namespace _2dArray
             {
                 //Need to tell the game that the move wasn't valid
             }
-            else if(!moveEval.MoveToPositionPopulated(MoveToCoOrdinates))
+            else if(!moveEval.MoveToDestinationPopulated(MoveToCoOrdinates))
             {
                 if (moveEval.EvaluateMove(false, _pieceToMove,_moveToCoOrdinates))
                 {
