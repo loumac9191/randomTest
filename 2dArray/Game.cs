@@ -16,6 +16,7 @@ namespace _2dArray
         public int yVerticalBorder;
         public Player _playerOne;
         public Player _playerTwo;
+        private Pawn firstMovePopulater;
         private int[] coOrds;
 
         public Game(Board Board, Player PlayerOne, Player PlayerTwo)
@@ -103,8 +104,6 @@ namespace _2dArray
                     }
                 }
             }
-            //NEED A WAY OF GIVING EVERY PAWN A STARTING BOOL OF TRUE
-            
         }
         //Games must have some rules
         //No piece must be able to go

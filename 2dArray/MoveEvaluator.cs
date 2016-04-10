@@ -51,6 +51,7 @@ namespace _2dArray
                         else if (((_currentPosition[0] -1) == _moveToCoOrds[0] || (_currentPosition[0] +1) == _moveToCoOrds[0]) &&
                             ((_currentPosition[1] -1) == _moveToCoOrds[1] || (_currentPosition[1] +1) == _moveToCoOrds[1]))
                         {
+                            return true;
                             //Is 
                             if (true)
                             {
@@ -61,16 +62,16 @@ namespace _2dArray
                     //If not populated, then check if it's the pawns first move
                     else
                     {
-                        //first move?
-                        if ()
-                        {
+                        ////first move?
+                        //if ()
+                        //{
 
-                        }
-                        else if(((_currentPosition[0] - 1) == _moveToCoOrds[0] || (_currentPosition[0] + 1) == _moveToCoOrds[0]) &&
-                            _currentPosition[1] == _moveToCoOrds[1])
-                        {
-                            return true;
-                        }
+                        //}
+                        //else if(((_currentPosition[0] - 1) == _moveToCoOrds[0] || (_currentPosition[0] + 1) == _moveToCoOrds[0]) &&
+                        //    _currentPosition[1] == _moveToCoOrds[1])
+                        //{
+                        //    return true;
+                        //}
                     }
                     
                     break;

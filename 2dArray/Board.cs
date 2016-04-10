@@ -53,7 +53,7 @@ namespace _2dArray
 
         public Board()
         {
-            
+
             board = new List<SortedDictionary<string, Piece>>
             {
                 {
@@ -106,42 +106,50 @@ namespace _2dArray
                     {
                         {"A", bPawn1 = new Pawn
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"B", bPawn2 = new Pawn
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"C", bPawn3 = new Pawn
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"D", bPawn4 = new Pawn
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"E", bPawn5 = new Pawn
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"F", bPawn6 = new Pawn
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"G", bPawn7 = new Pawn
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"H", bPawn8 = new Pawn
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         }
                     }
@@ -203,42 +211,50 @@ namespace _2dArray
                     {
                         {"A", wPawn1 = new Pawn
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"B", wPawn2 = new Pawn
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"C", wPawn3 = new Pawn
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"D", wPawn4 = new Pawn
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"E", wPawn5 = new Pawn
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"F", wPawn6 = new Pawn
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"G", wPawn7 = new Pawn
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"H", wPawn8 = new Pawn
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         }
                     }

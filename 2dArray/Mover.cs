@@ -34,6 +34,7 @@ namespace _2dArray
             _moveToCoOrdinates = MoveToCoOrdinates;
             _moveToCoOrdinates[0] -= 1;           
 
+            //Current Location Variables
             xAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);
             pieceContainedIn = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove));
             yAxis = _currentGame._board.board.IndexOf(pieceContainedIn);
@@ -43,7 +44,7 @@ namespace _2dArray
 
 
 
-            //Remove
+            //Remove destination KVP
             _currentGame._board.board.ElementAt(yAxis).Remove(_currentGame._board.board.ElementAt(yAxis).ElementAt(xAxis).Key);
 
             //Rename the XAxis string and reorder
@@ -77,7 +78,7 @@ namespace _2dArray
 
             _currentGame._board.board.ElementAt(yAxis).OrderBy(x => x.Key);
 
-            //Remove the key from the pieces destination
+            //Remove the key from the pieces destination otherwise not unique
             _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Remove(reservedKey);
 
             //Move and Reorder
