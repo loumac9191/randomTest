@@ -33,6 +33,7 @@ namespace _2dArray
 
             Piece randomPiece = game._board.board.ElementAt(1).ElementAt(4).Value;
 
+            //THIS IS ACTUALLY MOVING TO 3, 5 CURRENTLY
             int[] testCords = new int[]
             {
                 2,

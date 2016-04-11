@@ -38,7 +38,8 @@ namespace _2dArray
             //i.e I want to move x to 4, A; this would be 3, 0 in index
             _moveToCoOrdinates = MoveToCoOrdinates;
             yAxisBeforeCorrection = _moveToCoOrdinates[0];
-            //_moveToCoOrdinates[0] -= 1;           
+            _moveToCoOrdinates[0] -= 1;
+            _moveToCoOrdinates[1] -= 1;          
 
             //Current Location Variables
             currentXAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);

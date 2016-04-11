@@ -100,7 +100,6 @@ namespace _2dArray
                     if ((_moveToCoOrds[0] > _currentPosition[0] || _moveToCoOrds[0] < _currentPosition[0]) &&
                         _moveToCoOrds[1] == _currentPosition[1])
                     {
-                        //Up - **NEED TO CHECK IF THIS WORKS**
                         if (_moveToCoOrds[0] < _currentPosition[0])
                         {
                             int iterate = _moveToCoOrds[0] + _currentPosition[0] - 8;
@@ -156,7 +155,28 @@ namespace _2dArray
                     //Horizontal
                     else
                     {
+                        if ((_moveToCoOrds[1] > _currentPosition[1] || _moveToCoOrds[1] < _moveToCoOrds[1]) &&
+                            _moveToCoOrds[0] == _currentPosition[0])
+                        {
+                            //Right
+                            if (_moveToCoOrds[1] > _currentPosition[1])
+                            {
+                                int iterate = 1;
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    int positionTemp = _currentPosition[1] + 1;
+                                }
+                            }
+                            //Left
+                            else
+                            {
 
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
 
 
@@ -210,15 +230,6 @@ namespace _2dArray
             positionResolved[0] = _currentGame._board.board.IndexOf(pieceContainedIn);
             positionResolved[1] = _currentGame._board.board.Find(x => x.ContainsValue(PieceToQuery)).Values.ToList().IndexOf(PieceToQuery);
 
-
-            //Refactored
-            //int xAxisResolved;
-            //int yAxisResolved;
-            //positionResolved = new int[]
-            //{
-            //    yAxisResolved = _currentGame._board.board.IndexOf(pieceContainedIn),
-            //    xAxisResolved = _currentGame._board.board.Find(x => x.ContainsValue(PieceToQuery)).Values.ToList().IndexOf(PieceToQuery)
-            //};
             return positionResolved;
         }
 
