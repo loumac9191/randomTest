@@ -36,8 +36,8 @@ namespace _2dArray
             //THIS IS ACTUALLY MOVING TO 3, 5 CURRENTLY
             int[] testCords = new int[]
             {
-                2,
-                4
+                4,
+                5
             };
 
             moveSomething.MovePiece(game, randomPiece, testCords);
