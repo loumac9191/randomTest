@@ -31,6 +31,7 @@ namespace _2dArray
             moveEval = new MoveEvaluator(CurrentGame);
         }
 
+        //Don't think this needs to be given the current gae again
         public void MovePiece(Game CurrentGame, Piece PieceToMove, int[] MoveToCoOrdinates)
         {
             _pieceToMove = PieceToMove;

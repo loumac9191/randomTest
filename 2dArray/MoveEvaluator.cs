@@ -100,12 +100,14 @@ namespace _2dArray
                     if ((_moveToCoOrds[0] > _currentPosition[0] || _moveToCoOrds[0] < _currentPosition[0]) &&
                         _moveToCoOrds[1] == _currentPosition[1])
                     {
+                        //Up
                         if (_moveToCoOrds[0] < _currentPosition[0])
                         {
-                            int iterate = _moveToCoOrds[0] + _currentPosition[0] - 8;
+                            int iterate = _currentPosition[0] - _moveToCoOrds[0];
                             for (int i = 1; i <= iterate; i++)
                             {
-                                int positionTemp = _currentPosition[0] - i; 
+                                int positionTemp = _currentPosition[0] - i;
+                                //No piece can move over another, so if the position is not null the 
                                 if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[1]).Value != null)
                                 {
                                     //Define the new YAxis that the piece can move to
@@ -115,13 +117,18 @@ namespace _2dArray
                                     {
                                         break;
                                     }
+                                    else if (i == iterate)
+                                    {
+                                        return true;                                        
+                                    }
                                     else
                                     {
-                                        //NEW METHOD THAT RETURNS UPDATED
+                                        //NEW METHOD THAT RETURNS UPDATED COODINATES TO MOVER
                                     }
                                 }
                                 else
                                 {
+                                    //This should actually be false
                                     continue;
                                 }
                             }
@@ -129,7 +136,7 @@ namespace _2dArray
                         //Down
                         else
                         {
-                            int iterate = _moveToCoOrds[0] - _currentPosition[0];
+                            int iterate = _currentPosition[0] + _moveToCoOrds[0];
                             for (int i = 1; i <= iterate; i++)
                             {
                                 int positionTemp = _currentPosition[0] + i;
@@ -147,6 +154,7 @@ namespace _2dArray
                                 }
                                 else
                                 {
+                                    //I think this should actually be false
                                     continue;
                                 }
                             }
@@ -208,19 +216,19 @@ namespace _2dArray
             return false;
         }
 
-        public bool EvaluateRange()
-        {
-            if (true)
-            {
+        //public bool EvaluateRange()
+        //{
+        //    if (true)
+        //    {
 
-            }
-            return true;
-        }
+        //    }
+        //    return true;
+        //}
 
-        public bool EvaluateDirection()
-        {
-            return true;
-        }
+        //public bool EvaluateDirection()
+        //{
+        //    return true;
+        //}
 
         public int[] GetPosition(Piece PieceToQuery)
         {
