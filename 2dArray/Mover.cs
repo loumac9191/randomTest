@@ -53,11 +53,14 @@ namespace _2dArray
             //Initial checks
             //1) Is The Range of CoOrdinates provided legal? i.e. less than or equal to the border of the board
             //2) is the position the piece is moving to populated? Move as 
+            //3) **IS PAWN PIECE NULL?
+            //4) 
             //
             if (yAxisBeforeCorrection > _currentGame.yVerticalBorder ||
                 _moveToCoOrdinates[1] > _currentGame.xHorizontalBorder)
             {
                 //Need to tell the game that the move wasn't valid
+                //Announcer class which talks to the game
             }
             else if(!moveEval.MoveToDestinationPopulated(MoveToCoOrdinates))
             {

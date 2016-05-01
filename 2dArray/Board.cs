@@ -74,12 +74,12 @@ namespace _2dArray
                                 Colour = "Black"
                             }
                         },
-                        {"D", bKing = new King
+                        {"D", bQueen = new Queen
                             {
                                 Colour = "Black"
                             }
                         },
-                        {"E", bQueen = new Queen
+                        {"E", bKing = new King
                             {
                                 Colour = "Black"
                             }
@@ -277,12 +277,12 @@ namespace _2dArray
                                 Colour = "White"
                             }
                         },
-                        {"D", wKing = new King
+                        {"D", wQueen = new Queen
                             {
                                 Colour = "White"
                             }
                         },
-                        {"E", wQueen = new Queen
+                        {"E", wKing = new King
                             {
                                 Colour = "White"
                             }
