@@ -49,6 +49,10 @@ namespace _2dArray
                 case 1:
                     //PAWN MOVE LOGIC
                     Pawn pawnToCheck = _pieceToEval as Pawn;
+                    if (pawnToCheck == null)
+                    {
+                        break;
+                    }
                     //Is the property FirstMove set to true or false?
                     if (pawnToCheck.FirstMove == true)
                     {
@@ -203,7 +207,7 @@ namespace _2dArray
                         }
                         break;
                     }
-                    break;                
+                    break;
                 case 2:
                     //ROOK MOVE LOGIC
                     //Need to check that the destination is not obstructed by other pieces
@@ -220,7 +224,7 @@ namespace _2dArray
                                 int positionTemp = _currentPosition[0] - i;
                                 //No piece can move over another, so if position is filled,
                                 if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[1]).Value != null)
-                                {                                    
+                                {
                                     if (i == iterate)
                                     {
                                         if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
@@ -230,7 +234,7 @@ namespace _2dArray
                                         else
                                         {
                                             return true;
-                                        }                                     
+                                        }
                                     }
                                     else
                                     {
@@ -251,7 +255,7 @@ namespace _2dArray
                             }
                         }
                         //Down
-                        else if(_moveToCoOrds[0] > _currentPosition[0])
+                        else if (_moveToCoOrds[0] > _currentPosition[0])
                         {
                             int iterate = _moveToCoOrds[0] - _currentPosition[0];
                             for (int i = 1; i <= iterate; i++)
@@ -261,14 +265,14 @@ namespace _2dArray
                                 {
                                     if (i == iterate)
                                     {
-                                       if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                        if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
                                         {
                                             break;
-                                        }                                                
+                                        }
                                         else
                                         {
                                             return true;
-                                        }  
+                                        }
                                     }
                                     else
                                     {
@@ -298,16 +302,85 @@ namespace _2dArray
                             //Right
                             if (_moveToCoOrds[1] > _currentPosition[1])
                             {
-                                int iterate = 1;
+                                int iterate = _moveToCoOrds[1] - _currentPosition[1];
                                 for (int i = 1; i <= iterate; i++)
                                 {
-                                    int positionTemp = _currentPosition[1] + 1;
+                                    int positionTemp = _currentPosition[1] + i;
+                                    if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[0]).Value != null)
+                                    {
+                                        if (i == iterate)
+                                        {
+                                            if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[0]).Value.Colour == _pieceToEval.Colour)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (i == iterate)
+                                        {
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
                                 }
                             }
                             //Left
                             else
                             {
-
+                                if (_moveToCoOrds[1] < _currentPosition[1])
+                                {
+                                    int iterate = _currentPosition[1] - _moveToCoOrds[1];
+                                    for (int i = 1; i <= iterate; i++)
+                                    {
+                                        int positionTemp = _currentPosition[1] - i;
+                                        if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[0]).Value != null)
+                                        {
+                                            if (i == iterate)
+                                            {
+                                                if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[0]).Value.Colour == _pieceToEval.Colour)
+                                                {
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    return true;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (i == iterate)
+                                            {
+                                                return true;
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
                         }
                         else
@@ -319,7 +392,7 @@ namespace _2dArray
                 case 3:
                     //knight
                     //MOVE LOGIC
-                    if(((_currentPosition[0] + 2) == _moveToCoOrds[0] && ((_currentPosition[1] - 1) == _moveToCoOrds[1] || (_currentPosition[1] + 1) == _moveToCoOrds[1])) ||
+                    if (((_currentPosition[0] + 2) == _moveToCoOrds[0] && ((_currentPosition[1] - 1) == _moveToCoOrds[1] || (_currentPosition[1] + 1) == _moveToCoOrds[1])) ||
                         ((_currentPosition[0] - 2) == _moveToCoOrds[0] && ((_currentPosition[1] - 1) == _moveToCoOrds[1] || (_currentPosition[1] + 1) == _moveToCoOrds[1])) ||
                         ((_currentPosition[1] + 2) == _moveToCoOrds[1] && ((_currentPosition[0] - 1) == _moveToCoOrds[0] || (_currentPosition[0] + 1) == _moveToCoOrds[0])) ||
                         ((_currentPosition[1] - 2) == _moveToCoOrds[1] && ((_currentPosition[0] - 1) == _moveToCoOrds[0] || (_currentPosition[0] + 1) == _moveToCoOrds[0])))
@@ -340,22 +413,40 @@ namespace _2dArray
                             return true;
                         }
                     }
-                     break;
+                    break;
                 case 4:
-                    //bishop
-                    if(_currentPosition[1] > _moveToCoOrds[1] && _currentPosition[0] < _moveToCoOrds[0])
+                    //Bishop
+                    //MOVE LOGIC
+                    if (_currentPosition[1] > _moveToCoOrds[1] && _currentPosition[0] < _moveToCoOrds[0])
                     {
-                        //South West
+                        //int iterate;
+                        ////South West
+                        //if ((_currentPosition[0] - _moveToCoOrds[0]) == (_currentPosition[1] - _moveToCoOrds[1]))
+                        //{
+                        //    iterate = (_currentPosition[1] - _moveToCoOrds[1]) + 1;
+                        //}
+                        //else
+                        //{
+                        //    break;
+                        //}
+
                         int iterate = _currentPosition[1] - _moveToCoOrds[1];
-                        for (int i = 1; i <= iterate; i++)
+                        if (iterate == (_moveToCoOrds[0] - _currentPosition[0]))
                         {
-                            if (i == iterate)
+                            for (int i = 1; i <= iterate; i++)
                             {
-                                if (_populated)
+                                if (i == iterate)
                                 {
-                                    if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                    if (_populated)
                                     {
-                                        break;
+                                        if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
                                     }
                                     else
                                     {
@@ -364,35 +455,43 @@ namespace _2dArray
                                 }
                                 else
                                 {
-                                    return true;
+                                    if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] - i)).Value != null)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
                                 }
                             }
-                            else 
-                            {
-                                if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] - i)).Value != null)
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    continue;
-                                }
-                            }
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
                     else if (_currentPosition[0] > _moveToCoOrds[0] && _currentPosition[1] > _moveToCoOrds[1])
                     {
                         //North West
                         int iterate = _currentPosition[0] - _moveToCoOrds[0];
-                        for (int i = 1; i <= iterate; i++)
+
+                        if (iterate == (_currentPosition[1] - _moveToCoOrds[1]))
                         {
-                            if (i == iterate)
+                            for (int i = 1; i <= iterate; i++)
                             {
-                                if (_populated)
+                                if (i == iterate)
                                 {
-                                    if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                    if (_populated)
                                     {
-                                        break;
+                                        if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
                                     }
                                     else
                                     {
@@ -401,35 +500,43 @@ namespace _2dArray
                                 }
                                 else
                                 {
-                                    return true;
+                                    if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] - i)).Value != null)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
                                 }
                             }
-                            else
-                            {
-                                if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] - i)).Value != null)
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    continue;
-                                }
-                            }
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
                     else if (_currentPosition[1] < _moveToCoOrds[1] && _currentPosition[0] > _moveToCoOrds[0])
                     {
                         //North East
                         int iterate = _moveToCoOrds[1] - _currentPosition[1];
-                        for (int i = 1; i <= iterate; i++)
+
+                        if (iterate == (_currentPosition[0] - _moveToCoOrds[0]))
                         {
-                            if (i == iterate)
+                            for (int i = 1; i <= iterate; i++)
                             {
-                                if (_populated)
+                                if (i == iterate)
                                 {
-                                    if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                    if (_populated)
                                     {
-                                        break;
+                                        if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
                                     }
                                     else
                                     {
@@ -438,35 +545,42 @@ namespace _2dArray
                                 }
                                 else
                                 {
-                                    return true;
+                                    if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] = i)).Value != null)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
                                 }
                             }
-                            else
-                            {
-                                if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] = i)).Value != null)
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    continue;
-                                }
-                            }
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
                     else if (_currentPosition[0] < _moveToCoOrds[0] && _currentPosition[1] < _moveToCoOrds[1])
                     {
                         //South East
-                        int iterate = _moveToCoOrds[0] - _currentPosition[0];
-                        for (int i = 1; i <= iterate; i++)
+                        int iterate = (_moveToCoOrds[0] - _currentPosition[0]);
+                        if (iterate == (_moveToCoOrds[1] - _currentPosition[1]))
                         {
-                            if (i == iterate)
+                            for (int i = 1; i <= iterate; i++)
                             {
-                                if (_populated)
+                                if (i == iterate)
                                 {
-                                    if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                    if (_populated)
                                     {
-                                        break;
+                                        if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
                                     }
                                     else
                                     {
@@ -475,20 +589,20 @@ namespace _2dArray
                                 }
                                 else
                                 {
-                                    return true;
+                                    if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] + i)).Value != null)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
                                 }
                             }
-                            else
-                            {
-                                if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] + i)).Value != null)
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    continue;
-                                }
-                            }
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
                     break;
@@ -526,10 +640,361 @@ namespace _2dArray
                     //}
                     break;
                 case 6:
-                    //queen
+                    //QUEEN MOVE LOGIC
+                    //Vertical
+                    if ((_moveToCoOrds[0] > _currentPosition[0] || _moveToCoOrds[0] < _currentPosition[0]) &&
+                        _moveToCoOrds[1] == _currentPosition[1])
+                    {
+                        //Up
+                        if (_moveToCoOrds[0] < _currentPosition[0])
+                        {
+                            int iterate = _currentPosition[0] - _moveToCoOrds[0];
+                            for (int i = 1; i <= iterate; i++)
+                            {
+                                int positionTemp = _currentPosition[0] - i;
+                                //No piece can move over another, so if position is filled,
+                                if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[1]).Value != null)
+                                {
+                                    if (i == iterate)
+                                    {
+                                        if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    if (i == iterate)
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        //Down
+                        else if (_moveToCoOrds[0] > _currentPosition[0])
+                        {
+                            int iterate = _moveToCoOrds[0] - _currentPosition[0];
+                            for (int i = 1; i <= iterate; i++)
+                            {
+                                int positionTemp = _currentPosition[0] + i;
+                                if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[1]).Value != null)
+                                {
+                                    if (i == iterate)
+                                    {
+                                        if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    if (i == iterate)
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //Horizontal
+                    else if ((_moveToCoOrds[1] > _currentPosition[1] || _moveToCoOrds[1] < _moveToCoOrds[1]) &&
+                        _moveToCoOrds[0] == _currentPosition[0])
+                    {
+                        //Right
+                        if (_moveToCoOrds[1] > _currentPosition[1])
+                        {
+                            int iterate = _moveToCoOrds[1] - _currentPosition[1];
+                            for (int i = 1; i <= iterate; i++)
+                            {
+                                int positionTemp = _currentPosition[1] + i;
+                                if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[0]).Value != null)
+                                {
+                                    if (i == iterate)
+                                    {
+                                        if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[0]).Value.Colour == _pieceToEval.Colour)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    if (i == iterate)
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        //Left
+                        else
+                        {
+                            if (_moveToCoOrds[1] < _currentPosition[1])
+                            {
+                                int iterate = _currentPosition[1] - _moveToCoOrds[1];
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    int positionTemp = _currentPosition[1] - i;
+                                    if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[0]).Value != null)
+                                    {
+                                        if (i == iterate)
+                                        {
+                                            if (_currentGame._board.board.ElementAt(positionTemp).ElementAt(_currentPosition[0]).Value.Colour == _pieceToEval.Colour)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (i == iterate)
+                                        {
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Diagonal
+                        if (_currentPosition[1] > _moveToCoOrds[1] && _currentPosition[0] < _moveToCoOrds[0])
+                        {
+                            int iterate = _currentPosition[1] - _moveToCoOrds[1];
+                            if (iterate == (_moveToCoOrds[0] - _currentPosition[0]))
+                            {
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    if (i == iterate)
+                                    {
+                                        if (_populated)
+                                        {
+                                            if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] - i)).Value != null)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else if (_currentPosition[0] > _moveToCoOrds[0] && _currentPosition[1] > _moveToCoOrds[1])
+                        {
+                            //North West
+                            int iterate = _currentPosition[0] - _moveToCoOrds[0];
+
+                            if (iterate == (_currentPosition[1] - _moveToCoOrds[1]))
+                            {
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    if (i == iterate)
+                                    {
+                                        if (_populated)
+                                        {
+                                            if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] - i)).Value != null)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else if (_currentPosition[1] < _moveToCoOrds[1] && _currentPosition[0] > _moveToCoOrds[0])
+                        {
+                            //North East
+                            int iterate = _moveToCoOrds[1] - _currentPosition[1];
+
+                            if (iterate == (_currentPosition[0] - _moveToCoOrds[0]))
+                            {
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    if (i == iterate)
+                                    {
+                                        if (_populated)
+                                        {
+                                            if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] = i)).Value != null)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else if (_currentPosition[0] < _moveToCoOrds[0] && _currentPosition[1] < _moveToCoOrds[1])
+                        {
+                            //South East
+                            int iterate = (_moveToCoOrds[0] - _currentPosition[0]);
+                            if (iterate == (_moveToCoOrds[1] - _currentPosition[1]))
+                            {
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    if (i == iterate)
+                                    {
+                                        if (_populated)
+                                        {
+                                            if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                return true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] + i)).Value != null)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        break;
+                    }
                     break;
             }
-
             return false;
         }
 

@@ -83,7 +83,7 @@ namespace _2dArray
 
             //moveSomething.MovePiece(game, randomPiece2, testCords5);
 
-            Piece d7 = game._board.board.ElementAt(1).ElementAt(4).Value;
+            Piece d7 = game._board.board.ElementAt(1).ElementAt(3).Value;
             Piece e2 = game._board.board.ElementAt(6).ElementAt(4).Value;
             Piece c8 = game._board.board.ElementAt(0).ElementAt(2).Value;
             Piece a2 = game._board.board.ElementAt(6).ElementAt(0).Value;
@@ -102,12 +102,12 @@ namespace _2dArray
             };
             moveSomething.MovePiece(game, e2, e2ToE3);
 
-            int[] c8ToF4 = new int[]
+            int[] c8ToG4 = new int[]
             {
                 5,
-                6
+                7
             };
-            moveSomething.MovePiece(game, c8, c8ToF4);
+            moveSomething.MovePiece(game, c8, c8ToG4);
 
             int[] a2ToA3 = new int[]
             {
@@ -116,11 +116,12 @@ namespace _2dArray
             };
             moveSomething.MovePiece(game, a2, a2ToA3);
 
-            int[] f4ToD1 = new int[]
+            int[] g4ToD1 = new int[]
             {
                 8,
                 4
             };
+            moveSomething.MovePiece(game, c8,g4ToD1);
 
             Console.WriteLine("Hello");
         }
