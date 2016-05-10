@@ -107,10 +107,16 @@ namespace _2dArray
             }
             //Games must have some rules
             //No piece must be able to go
-            //while (PlayerWin == false)
+            //while (PlayerOne.PlayerWin == false ||
+            //          PlayerTwo.PlayerWin == false)
             //{
 
             //}
+        }
+
+        public string Announcer(string MessageToAnnounce)
+        {
+            return MessageToAnnounce;
         }
     }
 }

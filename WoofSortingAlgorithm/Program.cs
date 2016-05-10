@@ -6,49 +6,73 @@ using System.Threading.Tasks;
 
 namespace WoofSortingAlgorithm
 {
+    class A
+    {
+    }
+
+    class B : A
+    {
+    }
+
+    class C : B
+    {
+    }
     class Program
     {
-        static void Main(string[] args)
-        {
-            int[] arrayOfNoToSort = { 2, 4, 5, 14, 21, 5, 51, 53252523, 525123, 13131, 15, 252, 521, 12352, 256, 6225, 235124124, 55252, 64363635, 4353, 24, 114, 3252, 42 };
-            Print(arrayOfNoToSort);
-            Console.WriteLine(" ");
-            int[] sortedArray = Sort(arrayOfNoToSort, 0);
-            Print(sortedArray);
+        //static void Main(string[] args)
+        //{
+        //    int[] arrayOfNoToSort = { 2, 4, 5, 14, 21, 5, 51, 53252523, 525123, 13131, 15, 252, 521, 12352, 256, 6225, 235124124, 55252, 64363635, 4353, 24, 114, 3252, 42 };
+        //    Print(arrayOfNoToSort);
+        //    Console.WriteLine(" ");
+        //    int[] sortedArray = Sort(arrayOfNoToSort, 0);
+        //    Print(sortedArray);
 
-        }
-        private static int[] Sort(int[] arrayToSort, int startPoint)
-        {
-            //Check whether need to stop or not
-            if (startPoint == arrayToSort.Length)
-            {
-                return arrayToSort;
-            }
+        //}
+        //private static int[] Sort(int[] arrayToSort, int startPoint)
+        //{
+        //    //Check whether need to stop or not
+        //    if (startPoint == arrayToSort.Length)
+        //    {
+        //        return arrayToSort;
+        //    }
 
-            int i = startPoint + 1;
-            while (i < arrayToSort.Length)
+        //    int i = startPoint + 1;
+        //    while (i < arrayToSort.Length)
+        //    {
+        //        int compareNumb = arrayToSort[i];
+        //        int origNum = arrayToSort[startPoint];
+        //        if (compareNumb < origNum)
+        //        {
+        //            arrayToSort[startPoint] = compareNumb;
+        //            arrayToSort[i] = origNum;
+        //        }
+        //        i++;
+        //    }
+        //    startPoint++;
+        //    Sort(arrayToSort, startPoint);
+        //    //this return actually wont ever be called
+        //    return arrayToSort;
+        //}
+
+        //private static void Print (int[] intArray)
+        //{
+        //    foreach (int number in intArray)
+        //    {
+        //        Console.WriteLine(number);
+        //    }
+        //}
+
+
+            static void Main()
             {
-                int compareNumb = arrayToSort[i];
-                int origNum = arrayToSort[startPoint];
-                if (compareNumb < origNum)
-                {
-                    arrayToSort[startPoint] = compareNumb;
-                    arrayToSort[i] = origNum;
-                }
-                i++;
+                A a1 = new A();
+                A a2 = new B();
+                A a3 = new C();
+
+                Console.WriteLine(a1.GetType());
+                Console.WriteLine(a2.GetType());
+                Console.WriteLine(a3.GetType());
             }
-            startPoint++;
-            Sort(arrayToSort, startPoint);
-            //this return actually wont ever be called
-            return arrayToSort;
-        }
         
-        private static void Print (int[] intArray)
-        {
-            foreach (int number in intArray)
-            {
-                Console.WriteLine(number);
-            }
-        }
     }
 }

@@ -10,6 +10,7 @@ namespace _2dArray
     {
         private Game _currentGame;
         private Converter _converter = new Converter();
+        private BoardEvaluator boardEval;
         private Piece _pieceToMove;
         //Also in Move Evaluator
         private SortedDictionary<string, Piece> pieceContainedIn;
@@ -29,6 +30,7 @@ namespace _2dArray
         {
             _currentGame = CurrentGame;
             moveEval = new MoveEvaluator(CurrentGame);
+            boardEval = new BoardEvaluator(CurrentGame);
         }
 
         //DON'T THINK THIS NEEDS TO BE GIVEN THE CURRENT GAME AGAIN
@@ -47,8 +49,8 @@ namespace _2dArray
             pieceContainedIn = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove));
             currentYAxis = _currentGame._board.board.IndexOf(pieceContainedIn);
 
-            coOrdAsCharacter = _converter.Convert(currentXAxis);
-            incumbentKey = _converter.Convert(_moveToCoOrdinates[1]);
+            coOrdAsCharacter = _converter.ConvertXAxis(currentXAxis);
+            incumbentKey = _converter.ConvertXAxis(_moveToCoOrdinates[1]);
 
             //Initial checks
             //1) Is The Range of CoOrdinates provided legal? i.e. less than or equal to the border of the board
@@ -106,6 +108,13 @@ namespace _2dArray
                     //Move and Reorder
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
+
+                    bool check = boardEval.Check(_pieceToMove);
+
+                    if (check)
+                    {
+                        Console.WriteLine("Wew Check");
+                    }
                 }
             }
             else
@@ -152,6 +161,15 @@ namespace _2dArray
                     //Move and Reorder
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
+
+                    bool check = boardEval.Check(_pieceToMove);
+
+                    if (check)
+                    {
+                        Console.WriteLine("Wew Check");
+                    }
+
+                    //CheckMate
                 }
             }
         }

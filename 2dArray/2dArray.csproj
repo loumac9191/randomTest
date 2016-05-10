@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardEvaluator.cs" />
     <Compile Include="MoveEvaluator.cs" />
     <Compile Include="Pieces\Bishop.cs" />
     <Compile Include="Board.cs" />

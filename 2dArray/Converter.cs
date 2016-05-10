@@ -11,7 +11,7 @@ namespace _2dArray
         private string xAxisToConvert;
         private string yAxisToConvert;
 
-        public string Convert(int XAxisToConvert)
+        public string ConvertXAxis(int XAxisToConvert)
         {
             switch (XAxisToConvert)
             {
@@ -41,6 +41,16 @@ namespace _2dArray
                     break;
             }
             return xAxisToConvert;
+        }
+
+        public int[] ConvertBoardPositionToCoordinate(string PositionToConvert)
+        {
+            int[] returningCoords = new int[2];
+
+            returningCoords[0] = 1;
+            returningCoords[1] = Convert.ToInt32(PositionToConvert.Substring(1));
+
+            return returningCoords;
         }
     }
 }

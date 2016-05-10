@@ -13,6 +13,7 @@ namespace _2dArray
             Board board = new Board();
             Player playerOne = new Player();
             Player playerTwo = new Player();
+            Converter convertStuff = new Converter();
 
             Game game = new Game(board, playerOne, playerTwo);
 
@@ -82,6 +83,16 @@ namespace _2dArray
             //};
 
             //moveSomething.MovePiece(game, randomPiece2, testCords5);
+
+
+            string typeOfPiece = game._board.board.ElementAt(0).ElementAt(2).Value.GetType().ToString();
+
+            string testString = "e7";
+
+            int[] testIntArray = convertStuff.ConvertBoardPositionToCoordinate(testString);
+
+            Console.WriteLine(typeOfPiece);
+            Console.WriteLine(testIntArray);
 
             Piece d7 = game._board.board.ElementAt(1).ElementAt(3).Value;
             Piece e2 = game._board.board.ElementAt(6).ElementAt(4).Value;
