@@ -36,7 +36,7 @@ namespace _2dArray
                         //ONLY WORKING FOR CHECK
                         kingForCheck = kvp.Value as King;
                     }
-                    else if(kvp.Value.Colour != pieceMoved.Colour)
+                    else if(kvp.Value.Colour == pieceMoved.Colour)
                     {
                         //This is adding things wrong
                         listOfPiecesForCheck.Add(kvp.Value);
@@ -49,6 +49,7 @@ namespace _2dArray
 
         public bool Check(Piece pieceMoved)
         {
+            ResetListOfPiecesForCheck();
             FindOpposingKing(pieceMoved);
 
             if (kingForCheck == null)
@@ -62,9 +63,15 @@ namespace _2dArray
 
             foreach (Piece piece in listOfPiecesForCheck)
             {
+                if (piece.InherentValue == 6)
+                {
+                    Console.WriteLine("Hello");
+                }
                 canMove = moveEvaluator.EvaluateMove(true, piece, kingsPosition);
                 if (canMove)
                 {
+                    //Think it needs to be reset once a piece has been found that can move to the King
+                    kingForCheck = null;
                     return true;
                 }
                 continue;
@@ -75,6 +82,31 @@ namespace _2dArray
         public bool CheckMate()
         {
             return true;
+        }
+
+        private void ResetListOfPiecesForCheck()
+        {
+            List<Piece> tempListToDumpPieces = new List<Piece>();
+            int iterate = listOfPiecesForCheck.Count();
+
+            if (iterate == 0)
+            {
+                return;
+            }
+
+            foreach (Piece piece in listOfPiecesForCheck)
+            {
+                tempListToDumpPieces.Add(piece);     
+            }
+
+            for (int i = 0; i <= iterate; iterate--)
+            {
+                if (iterate != 0)
+                {
+                    Piece pieceToRemove = listOfPiecesForCheck.ElementAt(i);
+                    listOfPiecesForCheck.Remove(pieceToRemove);
+                }
+            }
         }
     }
 }

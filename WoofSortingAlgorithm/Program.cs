@@ -65,14 +65,72 @@ namespace WoofSortingAlgorithm
 
             static void Main()
             {
-                A a1 = new A();
-                A a2 = new B();
-                A a3 = new C();
+                //A a1 = new A();
+                //A a2 = new B();
+                //A a3 = new C();
 
-                Console.WriteLine(a1.GetType());
-                Console.WriteLine(a2.GetType());
-                Console.WriteLine(a3.GetType());
+                //Console.WriteLine(a1.GetType());
+                //Console.WriteLine(a2.GetType());
+                //Console.WriteLine(a3.GetType());
+
+            RandomComplexObj testTest = new RandomComplexObj()
+            {
+                name = "Bob"
+            };
+            RandomComplexObj testTest2 = new RandomComplexObj()
+            {
+                name = "Sonya"
+            };
+            RandomComplexObj testTest3 = new RandomComplexObj()
+            {
+                name = "Barb"
+            };
+            RandomComplexObj testTest4 = new RandomComplexObj()
+            {
+                name = "Tony"
+            };
+
+            List<RandomComplexObj> listTest = new List<RandomComplexObj>();
+            List<RandomComplexObj> listTest2 = new List<RandomComplexObj>();
+
+            listTest.Add(testTest);
+            listTest.Add(testTest2);
+            listTest.Add(testTest3);
+            listTest.Add(testTest4);
+
+            foreach (var item in listTest)
+            {
+                Console.WriteLine(item.name);
             }
+
+            listTest2.Add(testTest);
+            listTest2.Add(testTest2);
+            listTest2.Add(testTest3);
+            listTest2.Add(testTest4);
+
+            foreach (var item in listTest2)
+            {
+                Console.WriteLine(item.name);
+            }
+
+            foreach (var item in listTest)
+            {
+                Console.WriteLine(item.name);
+            }
+
+            foreach (var item in listTest2)
+            {
+                int i = 1;
+                item.name = String.Format("{0}.{1}", "Bob", i.ToString());
+                Console.WriteLine(item.name);
+                i++;
+            }
+
+            foreach (var item in listTest)
+            {
+                Console.WriteLine(item.name);
+            }
+        }
         
     }
 }

@@ -21,12 +21,10 @@ namespace _2dArray
         private Piece _pieceToEval;
         private int[] _moveToCoOrds;
         private int[] _currentPosition;
-        private int[] positionResolved;
 
         public MoveEvaluator(Game CurrentGame)
         {
             _currentGame = CurrentGame;
-            positionResolved = new int[2];
         }
 
         public bool EvaluateMove(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
@@ -419,17 +417,6 @@ namespace _2dArray
                     //MOVE LOGIC
                     if (_currentPosition[1] > _moveToCoOrds[1] && _currentPosition[0] < _moveToCoOrds[0])
                     {
-                        //int iterate;
-                        ////South West
-                        //if ((_currentPosition[0] - _moveToCoOrds[0]) == (_currentPosition[1] - _moveToCoOrds[1]))
-                        //{
-                        //    iterate = (_currentPosition[1] - _moveToCoOrds[1]) + 1;
-                        //}
-                        //else
-                        //{
-                        //    break;
-                        //}
-
                         int iterate = _currentPosition[1] - _moveToCoOrds[1];
                         if (iterate == (_moveToCoOrds[0] - _currentPosition[0]))
                         {
@@ -1010,6 +997,7 @@ namespace _2dArray
 
         public int[] GetPosition(Piece PieceToQuery)
         {
+            int[] positionResolved = new int[2];
             //Find the list that contains the piece
             pieceContainedIn = _currentGame._board.board.Find(x => x.ContainsValue(PieceToQuery));
             //Populate the array

@@ -59,7 +59,7 @@ namespace _2dArray
                 {
                     eight = new SortedDictionary<string, Piece>
                     {
-                        {"A", bRook1 = new Rook
+                        {"A",  bRook1 = new Rook()
                             {
                                 Colour = "Black"
                             }

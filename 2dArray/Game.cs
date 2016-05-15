@@ -18,6 +18,7 @@ namespace _2dArray
         //Pawns are having their FirstMove property set in the constructor of the Board
         private Pawn firstMovePopulater;
         private int[] coOrds;
+        public List<Piece> listOfRemovedPieces;
 
         public Game(Board Board, Player PlayerOne, Player PlayerTwo)
         {
@@ -29,6 +30,7 @@ namespace _2dArray
             PlayerWin = false;
             xHorizontalBorder = _board.board.ElementAt(0).Count();
             yVerticalBorder = _board.board.Count();
+            listOfRemovedPieces = new List<Piece>();
 
             //Load all Black pieces to playerOne, load all White pieces to playerTwo
             foreach (var rowOfPieces in _board.board)

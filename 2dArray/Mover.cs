@@ -64,6 +64,7 @@ namespace _2dArray
                 //Need to tell the game that the move wasn't valid
                 //Announcer class which talks to the game
             }
+            //Perhaps this can be saved in a variable
             else if(!moveEval.MoveToDestinationPopulated(MoveToCoOrdinates))
             {
                 if (moveEval.EvaluateMove(false, _pieceToMove,_moveToCoOrdinates))
@@ -157,6 +158,10 @@ namespace _2dArray
 
                     //Remove the key from the pieces destination otherwise not unique
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Remove(incumbentKey);
+
+                    ////Remove the piece from the destination and place this in the games removed list?
+                    //KeyValuePair<string, Piece> kvpForPieceRemoved = _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).ElementAt(_moveToCoOrdinates[1]);
+                    //_currentGame.listOfRemovedPieces.Add(kvpForPieceRemoved.Value);
 
                     //Move and Reorder
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
