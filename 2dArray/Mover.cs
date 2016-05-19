@@ -16,7 +16,8 @@ namespace _2dArray
         private SortedDictionary<string, Piece> pieceContainedIn;
         private int[] _moveToCoOrdinates = new int[2];
         //Move Evaluator
-        private int currentXAxis;
+        //**CHANGED TO DECLARED IN THE MOVEPIECE METHOD**
+        //private int currentXAxis;
         //Move Evaluator
         private int currentYAxis;
         private string coOrdAsCharacter;
@@ -45,7 +46,7 @@ namespace _2dArray
             _moveToCoOrdinates[1] -= 1;          
 
             //Current Location Variables
-            currentXAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);
+            int currentXAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);
             pieceContainedIn = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove));
             currentYAxis = _currentGame._board.board.IndexOf(pieceContainedIn);
 
@@ -72,34 +73,9 @@ namespace _2dArray
                     //Remove the pieceToMove from its current location
                     _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
 
-                    //Rename the XAxis key (string) and reorder
-                    switch (currentXAxis)
-                    {
-                        case 0:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 1:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 2:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 3:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 4:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 5:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 6:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 7:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                    };
+                    //Rename the XAxis key (string)
+                    RenameXAxis(currentXAxis);
+
                     //Reorder
                     _currentGame._board.board.ElementAt(currentYAxis).OrderBy(x => x.Key);
 
@@ -125,34 +101,9 @@ namespace _2dArray
                     //Remove the pieceToMove from its current location
                     _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
 
-                    //Rename the XAxis key (string) and reorder
-                    switch (currentXAxis)
-                    {
-                        case 0:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 1:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 2:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 3:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 4:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 5:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 6:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                        case 7:
-                            _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
-                            break;
-                    };
+                    //Rename the XAxis key (string)
+                    RenameXAxis(currentXAxis);
+
                     //Reorder
                     _currentGame._board.board.ElementAt(currentYAxis).OrderBy(x => x.Key);
 
@@ -183,5 +134,51 @@ namespace _2dArray
         {
             return yx = moveEval.GetPosition(PositionOfPieceInQuery);
         }
+
+        private void RenameXAxis(int currentXAxis)
+        {
+            switch (currentXAxis)
+            {
+                case 0:
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    break;
+                case 1:
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    break;
+                case 2:
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    break;
+                case 3:
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    break;
+                case 4:
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    break;
+                case 5:
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    break;
+                case 6:
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    break;
+                case 7:
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    break;
+            };
+        }
+
+        public void MoveRookForCastling(int[] CoOrdinatesForMove, Rook RookToMove)
+        {
+
+        }
+
+        //private void Check(Piece PieceToMove)
+        //{
+        //    bool check = boardEval.Check(_pieceToMove);
+
+        //    if (check)
+        //    {
+        //        Console.WriteLine("Wew Check");
+        //    }
+        //}
     }
 }

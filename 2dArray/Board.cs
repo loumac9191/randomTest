@@ -61,7 +61,8 @@ namespace _2dArray
                     {
                         {"A",  bRook1 = new Rook()
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"B", bKnight1 = new Knight
@@ -81,7 +82,8 @@ namespace _2dArray
                         },
                         {"E", bKing = new King
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         },
                         {"F", bBishop2 = new Bishop
@@ -96,7 +98,8 @@ namespace _2dArray
                         },
                         {"H", bRook2 = new Rook
                             {
-                                Colour = "Black"
+                                Colour = "Black",
+                                FirstMove = true
                             }
                         }
                     }
@@ -264,7 +267,8 @@ namespace _2dArray
                     {
                         {"A", wRook1 = new Rook
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"B", wKnight1 = new Knight
@@ -284,7 +288,8 @@ namespace _2dArray
                         },
                         {"E", wKing = new King
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         },
                         {"F", wBishop2 = new Bishop
@@ -299,7 +304,8 @@ namespace _2dArray
                         },
                         {"H", wRook2 = new Rook
                             {
-                                Colour = "White"
+                                Colour = "White",
+                                FirstMove = true
                             }
                         }
                     }

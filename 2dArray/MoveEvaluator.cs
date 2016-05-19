@@ -21,13 +21,15 @@ namespace _2dArray
         private Piece _pieceToEval;
         private int[] _moveToCoOrds;
         private int[] _currentPosition;
+        private BoardEvaluator boardEval;
 
         public MoveEvaluator(Game CurrentGame)
         {
             _currentGame = CurrentGame;
+            boardEval = new BoardEvaluator(_currentGame);
         }
 
-        public bool EvaluateMove(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
+        public bool EvaluateMove(bool Populated, Piece PieceToEval, int[] MoveToCoOrds, bool Simulation = false)
         {
             //dont think need canmove
             _pieceToEval = PieceToEval;
@@ -231,6 +233,7 @@ namespace _2dArray
                                         }
                                         else
                                         {
+
                                             return true;
                                         }
                                     }
@@ -596,7 +599,136 @@ namespace _2dArray
                 case 5:
                     //king
                     //KING MOVE LOGIC
-                    if (((_currentPosition[0] + 1) == _moveToCoOrds[0] && _currentPosition[1] == _moveToCoOrds[1]) ||
+                    //CASTLING NEEDS TESTING
+                    King kingToEval = _pieceToEval as King;
+                    if (kingToEval.FirstMove)
+                    {
+                        if (kingToEval.Colour == "Black")
+                        {
+                            int[] c8 = new int[] { 0, 2 };
+                            int[] g8 = new int[] { 0, 6 };
+
+                            if (_currentPosition[1] > _moveToCoOrds[1] &&
+                                c8 == _moveToCoOrds)
+                            {
+                                //LEFT
+                                if (_currentGame._board.board.ElementAt(0).ElementAt(0).Value != null &&
+                                    _currentGame._board.board.ElementAt(0).ElementAt(0).Value.InherentValue == 2) 
+                                {
+                                    Rook rookAtA8 = _currentGame._board.board.ElementAt(0).ElementAt(0).Value as Rook;
+                                    if (rookAtA8.FirstMove == true)
+                                    {
+                                        int[] positionOfRook = GetPosition(rookAtA8);
+                                        int iterate = _currentPosition[1] - positionOfRook[1];
+                                        for (int i = 1; i <= iterate; i++)
+                                        {
+                                            if (i == iterate)
+                                            {
+                                                if (!boardEval.IsPlayersKingInCheck("Black", kingToEval, _currentPosition))
+                                                {
+                                                    rookAtA8.FirstMove = false;
+                                                    kingToEval.FirstMove = false;
+                                                    MoveRookForCastling(c8, rookAtA8, Simulation);
+                                                    return true;
+                                                }
+                                                else
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt((_currentPosition[1] - i)).Value == null)
+                                            {
+                                                if (i <= 2)
+                                                {
+                                                    int[] simulatePosition = new int[2] { _currentPosition[0], (_currentPosition[1] - i) };
+                                                    if (!boardEval.CanEnemyCaptureSquare("Black", simulatePosition, true))
+                                                    {
+                                                        continue;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Simulation = false;
+                                                    continue;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            else if (_currentPosition[1] < _moveToCoOrds[1] &&
+                                g8 == _moveToCoOrds)
+                            {
+                                //RIGHT
+                                if (_currentGame._board.board.ElementAt(0).ElementAt(7).Value != null &&
+                                    _currentGame._board.board.ElementAt(0).ElementAt(7).Value.InherentValue == 2)
+                                {
+                                    Rook rookAtH8 = _currentGame._board.board.ElementAt(0).ElementAt(7).Value as Rook;
+                                    if (rookAtH8.FirstMove == true)
+                                    {
+                                        int[] positionOfRook = GetPosition(rookAtH8);
+                                        int iterate = positionOfRook[1] - _currentPosition[1];
+                                        for (int i = 1; i <= iterate; i++)
+                                        {
+                                            if (i == iterate)
+                                            {
+
+                                            }
+                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt((_currentPosition[1] + i)).Value == null)
+                                            {
+                                                if (i <= 2)
+                                                {
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            int[] c1 = new int[] { 7, 2 };
+                            int[] g1 = new int[] { 7, 6 };
+
+                            if (_moveToCoOrds == c1 ||
+                                _moveToCoOrds == g1)
+                            {
+                                kingToEval.FirstMove = false;
+                                return true;
+                            }
+                            break;
+                        }
+                    }
+                    else if (((_currentPosition[0] + 1) == _moveToCoOrds[0] && _currentPosition[1] == _moveToCoOrds[1]) ||
                         ((_currentPosition[0] - 1) == _moveToCoOrds[0] && _currentPosition[1] == _moveToCoOrds[1]) ||
                         ((_currentPosition[1] + 1) == _moveToCoOrds[1] && _currentPosition[0] == _moveToCoOrds[0]) ||
                         ((_currentPosition[1] - 1) == _moveToCoOrds[1] && _currentPosition[0] == _moveToCoOrds[0]) ||
@@ -607,7 +739,7 @@ namespace _2dArray
                     {
                         if (_populated)
                         {
-                            if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == _pieceToEval.Colour)
+                            if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == kingToEval.Colour)
                             {
                                 break;
                             }
@@ -621,10 +753,6 @@ namespace _2dArray
                             return true;
                         }
                     }
-                    //else if (CASTLING)
-                    //{
-                    //    //may need to go ahead of the first statement
-                    //}
                     break;
                 case 6:
                     //QUEEN MOVE LOGIC
@@ -1007,9 +1135,45 @@ namespace _2dArray
             return positionResolved;
         }
 
-        public void MoveToCorrection(int[] CorrectionToSendToMover)
+        public void MoveRookForCastling(int[] CorrectionToSendToMover, Rook RookToMove, bool Simulation)
         {
-            //Send corrected coordinates to Mover to update where the piece can legally move to
+            if (Simulation)
+            {
+                return;
+            }
+            //Send CoOrds for Rook to Move to
+
         }
+
+        //***********************************REFACTOR******************************************
+        //private bool PawnMoveLogic(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
+        //{
+
+        //}
+
+        //private bool RookMoveLogic(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
+        //{
+
+        //}
+
+        //private bool KnightMoveLogic(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
+        //{
+
+        //}
+
+        //private bool BishopMoveLogic(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
+        //{
+
+        //}
+
+        //private bool KingMoveLogic(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
+        //{
+
+        //}
+
+        //private bool QueenMoveLogic(bool Populated, Piece PieceToEval, int[] MoveToCoOrds)
+        //{
+
+        //}
     }
 }

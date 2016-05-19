@@ -47,5 +47,13 @@ namespace _2dArray
             get { return this.owner; }
             set { this.owner = value; }
         }
+
+        private bool firstMove;
+
+        public bool FirstMove
+        {
+            get { return firstMove; }
+            set { firstMove = value; }
+        }
     }
 }

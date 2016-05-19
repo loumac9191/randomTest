@@ -182,6 +182,7 @@ namespace _2dArray
 
 
             Console.WriteLine("Hello");
+            Console.ReadLine();
         }
     }
 }

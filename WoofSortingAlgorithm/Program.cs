@@ -130,7 +130,11 @@ namespace WoofSortingAlgorithm
             {
                 Console.WriteLine(item.name);
             }
+
+            if (testTest.RetrunsTrue())
+            {
+                Console.WriteLine("lol");
+            }
         }
-        
     }
 }

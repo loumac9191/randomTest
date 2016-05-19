@@ -10,5 +10,10 @@ namespace WoofSortingAlgorithm
     {
         public int age;
         public string name;
+
+        public bool RetrunsTrue()
+        {
+            return true;
+        }
     }
 }
