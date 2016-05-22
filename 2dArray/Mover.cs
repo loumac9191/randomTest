@@ -12,6 +12,7 @@ namespace _2dArray
         private Converter _converter = new Converter();
         private BoardEvaluator boardEval;
         private Piece _pieceToMove;
+        public SortedDictionary<string, Piece> piecesClaimed;
         //Also in Move Evaluator
         private SortedDictionary<string, Piece> pieceContainedIn;
         private int[] _moveToCoOrdinates = new int[2];
@@ -30,12 +31,13 @@ namespace _2dArray
         public Mover(Game CurrentGame)
         {
             _currentGame = CurrentGame;
-            moveEval = new MoveEvaluator(CurrentGame);
-            boardEval = new BoardEvaluator(CurrentGame);
+            moveEval = new MoveEvaluator(CurrentGame, this);
+            boardEval = new BoardEvaluator(CurrentGame, moveEval);
+            piecesClaimed = new SortedDictionary<string, Piece>();
         }
 
         //DON'T THINK THIS NEEDS TO BE GIVEN THE CURRENT GAME AGAIN
-        public void MovePiece(Game CurrentGame, Piece PieceToMove, int[] MoveToCoOrdinates)
+        public void MovePiece(Piece PieceToMove, int[] MoveToCoOrdinates)
         {
             _pieceToMove = PieceToMove;
             //When coOrdinates are given by the player it will be numbered 1-8, this WONT factor in zero indexing, therefore -1 on yValues
@@ -49,16 +51,9 @@ namespace _2dArray
             int currentXAxis = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove)).Values.ToList().IndexOf(_pieceToMove);
             pieceContainedIn = _currentGame._board.board.Find(x => x.ContainsValue(_pieceToMove));
             currentYAxis = _currentGame._board.board.IndexOf(pieceContainedIn);
-
             coOrdAsCharacter = _converter.ConvertXAxis(currentXAxis);
             incumbentKey = _converter.ConvertXAxis(_moveToCoOrdinates[1]);
 
-            //Initial checks
-            //1) Is The Range of CoOrdinates provided legal? i.e. less than or equal to the border of the board
-            //2) is the position the piece is moving to populated? Move as 
-            //3) **IS PAWN PIECE NULL?
-            //4) 
-            //
             if (yAxisBeforeCorrection > _currentGame.yVerticalBorder ||
                 _moveToCoOrdinates[1] > _currentGame.xHorizontalBorder)
             {
@@ -112,6 +107,7 @@ namespace _2dArray
 
                     ////Remove the piece from the destination and place this in the games removed list?
                     //KeyValuePair<string, Piece> kvpForPieceRemoved = _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).ElementAt(_moveToCoOrdinates[1]);
+
                     //_currentGame.listOfRemovedPieces.Add(kvpForPieceRemoved.Value);
 
                     //Move and Reorder
@@ -168,7 +164,27 @@ namespace _2dArray
 
         public void MoveRookForCastling(int[] CoOrdinatesForMove, Rook RookToMove)
         {
+            SortedDictionary<string,Piece> rookContainedIn = _currentGame._board.board.Find(x => x.ContainsValue(RookToMove));
+            int currentYAxisOfRook = _currentGame._board.board.IndexOf(rookContainedIn);
+            int currentXAxisOfRook = _currentGame._board.board.Find(x => x.ContainsValue(RookToMove)).Values.ToList().IndexOf(RookToMove);
+            string CoordsOfRookAsString = _converter.ConvertXAxis(currentXAxisOfRook);
+            string incumbentKeyOfRook = _converter.ConvertXAxis(CoOrdinatesForMove[1]);
 
+            //Remove the pieceToMove from its current location
+            _currentGame._board.board.ElementAt(currentYAxisOfRook).Remove(_currentGame._board.board.ElementAt(currentYAxisOfRook).ElementAt(currentXAxisOfRook).Key);
+
+            //Rename the XAxis key (string)
+            RenameXAxis(currentXAxisOfRook);
+
+            //Reorder
+            _currentGame._board.board.ElementAt(currentYAxisOfRook).OrderBy(x => x.Key);
+
+            //Remove the key from the pieces destination otherwise not unique
+            _currentGame._board.board.ElementAt(CoOrdinatesForMove[0]).Remove(incumbentKeyOfRook);
+
+            //Move and Reorder
+            _currentGame._board.board.ElementAt(CoOrdinatesForMove[0]).Add(incumbentKeyOfRook, RookToMove);
+            _currentGame._board.board.ElementAt(CoOrdinatesForMove[0]).OrderBy(x => x.Key);
         }
 
         //private void Check(Piece PieceToMove)

@@ -16,10 +16,10 @@ namespace _2dArray
         MoveEvaluator moveEvaluator;
         int[] kingsPosition;
 
-        public BoardEvaluator(Game currentGame)
+        public BoardEvaluator(Game currentGame, MoveEvaluator MoveEvaluator)
         {
             _currentGame = currentGame;
-            moveEvaluator = new MoveEvaluator(_currentGame);
+            moveEvaluator = MoveEvaluator;
             listOfPiecesForCheck = new List<Piece>();
             listOfPiecesForCheckMate = new List<Piece>();
             listOfEnemyPlayersPiecesForCastling = new List<Piece>();
