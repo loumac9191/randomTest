@@ -69,7 +69,7 @@ namespace _2dArray
                     _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
 
                     //Rename the XAxis key (string)
-                    RenameXAxis(currentXAxis);
+                    RenameXAxis(currentXAxis, coOrdAsCharacter);
 
                     //Reorder
                     _currentGame._board.board.ElementAt(currentYAxis).OrderBy(x => x.Key);
@@ -97,7 +97,7 @@ namespace _2dArray
                     _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
 
                     //Rename the XAxis key (string)
-                    RenameXAxis(currentXAxis);
+                    RenameXAxis(currentXAxis, coOrdAsCharacter);
 
                     //Reorder
                     _currentGame._board.board.ElementAt(currentYAxis).OrderBy(x => x.Key);
@@ -131,33 +131,33 @@ namespace _2dArray
             return yx = moveEval.GetPosition(PositionOfPieceInQuery);
         }
 
-        private void RenameXAxis(int currentXAxis)
+        private void RenameXAxis(int currentXAxis, string coOrdAsCharacterForRename)
         {
             switch (currentXAxis)
             {
                 case 0:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacterForRename, null);
                     break;
                 case 1:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacterForRename, null);
                     break;
                 case 2:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacterForRename, null);
                     break;
                 case 3:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacterForRename, null);
                     break;
                 case 4:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacterForRename, null);
                     break;
                 case 5:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacterForRename, null);
                     break;
                 case 6:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacterForRename, null);
                     break;
                 case 7:
-                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacter, null);
+                    _currentGame._board.board.ElementAt(currentYAxis).Add(coOrdAsCharacterForRename, null);
                     break;
             };
         }
@@ -170,11 +170,12 @@ namespace _2dArray
             string CoordsOfRookAsString = _converter.ConvertXAxis(currentXAxisOfRook);
             string incumbentKeyOfRook = _converter.ConvertXAxis(CoOrdinatesForMove[1]);
 
+
             //Remove the pieceToMove from its current location
             _currentGame._board.board.ElementAt(currentYAxisOfRook).Remove(_currentGame._board.board.ElementAt(currentYAxisOfRook).ElementAt(currentXAxisOfRook).Key);
 
             //Rename the XAxis key (string)
-            RenameXAxis(currentXAxisOfRook);
+            RenameXAxis(currentXAxisOfRook, CoordsOfRookAsString);
 
             //Reorder
             _currentGame._board.board.ElementAt(currentYAxisOfRook).OrderBy(x => x.Key);

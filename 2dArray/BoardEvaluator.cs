@@ -55,7 +55,7 @@ namespace _2dArray
         //Is Opponent in Check After Players Move
         public bool Check(Piece pieceMoved)
         {
-            ResetLists();
+            ResetListsForCheck();
             FindOpposingKingForCheck(pieceMoved);
 
             if (kingForCheck == null)
@@ -169,6 +169,11 @@ namespace _2dArray
 
         public bool CanEnemyCaptureSquare(string Colour, int[] SimulatedPosition, bool Simulated)
         {
+            ResetListForCastling();
+            int[] simulatedPosition = new int[2];
+            simulatedPosition[0] = SimulatedPosition[0];
+            simulatedPosition[1] = SimulatedPosition[1];
+
             if (!Simulated)
             {
                 //If not simulation
@@ -193,7 +198,9 @@ namespace _2dArray
 
             foreach (Piece piece in listOfEnemyPlayersPiecesForCastling)
             {
-                bool canMove = moveEvaluator.EvaluateMove(true, piece, SimulatedPosition, true);
+                Mover tempMove = new Mover(_currentGame);
+                MoveEvaluator moveEval = new MoveEvaluator(_currentGame, tempMove);
+                bool canMove = moveEval.EvaluateMove(true, piece, SimulatedPosition, true, true);
                 if (canMove)
                 {
                     return true;
@@ -204,12 +211,11 @@ namespace _2dArray
 
         }
 
-        private void ResetLists()
+        private void ResetListsForCheck()
         {
             List<Piece> tempListToDumpPieces = new List<Piece>();
             int iterateCheck = listOfPiecesForCheck.Count();
-            int iterateCheckMate = listOfPiecesForCheckMate.Count();
-            int iterateEnemyPiecesForCastling = listOfEnemyPlayersPiecesForCastling.Count();
+            int iterateCheckMate = listOfPiecesForCheckMate.Count();           
             kingsPosition = null;
 
             if (iterateCheck == 0)
@@ -219,7 +225,7 @@ namespace _2dArray
 
             foreach (Piece piece in listOfPiecesForCheck)
             {
-                tempListToDumpPieces.Add(piece);     
+                tempListToDumpPieces.Add(piece);
             }
 
             for (int i = 0; i <= iterateCheck; iterateCheck--)
@@ -249,6 +255,12 @@ namespace _2dArray
                     listOfPiecesForCheckMate.Remove(pieceToRemove);
                 }
             }
+        }
+
+        private void ResetListForCastling()
+        {
+            int iterateEnemyPiecesForCastling = listOfEnemyPlayersPiecesForCastling.Count();
+            List<Piece> tempListToDumpPieces = new List<Piece>();
 
             if (iterateEnemyPiecesForCastling == 0)
             {

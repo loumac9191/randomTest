@@ -310,8 +310,7 @@ namespace _2dArray
                         }
                     }
                 }
-            };            
+            };
         }
     }
 }
-

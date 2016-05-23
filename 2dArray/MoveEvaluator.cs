@@ -31,7 +31,7 @@ namespace _2dArray
             boardEval = new BoardEvaluator(_currentGame, this);
         }
 
-        public bool EvaluateMove(bool Populated, Piece PieceToEval, int[] MoveToCoOrds, bool Simulation = false)
+        public bool EvaluateMove(bool Populated, Piece PieceToEval, int[] MoveToCoOrds, bool Simulation = false, bool CastlingCheck = false)
         {
             //dont think need canmove
             _pieceToEval = PieceToEval;
@@ -427,6 +427,10 @@ namespace _2dArray
                         {
                             for (int i = 1; i <= iterate; i++)
                             {
+                                int positionXTemp = new int();
+                                int positionYTemp = new int();
+                                positionXTemp = (_currentPosition[1] - i);
+                                positionYTemp = (_currentPosition[0] + i);
                                 if (i == iterate)
                                 {
                                     if (_populated)
@@ -447,7 +451,7 @@ namespace _2dArray
                                 }
                                 else
                                 {
-                                    if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] - i)).Value != null)
+                                    if (_currentGame._board.board.ElementAt(positionYTemp).ElementAt(positionXTemp).Value != null)
                                     {
                                         break;
                                     }
@@ -472,6 +476,10 @@ namespace _2dArray
                         {
                             for (int i = 1; i <= iterate; i++)
                             {
+                                int positionXTemp = new int();
+                                int positionYTemp = new int();
+                                positionXTemp = (_currentPosition[1] - i);
+                                positionYTemp = (_currentPosition[0] - i);
                                 if (i == iterate)
                                 {
                                     if (_populated)
@@ -492,7 +500,7 @@ namespace _2dArray
                                 }
                                 else
                                 {
-                                    if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] - i)).Value != null)
+                                    if (_currentGame._board.board.ElementAt(positionYTemp).ElementAt(positionXTemp).Value != null)
                                     {
                                         break;
                                     }
@@ -517,6 +525,10 @@ namespace _2dArray
                         {
                             for (int i = 1; i <= iterate; i++)
                             {
+                                int positionXTemp = new int();
+                                int positionYTemp = new int();
+                                positionXTemp = (_currentPosition[1] + i);
+                                positionYTemp = (_currentPosition[0] - i);
                                 if (i == iterate)
                                 {
                                     if (_populated)
@@ -537,7 +549,7 @@ namespace _2dArray
                                 }
                                 else
                                 {
-                                    if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] = i)).Value != null)
+                                    if (_currentGame._board.board.ElementAt(positionYTemp).ElementAt(positionXTemp).Value != null)
                                     {
                                         break;
                                     }
@@ -561,6 +573,10 @@ namespace _2dArray
                         {
                             for (int i = 1; i <= iterate; i++)
                             {
+                                int positionXTemp = new int();
+                                int positionYTemp = new int();
+                                positionXTemp = (_currentPosition[1] + i);
+                                positionYTemp = (_currentPosition[0] + i);
                                 if (i == iterate)
                                 {
                                     if (_populated)
@@ -581,7 +597,7 @@ namespace _2dArray
                                 }
                                 else
                                 {
-                                    if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] + i)).Value != null)
+                                    if (_currentGame._board.board.ElementAt(positionYTemp).ElementAt(positionXTemp).Value != null)
                                     {
                                         break;
                                     }
@@ -608,13 +624,14 @@ namespace _2dArray
                     int[] c1 = new int[] { 7, 2 };
                     int[] g1 = new int[] { 7, 6 };
 
-                    if (kingToEval.FirstMove &&
+                    if (kingToEval.FirstMove && !CastlingCheck &&
                         ((_moveToCoOrds[1] == c8[1] &&  _moveToCoOrds[0] == c8[0]) ||
                         (_moveToCoOrds[0] == g8[0] && _moveToCoOrds[1] == g8[1]) ||
                         (_moveToCoOrds[0] == c1[0] && _moveToCoOrds[1] == c1[1]) ||
                         (_moveToCoOrds[0] == g1[0] && _moveToCoOrds[1] == g1[1])))
                     {
-                        if (kingToEval.Colour == "Black")
+                        if ((_moveToCoOrds[1] == c8[1] && _moveToCoOrds[0] == c8[0]) ||
+                            (_moveToCoOrds[0] == g8[0] && _moveToCoOrds[1] == g8[1]))
                         {
                             if (_currentPosition[1] > _moveToCoOrds[1])
                             {
@@ -629,13 +646,16 @@ namespace _2dArray
                                         int iterate = _currentPosition[1] - positionOfRook[1];
                                         for (int i = 1; i <= iterate; i++)
                                         {
+                                            int positionTemp = new int();
+                                            positionTemp = _currentPosition[1] - i;
                                             if (i == iterate)
                                             {
-                                                if (!boardEval.IsPlayersKingInCheck("Black", kingToEval, _currentPosition))
+                                                if (!boardEval.IsPlayersKingInCheck(kingToEval.Colour, kingToEval, _currentPosition))
                                                 {
+                                                    int[] positionOfRookCastled = new int[2] { 0, 2 };
                                                     rookAtA8.FirstMove = false;
                                                     kingToEval.FirstMove = false;
-                                                    MoveRookForCastling(c8, rookAtA8, Simulation);
+                                                    MoveRookForCastling(positionOfRookCastled, rookAtA8, Simulation);
                                                     return true;
                                                 }
                                                 else
@@ -643,12 +663,12 @@ namespace _2dArray
                                                     break;
                                                 }
                                             }
-                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt((_currentPosition[1] - i)).Value == null)
+                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(positionTemp).Value == null)
                                             {
                                                 if (i <= 2)
                                                 {
-                                                    int[] simulatePosition = new int[2] { _currentPosition[0], (_currentPosition[1] - i) };
-                                                    if (!boardEval.CanEnemyCaptureSquare("Black", simulatePosition, true))
+                                                    int[] simulatePosition = new int[2] { _currentPosition[0], positionTemp };
+                                                    if (!boardEval.CanEnemyCaptureSquare(kingToEval.Colour, simulatePosition, true))
                                                     {
                                                         continue;
                                                     }
@@ -689,13 +709,16 @@ namespace _2dArray
                                         int iterate = positionOfRook[1] - _currentPosition[1];
                                         for (int i = 1; i <= iterate; i++)
                                         {
+                                            int positionTemp = new int();
+                                            positionTemp = _currentPosition[1] + i;
                                             if (i == iterate)
                                             {
-                                                if (!boardEval.IsPlayersKingInCheck("Black", kingToEval, _currentPosition))
+                                                if (!boardEval.IsPlayersKingInCheck(kingToEval.Colour, kingToEval, _currentPosition))
                                                 {
+                                                    int[] positionOfRookCastled = new int[2] { 0, 5 };
                                                     rookAtH8.FirstMove = false;
                                                     kingToEval.FirstMove = false;
-                                                    MoveRookForCastling(c8, rookAtH8, Simulation);
+                                                    MoveRookForCastling(positionOfRookCastled, rookAtH8, Simulation);
                                                     return true;
                                                 }
                                                 else
@@ -703,12 +726,12 @@ namespace _2dArray
                                                     break;
                                                 }
                                             }
-                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt((_currentPosition[1] + i)).Value == null)
+                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(positionTemp).Value == null)
                                             {
                                                 if (i <= 2)
                                                 {
-                                                    int[] simulatePosition = new int[2] { _currentPosition[0], (_currentPosition[1] + i) };
-                                                    if (!boardEval.CanEnemyCaptureSquare("Black", simulatePosition, true))
+                                                    int[] simulatePosition = new int[2] { _currentPosition[0], positionTemp };
+                                                    if (!boardEval.CanEnemyCaptureSquare(kingToEval.Colour, simulatePosition, true))
                                                     {
                                                         continue;
                                                     }
@@ -741,7 +764,8 @@ namespace _2dArray
                                 break;
                             }
                         }
-                        else
+                        else if((_moveToCoOrds[0] == c1[0] && _moveToCoOrds[1] == c1[1]) ||
+                            (_moveToCoOrds[0] == g1[0] && _moveToCoOrds[1] == g1[1]))
                         {
                             if (_currentPosition[1] > _moveToCoOrds[1])
                             {
@@ -756,22 +780,25 @@ namespace _2dArray
                                         int iterate = _currentPosition[1] - positionOfRook[1];
                                         for (int i = 1; i <= iterate; i++)
                                         {
+                                            int positionTemp = new int();
+                                            positionTemp = _currentPosition[1] - i;
                                             if (i == iterate)
                                             {
-                                                if (!boardEval.IsPlayersKingInCheck("Black", kingToEval, _currentPosition))
+                                                if (!boardEval.IsPlayersKingInCheck(kingToEval.Colour, kingToEval, _currentPosition))
                                                 {
+                                                    int[] positionOfRookCastled = new int[2] { 7, 2 };
                                                     rookAtC1.FirstMove = false;
                                                     kingToEval.FirstMove = false;
-                                                    MoveRookForCastling(c1, rookAtC1, Simulation);
+                                                    MoveRookForCastling(positionOfRookCastled, rookAtC1, Simulation);
                                                     return true;
                                                 }
                                             }
-                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt((_currentPosition[1] - i)).Value == null)
+                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(positionTemp).Value == null)
                                             {
                                                 if (i <= 2)
                                                 {
-                                                    int[] simulatePosition = new int[2] { _currentPosition[0], (_currentPosition[1] - i) };
-                                                    if (!boardEval.CanEnemyCaptureSquare("Black", simulatePosition, true))
+                                                    int[] simulatePosition = new int[2] { _currentPosition[0], positionTemp };
+                                                    if (!boardEval.CanEnemyCaptureSquare(kingToEval.Colour, simulatePosition, true))
                                                     {
                                                         continue;
                                                     }
@@ -812,13 +839,16 @@ namespace _2dArray
                                         int iterate = positionOfRook[1] - _currentPosition[1];
                                         for (int i = 1; i <= iterate; i++)
                                         {
+                                            int positionTemp = new int();
+                                            positionTemp = _currentPosition[1] + i;
                                             if (i == iterate)
                                             {
-                                                if (!boardEval.IsPlayersKingInCheck("Black", kingToEval, _currentPosition))
+                                                if (!boardEval.IsPlayersKingInCheck(kingToEval.Colour, kingToEval, _currentPosition))
                                                 {
+                                                    int[] positionOfRookCastled = new int[2] { 7, 5 };
                                                     rookAtG1.FirstMove = false;
                                                     kingToEval.FirstMove = false;
-                                                    MoveRookForCastling(g1, rookAtG1, Simulation);
+                                                    MoveRookForCastling(positionOfRookCastled, rookAtG1, Simulation);
                                                     return true;
                                                 }
                                                 else
@@ -826,12 +856,12 @@ namespace _2dArray
                                                     break;
                                                 }
                                             }
-                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt((_currentPosition[1] + i)).Value == null)
+                                            else if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(positionTemp).Value == null)
                                             {
                                                 if (i <= 2)
                                                 {
-                                                    int[] simulatePosition = new int[2] { _currentPosition[0], (_currentPosition[1] + i) };
-                                                    if (!boardEval.CanEnemyCaptureSquare("Black", simulatePosition,true))
+                                                    int[] simulatePosition = new int[2] { _currentPosition[0], positionTemp };
+                                                    if (!boardEval.CanEnemyCaptureSquare(kingToEval.Colour, simulatePosition, true))
                                                     {
                                                         continue;
                                                     }
@@ -845,7 +875,7 @@ namespace _2dArray
                                             }
                                             else
                                             {
-
+                                                break;
                                             }
                                         }
                                     }
@@ -1073,6 +1103,10 @@ namespace _2dArray
                             {
                                 for (int i = 1; i <= iterate; i++)
                                 {
+                                    int positionXTemp = new int();
+                                    int positionYTemp = new int();
+                                    positionXTemp = (_currentPosition[1] - i);
+                                    positionYTemp = (_currentPosition[0] + i);
                                     if (i == iterate)
                                     {
                                         if (_populated)
@@ -1093,7 +1127,7 @@ namespace _2dArray
                                     }
                                     else
                                     {
-                                        if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] - i)).Value != null)
+                                        if (_currentGame._board.board.ElementAt(positionYTemp).ElementAt(positionXTemp).Value != null)
                                         {
                                             break;
                                         }
@@ -1118,6 +1152,10 @@ namespace _2dArray
                             {
                                 for (int i = 1; i <= iterate; i++)
                                 {
+                                    int positionXTemp = new int();
+                                    int positionYTemp = new int();
+                                    positionXTemp = (_currentPosition[1] - i);
+                                    positionYTemp = (_currentPosition[0] - i);
                                     if (i == iterate)
                                     {
                                         if (_populated)
@@ -1138,7 +1176,7 @@ namespace _2dArray
                                     }
                                     else
                                     {
-                                        if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] - i)).Value != null)
+                                        if (_currentGame._board.board.ElementAt(positionYTemp).ElementAt(positionXTemp).Value != null)
                                         {
                                             break;
                                         }
@@ -1163,6 +1201,10 @@ namespace _2dArray
                             {
                                 for (int i = 1; i <= iterate; i++)
                                 {
+                                    int positionXTemp = new int();
+                                    int positionYTemp = new int();
+                                    positionXTemp = (_currentPosition[1] + i);
+                                    positionYTemp = (_currentPosition[0] - i);
                                     if (i == iterate)
                                     {
                                         if (_populated)
@@ -1183,7 +1225,7 @@ namespace _2dArray
                                     }
                                     else
                                     {
-                                        if (_currentGame._board.board.ElementAt((_currentPosition[0] - i)).ElementAt((_currentPosition[1] = i)).Value != null)
+                                        if (_currentGame._board.board.ElementAt(positionYTemp).ElementAt(positionXTemp).Value != null)
                                         {
                                             break;
                                         }
@@ -1207,6 +1249,10 @@ namespace _2dArray
                             {
                                 for (int i = 1; i <= iterate; i++)
                                 {
+                                    int positionXTemp = new int();
+                                    int positionYTemp = new int();
+                                    positionXTemp = (_currentPosition[1] + i);
+                                    positionYTemp = (_currentPosition[0] + i);
                                     if (i == iterate)
                                     {
                                         if (_populated)
@@ -1227,7 +1273,7 @@ namespace _2dArray
                                     }
                                     else
                                     {
-                                        if (_currentGame._board.board.ElementAt((_currentPosition[0] + i)).ElementAt((_currentPosition[1] + i)).Value != null)
+                                        if (_currentGame._board.board.ElementAt(positionYTemp).ElementAt(positionXTemp).Value != null)
                                         {
                                             break;
                                         }

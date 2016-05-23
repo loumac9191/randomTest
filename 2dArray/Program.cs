@@ -319,7 +319,7 @@ namespace _2dArray
                 8,
                 7
             };
-            //17 ** CASTLING
+            //17 ** CASTLING *
             moveSomething.MovePiece(e1, e1ToG1);
             Piece e8 = game._board.board.ElementAt(0).ElementAt(4).Value;
             int[] e8ToG8 = new int[]
@@ -366,7 +366,7 @@ namespace _2dArray
                 3,
                 6
             };
-            //23 EN PASSANT
+            //23 EN PASSANT **EVERYTHING BREAKS HERE
             moveSomething.MovePiece(e2, e5ToF6);
             int[] d7ToF6 = new int[]
             {
