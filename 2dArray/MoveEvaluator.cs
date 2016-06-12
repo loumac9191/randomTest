@@ -10,8 +10,6 @@ namespace _2dArray
     //PAWNS:
     //EN PASSENT
     //PROMOTION
-    //KING:
-    //CASTLING
     //**NO PIECE CAN MOVE OVER ANOTHER PIECE**
     public class MoveEvaluator
     {
@@ -50,6 +48,8 @@ namespace _2dArray
             {
                 case 1:
                     //PAWN MOVE LOGIC
+                    //BLACK IS DOWN
+                    //WHITE IS UP
                     Pawn pawnToCheck = _pieceToEval as Pawn;
                     if (pawnToCheck == null)
                     {
@@ -73,6 +73,7 @@ namespace _2dArray
                                     else
                                     {
                                         pawnToCheck.FirstMove = false;
+                                        pawnToCheck.FirstMoveWasTwoSquares = true;
                                         return true;
                                     }
                                 }
@@ -111,7 +112,7 @@ namespace _2dArray
                             if (((_currentPosition[0] - 1) == _moveToCoOrds[0] || (_currentPosition[0] - 2) == _moveToCoOrds[0]) &&
                                 _currentPosition[1] == _moveToCoOrds[1])
                             {
-                                //Moving Vertically
+                                //Moving Vertically Up
                                 if ((_currentPosition[0] - 2) == _moveToCoOrds[0])
                                 {
                                     if (_populated)
@@ -121,6 +122,7 @@ namespace _2dArray
                                     else
                                     {
                                         pawnToCheck.FirstMove = false;
+                                        pawnToCheck.FirstMoveWasTwoSquares = true;
                                         return true;
                                     }
                                 }
@@ -169,14 +171,43 @@ namespace _2dArray
                                     if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value != null &&
                                         _currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour != pawnToCheck.Colour)
                                     {
+                                        if (pawnToCheck.FirstMoveWasTwoSquares == true)
+                                        {
+                                            pawnToCheck.FirstMoveWasTwoSquares = false;
+                                        }
+                                        return true;
+                                    }
+                                    else if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value == null)
+                                    {
+                                        Pawn eligibleForEnPassant;
+                                        int[] positionOfEnPassantPawn;
+                                        if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(_moveToCoOrds[1]).Value != null &&
+                                            _currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(_moveToCoOrds[1]).Value.InherentValue == 1)
+                                        {
+                                            eligibleForEnPassant = _currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(_moveToCoOrds[1]).Value as Pawn;
+                                            if (eligibleForEnPassant.FirstMoveWasTwoSquares)
+                                            {
+                                                positionOfEnPassantPawn = GetPosition(eligibleForEnPassant);
+                                                _mover.RemovePawnForEnPassant(eligibleForEnPassant, positionOfEnPassantPawn);
+                                            }
+                                        }
+                                        if (pawnToCheck.FirstMoveWasTwoSquares == true)
+                                        {
+                                            pawnToCheck.FirstMoveWasTwoSquares = false;
+                                        }
                                         return true;
                                     }
                                     break;
                                 }
                                 else if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value == null)
                                 {
+                                    if (pawnToCheck.FirstMoveWasTwoSquares == true)
+                                    {
+                                        pawnToCheck.FirstMoveWasTwoSquares = false;
+                                    }
                                     return true;
                                 }
+                                break;
                             }
                             else
                             {
@@ -193,14 +224,44 @@ namespace _2dArray
                                     if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value != null &&
                                         _currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour != pawnToCheck.Colour)
                                     {
+                                        if (pawnToCheck.FirstMoveWasTwoSquares == true)
+                                        {
+                                            pawnToCheck.FirstMoveWasTwoSquares = false;
+                                        }
+                                        return true;
+                                    }
+                                    else if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value == null)
+                                    {
+                                        //Check if en passant
+                                        Pawn eligibleForEnPassant;
+                                        int[] positionOfEnPassantPawn;
+                                        if (_currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(_moveToCoOrds[1]).Value != null &&
+                                            _currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(_moveToCoOrds[1]).Value.InherentValue == 1)
+                                        {
+                                            eligibleForEnPassant = _currentGame._board.board.ElementAt(_currentPosition[0]).ElementAt(_moveToCoOrds[1]).Value as Pawn;
+                                            if (eligibleForEnPassant.FirstMoveWasTwoSquares)
+                                            {
+                                                positionOfEnPassantPawn = GetPosition(eligibleForEnPassant);
+                                                _mover.RemovePawnForEnPassant(eligibleForEnPassant, positionOfEnPassantPawn);
+                                            }
+                                        }
+                                        if (pawnToCheck.FirstMoveWasTwoSquares == true)
+                                        {
+                                            pawnToCheck.FirstMoveWasTwoSquares = false;
+                                        }
                                         return true;
                                     }
                                     break;
                                 }
                                 else if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value == null)
                                 {
+                                    if (pawnToCheck.FirstMoveWasTwoSquares == true)
+                                    {
+                                        pawnToCheck.FirstMoveWasTwoSquares = false;
+                                    }
                                     return true;
                                 }
+                                break;
                             }
                             else
                             {

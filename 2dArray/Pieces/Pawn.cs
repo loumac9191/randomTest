@@ -64,6 +64,12 @@ namespace _2dArray
             set { firstMove = value; }
         }
 
+        private bool firstMoveWasTwoSquares;
 
+        public bool FirstMoveWasTwoSquares
+        {
+            get { return firstMoveWasTwoSquares; }
+            set { firstMoveWasTwoSquares = value; }
+        }
     }
 }

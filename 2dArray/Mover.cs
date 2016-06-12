@@ -188,6 +188,14 @@ namespace _2dArray
             _currentGame._board.board.ElementAt(CoOrdinatesForMove[0]).OrderBy(x => x.Key);
         }
 
+        public void RemovePawnForEnPassant(Pawn PawnToRemove, int[] PositionOfPawn)
+        {
+            string CoordsOfPawnAsString = _converter.ConvertXAxis(PositionOfPawn[1]);
+            _currentGame._board.board.ElementAt(PositionOfPawn[0]).Remove(_currentGame._board.board.ElementAt(PositionOfPawn[0]).ElementAt(PositionOfPawn[1]).Key);
+            RenameXAxis(PositionOfPawn[1], CoordsOfPawnAsString);
+            _currentGame._board.board.ElementAt(PositionOfPawn[0]).OrderBy(x => x.Key);
+        }
+
         //private void Check(Piece PieceToMove)
         //{
         //    bool check = boardEval.Check(_pieceToMove);
