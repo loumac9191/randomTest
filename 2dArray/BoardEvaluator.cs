@@ -130,11 +130,14 @@ namespace _2dArray
             //All the pieces that canMove to the King
             foreach (KeyValuePair<Piece, int[]> piece in listOfCheckPiecesThatCannotBeTaken)
             {
-                //Assuming that you cannot block a Pawn moving to enemy King
-                if (piece.Key.InherentValue == 1)
+                //Assuming that you cannot block a Pawn, Knight or King moving to enemy King
+                if (piece.Key.InherentValue == 1 ||
+                    piece.Key.InherentValue == 3 ||
+                    piece.Key.InherentValue == 5)
                 {
                     return false;
                 }
+                //This leaves Bishop, Rook and Queen
                 if (true)
                 {
                     //iterate through everyposition that each piece that checks enemy king, see if any opposing piece can occupy that position
