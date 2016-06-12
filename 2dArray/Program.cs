@@ -442,8 +442,6 @@ namespace _2dArray
             //CHECKMATE
             moveSomething.MovePiece(g1, f4ToG6);
             Console.WriteLine("end");
-
-
         }
     }
 }

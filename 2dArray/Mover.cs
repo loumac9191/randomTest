@@ -81,18 +81,25 @@ namespace _2dArray
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
 
+                    //bool checkMate = true
                     bool check = boardEval.Check(_pieceToMove);
 
+                    //if (checkMate)
+                    //{
+
+                    //}
                     if (check)
                     {
                         Console.WriteLine("Wew Check");
                     }
+                    //CheckMate
                 }
             }
             else
             {
                 if (moveEval.EvaluateMove(true, _pieceToMove, _moveToCoOrdinates))
                 {
+                    KeyValuePair<string, Piece> tempLocationForRemovedPiece = _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).ElementAt(_moveToCoOrdinates[1]);
                     //Remove the pieceToMove from its current location
                     _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
 
@@ -114,13 +121,17 @@ namespace _2dArray
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
 
+                    //bool checkMate = true
                     bool check = boardEval.Check(_pieceToMove);
 
+                    //if (checkMate)
+                    //{
+
+                    //}
                     if (check)
                     {
                         Console.WriteLine("Wew Check");
                     }
-
                     //CheckMate
                 }
             }

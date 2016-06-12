@@ -11,18 +11,23 @@ namespace _2dArray
         Game _currentGame;
         King kingForCheck;
         List<Piece> listOfPiecesForCheck;
-        List<Piece> listOfPiecesForCheckMate;
         List<Piece> listOfEnemyPlayersPiecesForCastling;
         MoveEvaluator moveEvaluator;
         int[] kingsPosition;
+        //these two lists need resetting
+        Dictionary<Piece, int[]> listOfPiecesForCheckMateWithCurrentPosition;
+        Dictionary<Piece, int[]> listOfCheckPiecesThatCannotBeTaken;
+        Dictionary<Piece, List<int[]>> listOfCheckPiecesAndTheirPositionsToCheck;
 
         public BoardEvaluator(Game currentGame, MoveEvaluator MoveEvaluator)
         {
             _currentGame = currentGame;
             moveEvaluator = MoveEvaluator;
             listOfPiecesForCheck = new List<Piece>();
-            listOfPiecesForCheckMate = new List<Piece>();
             listOfEnemyPlayersPiecesForCastling = new List<Piece>();
+            listOfPiecesForCheckMateWithCurrentPosition = new Dictionary<Piece, int[]>();
+            listOfCheckPiecesThatCannotBeTaken = new Dictionary<Piece, int[]>();
+            listOfCheckPiecesAndTheirPositionsToCheck = new Dictionary<Piece, List<int[]>>();
         }
 
         private King FindOpposingKingForCheck(Piece pieceMoved)
@@ -56,6 +61,7 @@ namespace _2dArray
         public bool Check(Piece pieceMoved)
         {
             ResetListsForCheck();
+            ResetListForCheckMate();
             FindOpposingKingForCheck(pieceMoved);
 
             if (kingForCheck == null)
@@ -64,19 +70,21 @@ namespace _2dArray
                 return false;
             }
 
-            bool canMove = false;
             kingsPosition = moveEvaluator.GetPosition(kingForCheck);
 
             foreach (Piece piece in listOfPiecesForCheck)
             {
-                canMove = moveEvaluator.EvaluateMove(true, piece, kingsPosition);
-                if (canMove)
+                if (moveEvaluator.EvaluateMove(true, piece, kingsPosition))
                 {
                     //Many pieces could be check
                     //Think it needs to be reset once a piece has been found that can move to the King
-                    kingForCheck = null;
-                    listOfPiecesForCheckMate.Add(piece);
-                    //return true;
+                    if (kingForCheck != null)
+                    {
+                        kingForCheck = null;
+                    }
+                    int[] piecesPosition = moveEvaluator.GetPosition(piece);
+                    listOfPiecesForCheckMateWithCurrentPosition.Add(piece, piecesPosition);
+                    //listOfPiecesForCheckMate.Add(piece);
                 }
                 continue;
             }
@@ -94,13 +102,14 @@ namespace _2dArray
             {
                 return true;
             }
+            //Not sure about further checks
             return false;
         }
 
         private bool CheckAllPiecesThatAreCheck()
         {
-            if (!CanMoveBeBlocked() &&
-                !CanPieceBeTaken())
+            if (!CanPieceBeTaken() &&
+                !CanMoveBeBlocked())
             {
                 return true;
             }
@@ -114,10 +123,28 @@ namespace _2dArray
             //THE PIECES THAT ARE CAUSING CHECK
             //NEED TO FIND THE WAY IN WHICH THEY ARE MOVING
             //CAN ANY PIECE MOVE TO THE "POSITIONS" ALONG THE WAY OF THE PIECE TAKING THE KING
+            //list of pieces that can move to king
+
+            Dictionary<Piece, List<int[]>> listOfPiecesMoves = new Dictionary<Piece, List<int[]>>();
+
+            //All the pieces that canMove to the King
+            foreach (KeyValuePair<Piece, int[]> piece in listOfCheckPiecesThatCannotBeTaken)
+            {
+                //Assuming that you cannot block a Pawn moving to enemy King
+                if (piece.Key.InherentValue == 1)
+                {
+                    return false;
+                }
+                if (true)
+                {
+                    //iterate through everyposition that each piece that checks enemy king, see if any opposing piece can occupy that position
+
+                }
+            }
+
             return false;
         }
 
-        //
         private bool CanPieceBeTaken()
         {
             List<Piece> piecesThatCanStopCheck = new List<Piece>();
@@ -138,18 +165,22 @@ namespace _2dArray
                 }
             }
 
-            bool canMove = false;
-
-            foreach (Piece piece in listOfPiecesForCheckMate)
+            foreach (Piece piece in piecesThatCanStopCheck)
             {
-                canMove = moveEvaluator.EvaluateMove(true, piece, kingsPosition);
-                if (canMove)
+                foreach (KeyValuePair<Piece, int[]> pieceCausingCheck in listOfPiecesForCheckMateWithCurrentPosition)
                 {
-                    return true;
+                    if (!moveEvaluator.EvaluateMove(true, piece, pieceCausingCheck.Value))
+                    {
+                        listOfCheckPiecesThatCannotBeTaken.Add(pieceCausingCheck.Key, pieceCausingCheck.Value);
+                    }
+                    continue;
                 }
-                continue;
             }
-            return false;
+            if (listOfCheckPiecesThatCannotBeTaken.Count > 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         //******************************CASTLING***********************************
@@ -157,8 +188,7 @@ namespace _2dArray
         {
             foreach (Piece piece in listOfEnemyPlayersPiecesForCastling)
             {
-                bool canMove = moveEvaluator.EvaluateMove(true, piece, PositionOfKing);
-                if (canMove)
+                if (moveEvaluator.EvaluateMove(true, piece, PositionOfKing))
                 {
                     return true;
                 }
@@ -200,22 +230,20 @@ namespace _2dArray
             {
                 Mover tempMove = new Mover(_currentGame);
                 MoveEvaluator moveEval = new MoveEvaluator(_currentGame, tempMove);
-                bool canMove = moveEval.EvaluateMove(true, piece, SimulatedPosition, true, true);
-                if (canMove)
+
+                if (moveEval.EvaluateMove(true, piece, SimulatedPosition, true, true))
                 {
                     return true;
                 }
                 continue;
             }
             return false;
-
         }
 
         private void ResetListsForCheck()
         {
             List<Piece> tempListToDumpPieces = new List<Piece>();
-            int iterateCheck = listOfPiecesForCheck.Count();
-            int iterateCheckMate = listOfPiecesForCheckMate.Count();           
+            int iterateCheck = listOfPiecesForCheck.Count();       
             kingsPosition = null;
 
             if (iterateCheck == 0)
@@ -236,23 +264,61 @@ namespace _2dArray
                     listOfPiecesForCheck.Remove(pieceToRemove);
                 }
             }
+        }
 
-            if (iterateCheckMate == 0)
-            {
-                return;
-            }
+        private void ResetListForCheckMate()
+        {
+            Dictionary<Piece, int[]> tempListToDumpPiecesAndPositions = new Dictionary<Piece, int[]>();
+            Dictionary<Piece, List<int[]>> tempListToDumpPiecesAndTheirPositions = new Dictionary<Piece, List<int[]>>();
+            int iterateListOfPiecesForCheckMateWithCurrentPosition = listOfPiecesForCheckMateWithCurrentPosition.Count;
+            int iterateListOfCheckPiecesThatCannotBeTaken = listOfCheckPiecesThatCannotBeTaken.Count;
+            int iterateListOfCheckPiecesAndTheirPositionsToCheck = listOfCheckPiecesAndTheirPositionsToCheck.Count;
 
-            foreach (Piece piece in listOfPiecesForCheckMate)
+            if (iterateListOfPiecesForCheckMateWithCurrentPosition != 0)
             {
-                tempListToDumpPieces.Add(piece);
-            }
-
-            for (int i = 0; i <= iterateCheckMate; iterateCheckMate--)
-            {
-                if (iterateCheckMate != 0)
+                foreach (KeyValuePair<Piece, int[]> piece in listOfPiecesForCheckMateWithCurrentPosition)
                 {
-                    Piece pieceToRemove = listOfPiecesForCheckMate.ElementAt(i);
-                    listOfPiecesForCheckMate.Remove(pieceToRemove);
+                    tempListToDumpPiecesAndPositions.Add(piece.Key, piece.Value);
+                }
+                for (int i = 0; i <= iterateListOfPiecesForCheckMateWithCurrentPosition; iterateListOfPiecesForCheckMateWithCurrentPosition--)
+                {
+                    if (iterateListOfPiecesForCheckMateWithCurrentPosition != 0)
+                    {
+                        KeyValuePair<Piece, int[]> pieceToRemove = listOfPiecesForCheckMateWithCurrentPosition.ElementAt(i);
+                        listOfPiecesForCheckMateWithCurrentPosition.Remove(pieceToRemove.Key);
+                    }
+                }
+            }
+
+            if (iterateListOfCheckPiecesThatCannotBeTaken != 0)
+            {
+                foreach (KeyValuePair<Piece, int[]> piece in listOfCheckPiecesThatCannotBeTaken)
+                {
+                    tempListToDumpPiecesAndPositions.Add(piece.Key, piece.Value);
+                }
+                for (int i = 0; i <= iterateListOfCheckPiecesThatCannotBeTaken; iterateListOfCheckPiecesThatCannotBeTaken--)
+                {
+                    if (iterateListOfCheckPiecesThatCannotBeTaken != 0)
+                    {
+                        KeyValuePair<Piece, int[]> pieceToRemove = listOfCheckPiecesThatCannotBeTaken.ElementAt(i);
+                        listOfCheckPiecesThatCannotBeTaken.Remove(pieceToRemove.Key);
+                    }
+                }
+            }
+
+            if (iterateListOfCheckPiecesAndTheirPositionsToCheck != 0)
+            {
+                foreach (KeyValuePair<Piece, List<int[]>> pieceAndPositions in listOfCheckPiecesAndTheirPositionsToCheck)
+                {
+                    tempListToDumpPiecesAndTheirPositions.Add(pieceAndPositions.Key, pieceAndPositions.Value);
+                }
+                for (int i = 0; i <= iterateListOfCheckPiecesAndTheirPositionsToCheck; iterateListOfCheckPiecesAndTheirPositionsToCheck--)
+                {
+                    if (iterateListOfCheckPiecesAndTheirPositionsToCheck != 0)
+                    {
+                        KeyValuePair<Piece, List<int[]>> pieceAndPositionsToRemove = listOfCheckPiecesAndTheirPositionsToCheck.ElementAt(i);
+                        listOfCheckPiecesAndTheirPositionsToCheck.Remove(pieceAndPositionsToRemove.Key);
+                    }
                 }
             }
         }

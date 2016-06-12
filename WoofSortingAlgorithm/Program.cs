@@ -135,6 +135,33 @@ namespace WoofSortingAlgorithm
             {
                 Console.WriteLine("lol");
             }
+
+            string yeah = "yeah";
+            KeyValuePair<int, string> test1 = new KeyValuePair<int, string>();
+            KeyValuePair<int, string> test2 = new KeyValuePair<int, string>();
+
+            Dictionary<int, string> testings = new Dictionary<int, string>();
+            Dictionary<int, string> testings2;
+
+            test1.Value = yeah;
+            testings.Add(test1.Key, test1.Value);
+            testings.Add(test2.Key, test2.Value);
+
+            int iterate = testings.Count;
+
+            for (int i = 0; i <= iterate; iterate--)
+            {
+                testings2 = new Dictionary<int, string>();
+                testings2.Add(test1.Key, test2.Value);
+                testings2.Add(test2.Key, test2.Value);
+                if (iterate != 0)
+                {
+                    KeyValuePair<string, int> theActualOne = testings.ElementAt(i);
+                    testings.Remove(theActualOne.Key);
+                }
+            }
+
+
         }
     }
 }
