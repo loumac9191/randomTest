@@ -143,23 +143,42 @@ namespace WoofSortingAlgorithm
             Dictionary<int, string> testings = new Dictionary<int, string>();
             Dictionary<int, string> testings2;
 
-            test1.Value = yeah;
-            testings.Add(test1.Key, test1.Value);
-            testings.Add(test2.Key, test2.Value);
+            //test1.Value = yeah;
+            //testings.Add(test1.Key, test1.Value);
+            //testings.Add(test2.Key, test2.Value);
 
-            int iterate = testings.Count;
+            //int iterate = testings.Count;
 
-            for (int i = 0; i <= iterate; iterate--)
+            //for (int i = 0; i <= iterate; iterate--)
+            //{
+            //    testings2 = new Dictionary<int, string>();
+            //    testings2.Add(test1.Key, test2.Value);
+            //    testings2.Add(test2.Key, test2.Value);
+            //    if (iterate != 0)
+            //    {
+            //        KeyValuePair<string, int> theActualOne = testings.ElementAt(i);
+            //        testings.Remove(theActualOne.Key);
+            //    }
+            //}
+
+            List<string> testStringList = new List<string>();
+            string test122 = "lol";
+            string test12 = "lol";
+            string test13= "lastlol";
+            testStringList.Add(test122);
+            testStringList.Add(test12);
+            testStringList.Add(test13);
+
+            int counterer = 1;
+            foreach (string item in testStringList)
             {
-                testings2 = new Dictionary<int, string>();
-                testings2.Add(test1.Key, test2.Value);
-                testings2.Add(test2.Key, test2.Value);
-                if (iterate != 0)
-                {
-                    KeyValuePair<string, int> theActualOne = testings.ElementAt(i);
-                    testings.Remove(theActualOne.Key);
-                }
+                Console.WriteLine(counterer.ToString());
+                Console.WriteLine(item);
+                Console.WriteLine(testStringList.Last());
+                counterer += 1;
             }
+
+
 
 
         }
