@@ -95,11 +95,12 @@ namespace _2dArray
                             (((_currentPosition[1] - 1) == _moveToCoOrds[1]) || (_currentPosition[1] + 1) == _moveToCoOrds[1]))
                             {
                                 //Moving Diagonally
-                                if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == pawnToCheck.Colour)
+                                if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value != null &&
+                                    _currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == pawnToCheck.Colour)
                                 {
                                     break;
                                 }
-                                else
+                                else if(_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value != null)
                                 {
                                     pawnToCheck.FirstMove = false;
                                     return true;
@@ -144,11 +145,12 @@ namespace _2dArray
                                 (_currentPosition[0] - 1) == _moveToCoOrds[0])
                             {
                                 //Looking to capture a piece
-                                if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == pawnToCheck.Colour)
+                                if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value != null &&
+                                    _currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value.Colour == pawnToCheck.Colour)
                                 {
                                     break;
                                 }
-                                else
+                                else if(_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value != null)
                                 {
                                     pawnToCheck.FirstMove = false;
                                     return true;

@@ -178,6 +178,8 @@ namespace WoofSortingAlgorithm
                 counterer += 1;
             }
 
+            List<Tuple<string, int>> somethingtesting = new List<Tuple<string, int>>();
+            somethingtesting.Add()
 
 
 

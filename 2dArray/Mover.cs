@@ -91,6 +91,10 @@ namespace _2dArray
                     if (check)
                     {
                         Console.WriteLine("Wew Check");
+                        if (boardEval.CheckMate())
+                        {
+                            Console.WriteLine("CHECKMATE!");
+                        }
                     }
                     //CheckMate
                 }
@@ -131,6 +135,10 @@ namespace _2dArray
                     if (check)
                     {
                         Console.WriteLine("Wew Check");
+                        if (boardEval.CheckMate())
+                        {
+                            Console.WriteLine("CHECKMATE!");
+                        }
                     }
                     //CheckMate
                 }
