@@ -14,11 +14,10 @@ namespace _2dArray
         List<Piece> listOfEnemyPlayersPiecesForCastling;
         MoveEvaluator moveEvaluator;
         int[] kingsPosition;
-        //these two lists need resetting
         List<Tuple<Piece, int[]>> listOfPiecesForCheckMateWithCurrentPosition;
         List<Tuple<Piece, int[]>> listOfCheckPiecesThatCannotBeTaken;
-        //Dictionary<Piece, List<int[]>> listOfCheckPiecesAndTheirPositionsToCheck;
         List<Piece> piecesThatCanStopCheck;
+        List<int[]> listOfEnemyKingsEscapePositions;
 
         public BoardEvaluator(Game currentGame, MoveEvaluator MoveEvaluator)
         {
@@ -28,8 +27,8 @@ namespace _2dArray
             listOfEnemyPlayersPiecesForCastling = new List<Piece>();
             listOfPiecesForCheckMateWithCurrentPosition = new List<Tuple<Piece, int[]>>();
             listOfCheckPiecesThatCannotBeTaken = new List<Tuple<Piece, int[]>>();
-            //listOfCheckPiecesAndTheirPositionsToCheck = new Dictionary<Piece, List<int[]>>();
             piecesThatCanStopCheck = new List<Piece>();
+            listOfEnemyKingsEscapePositions = new List<int[]>();
         }
 
         private King FindOpposingKingForCheck(Piece pieceMoved)
@@ -88,7 +87,6 @@ namespace _2dArray
                     int[] piecesPosition = moveEvaluator.GetPosition(piece);
                     Tuple<Piece, int[]> pieceAndPosition = new Tuple<Piece, int[]>(piece, piecesPosition);
                     listOfPiecesForCheckMateWithCurrentPosition.Add(pieceAndPosition);
-                    //listOfPiecesForCheckMate.Add(piece);
                 }
                 continue;
             }
@@ -105,9 +103,11 @@ namespace _2dArray
             kingForCheck = _currentGame._board.board.ElementAt(kingsPosition[0]).ElementAt(kingsPosition[1]).Value as King;
             if (CheckAllPiecesThatAreCheck())
             {
-                return true;
+                if (CanEnemyKingEscapeCheckmate())
+                {
+                    return true;
+                }
             }
-            //Not sure about further checks
             return false;
         }
 
@@ -124,154 +124,420 @@ namespace _2dArray
         private bool CanMoveBeBlocked()
         {
             //Not sure if need this
+            int counter = 0;
             Dictionary<Piece, List<int[]>> listOfPiecesMoves = new Dictionary<Piece, List<int[]>>();
 
             //All the pieces that canMove to the King
             foreach (Tuple<Piece, int[]> piece in listOfCheckPiecesThatCannotBeTaken)
             {
-                //Assuming that you cannot block a Pawn, Knight or King moving to enemy King
-                if (piece.Item1.InherentValue == 1 ||
-                    piece.Item1.InherentValue == 3 ||
-                    piece.Item1.InherentValue == 5)
+                counter += 1;
+                if (!CanPieceBeBlocked(piece))
                 {
                     return false;
                 }
-                //This leaves Bishop, Rook and Queen
-
-                if (kingsPosition == null)
+                if (counter == listOfCheckPiecesThatCannotBeTaken.Count())
                 {
-                    Console.WriteLine("Kings Position is null");
                     return true;
                 }
+                continue;
+            }
+            return true;
+        }
 
-                int[] currentPosition;
-                int countOfPiecesThatCanStopCheck = piecesThatCanStopCheck.Count;
-                switch (piece.Item1.InherentValue)
-                {
-                    case 2:
+        private bool CanPieceBeBlocked(Tuple<Piece, int[]> piece)
+        {
+            if (piece.Item1.InherentValue == 1 ||
+                   piece.Item1.InherentValue == 3 ||
+                   piece.Item1.InherentValue == 5)
+            {
+                return false;
+            }
+            if (kingsPosition == null)
+            {
+                Console.WriteLine("Kings Position is null");
+                return true;
+            }
+
+            int[] currentPosition;
+            int countOfPiecesThatCanStopCheck = piecesThatCanStopCheck.Count;
+            switch (piece.Item1.InherentValue)
+            {
+                case 2:
+                    {
+                        //Rook
+                        currentPosition = moveEvaluator.GetPosition(piece.Item1);
+                        if (currentPosition[0] > kingsPosition[0] || currentPosition[0] < kingsPosition[0] &&
+                            currentPosition[1] == kingsPosition[1])
                         {
-                            //Rook
-                            currentPosition = moveEvaluator.GetPosition(piece.Item1);
-                            if (currentPosition[0] > kingsPosition[0] || currentPosition[0] < kingsPosition[0] &&
-                                currentPosition[1] == kingsPosition[1])
+                            if (currentPosition[0] > kingsPosition[0])
                             {
-                                if (currentPosition[0] > kingsPosition[0])
-                                {
-                                    //Down
-                                    int iterate = currentPosition[0] - kingsPosition[0];
-                                    int[] simulatedPosition = new int[2];
-                                    int positionYTemp = new int();
+                                //Down
+                                int iterate = currentPosition[0] - kingsPosition[0];
+                                int[] simulatedPosition = new int[2];
+                                int positionYTemp = new int();
 
-                                    for (int i = 1; i <= iterate; i++)
-                                    {
-                                        positionYTemp = currentPosition[0] + i;
-                                        simulatedPosition[0] = positionYTemp;
-                                        simulatedPosition[1] = currentPosition[1];
-
-                                        foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                        {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                            {
-                                                return true;
-                                            }
-                                            if (i == iterate &&
-                                                piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                            {
-                                                return false;
-                                            }
-                                            continue;
-                                        }
-                                    }
-                                }
-                                else
+                                for (int i = 1; i <= iterate; i++)
                                 {
-                                    //Assuming it must be Up
-                                    int iterate = kingsPosition[0] - currentPosition[0];
-                                    int[] simulatedPosition = new int[2];
-                                    int positionYTemp = new int();
-                                    for (int i = 1; i <= iterate; i++)
+                                    positionYTemp = currentPosition[0] + i;
+                                    simulatedPosition[0] = positionYTemp;
+                                    simulatedPosition[1] = currentPosition[1];
+
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                     {
-                                        positionYTemp = currentPosition[0] - i;
-                                        simulatedPosition[0] = positionYTemp;
-                                        simulatedPosition[1] = currentPosition[1];
-                                        foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
                                         {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                            {
-                                                return true;
-                                            }
-                                            if (i == iterate &&
-                                                piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                            {
-                                                return false;
-                                            }
-                                            continue;
+                                            return true;
                                         }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
                                     }
                                 }
                             }
-                            else if (currentPosition[0] == kingsPosition[0])
+                            else
                             {
-                                //Assuming moving horizontal
-                                if (currentPosition[1] > kingsPosition[1])
+                                //Assuming it must be Up
+                                int iterate = kingsPosition[0] - currentPosition[0];
+                                int[] simulatedPosition = new int[2];
+                                int positionYTemp = new int();
+                                for (int i = 1; i <= iterate; i++)
                                 {
-                                    //left
-                                    int iterate = currentPosition[1] - kingsPosition[1];
-                                    int[] simulatedPosition = new int[2];
-                                    int positionXTemp = new int();
-                                    for (int i = 1; i <= iterate; i++)
+                                    positionYTemp = currentPosition[0] - i;
+                                    simulatedPosition[0] = positionYTemp;
+                                    simulatedPosition[1] = currentPosition[1];
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                     {
-                                        positionXTemp = currentPosition[1] - i;
-                                        simulatedPosition[1] = positionXTemp;
-                                        simulatedPosition[0] = currentPosition[0];
-                                        foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
                                         {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                            {
-                                                return true;
-                                            }
-                                            if (i == iterate &&
-                                                piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                            {
-                                                return false;
-                                            }
-                                            continue;
+                                            return true;
                                         }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
                                     }
                                 }
-                                else
+                            }
+                        }
+                        else if (currentPosition[0] == kingsPosition[0])
+                        {
+                            //Assuming moving horizontal
+                            if (currentPosition[1] > kingsPosition[1])
+                            {
+                                //left
+                                int iterate = currentPosition[1] - kingsPosition[1];
+                                int[] simulatedPosition = new int[2];
+                                int positionXTemp = new int();
+                                for (int i = 1; i <= iterate; i++)
                                 {
-                                    //Assuming must be right
-                                    int iterate = kingsPosition[1] - currentPosition[1];
-                                    int[] simulatedPosition = new int[2];
-                                    int positionXTemp = new int();
-                                    for (int i = 1; i <= iterate; i++)
+                                    positionXTemp = currentPosition[1] - i;
+                                    simulatedPosition[1] = positionXTemp;
+                                    simulatedPosition[0] = currentPosition[0];
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                     {
-                                        positionXTemp = currentPosition[1] + i;
-                                        simulatedPosition[1] = positionXTemp;
-                                        simulatedPosition[0] = currentPosition[0];
-                                        foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
                                         {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                            {
-                                                return true;
-                                            }
-                                            if (i == iterate &&
-                                                piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                            {
-                                                return false;
-                                            }
-                                            continue;
+                                            return true;
                                         }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //Assuming must be right
+                                int iterate = kingsPosition[1] - currentPosition[1];
+                                int[] simulatedPosition = new int[2];
+                                int positionXTemp = new int();
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    positionXTemp = currentPosition[1] + i;
+                                    simulatedPosition[1] = positionXTemp;
+                                    simulatedPosition[0] = currentPosition[0];
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        //Bishop
+                        currentPosition = moveEvaluator.GetPosition(piece.Item1);
+                        if (currentPosition[0] < kingsPosition[0] && currentPosition[1] > kingsPosition[1])
+                        {
+                            //South West
+                            int iterate = currentPosition[1] - kingsPosition[1];
+                            int[] simulatedPosition = new int[2];
+                            if (iterate == (kingsPosition[0] - currentPosition[0]))
+                            {
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    int positionXTemp = new int();
+                                    int positionYTemp = new int();
+                                    positionXTemp = currentPosition[1] - i;
+                                    positionYTemp = currentPosition[0] + i;
+                                    simulatedPosition[0] = positionYTemp;
+                                    simulatedPosition[1] = positionXTemp;
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
                                     }
                                 }
                             }
                             break;
                         }
-                    case 4:
+                        else if (currentPosition[0] > kingsPosition[0] && currentPosition[1] > kingsPosition[1])
                         {
-                            //Bishop
-                            currentPosition = moveEvaluator.GetPosition(piece.Item1);
+                            //North West
+                            int iterate = currentPosition[0] - kingsPosition[0];
+                            int[] simulatedPosition = new int[2];
+                            if (iterate == (currentPosition[1] - kingsPosition[1]))
+                            {
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    int positionXTemp = new int();
+                                    int positionYTemp = new int();
+                                    positionXTemp = currentPosition[1] - i;
+                                    positionYTemp = currentPosition[0] - i;
+                                    simulatedPosition[0] = positionYTemp;
+                                    simulatedPosition[1] = positionXTemp;
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                            break;
+
+                        }
+                        else if (currentPosition[0] > kingsPosition[0] && currentPosition[1] < kingsPosition[1])
+                        {
+                            //North East
+                            int iterate = kingsPosition[1] - currentPosition[1];
+                            int[] simulatedPosition = new int[2];
+                            if (iterate == (currentPosition[0] - kingsPosition[0]))
+                            {
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    int positionXTemp = new int();
+                                    int positionYTemp = new int();
+                                    positionXTemp = currentPosition[1] + i;
+                                    positionYTemp = currentPosition[0] - i;
+                                    simulatedPosition[0] = positionYTemp;
+                                    simulatedPosition[1] = positionXTemp;
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                        else if (currentPosition[0] < kingsPosition[0] && currentPosition[1] < kingsPosition[1])
+                        {
+                            //South East
+                            int iterate = kingsPosition[0] - currentPosition[0];
+                            int[] simulatedPosition = new int[2];
+                            if (iterate == (kingsPosition[1] - currentPosition[1]))
+                            {
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    int positionXTemp = new int();
+                                    int positionYTemp = new int();
+                                    positionXTemp = currentPosition[1] + i;
+                                    positionYTemp = currentPosition[0] + i;
+                                    simulatedPosition[0] = positionYTemp;
+                                    simulatedPosition[1] = positionXTemp;
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                        break;
+                    }
+                case 6:
+                    {
+                        currentPosition = moveEvaluator.GetPosition(piece.Item1);
+                        //Queen
+                        if ((currentPosition[0] > kingsPosition[0] || currentPosition[0] < kingsPosition[0]) &&
+                            currentPosition[1] == kingsPosition[1])
+                        {
+                            if (currentPosition[0] > kingsPosition[0])
+                            {
+                                //Down
+                                int iterate = currentPosition[0] - kingsPosition[0];
+                                int[] simulatedPosition = new int[2];
+                                int positionYTemp = new int();
+
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    positionYTemp = currentPosition[0] + i;
+                                    simulatedPosition[0] = positionYTemp;
+                                    simulatedPosition[1] = currentPosition[1];
+
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //Assuming it must be Up
+                                int iterate = kingsPosition[0] - currentPosition[0];
+                                int[] simulatedPosition = new int[2];
+                                int positionYTemp = new int();
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    positionYTemp = currentPosition[0] - i;
+                                    simulatedPosition[0] = positionYTemp;
+                                    simulatedPosition[1] = currentPosition[1];
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        else if (currentPosition[0] == kingsPosition[0])
+                        {
+                            //Horizontal
+                            if (currentPosition[1] > kingsPosition[1])
+                            {
+                                //left
+                                int iterate = currentPosition[1] - kingsPosition[1];
+                                int[] simulatedPosition = new int[2];
+                                int positionXTemp = new int();
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    positionXTemp = currentPosition[1] - i;
+                                    simulatedPosition[1] = positionXTemp;
+                                    simulatedPosition[0] = currentPosition[0];
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //Assuming must be right
+                                int iterate = kingsPosition[1] - currentPosition[1];
+                                int[] simulatedPosition = new int[2];
+                                int positionXTemp = new int();
+                                for (int i = 1; i <= iterate; i++)
+                                {
+                                    positionXTemp = currentPosition[1] + i;
+                                    simulatedPosition[1] = positionXTemp;
+                                    simulatedPosition[0] = currentPosition[0];
+                                    foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
+                                    {
+                                        if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                        {
+                                            return true;
+                                        }
+                                        if (i == iterate &&
+                                            piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                        {
+                                            return false;
+                                        }
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Diagonal
                             if (currentPosition[0] < kingsPosition[0] && currentPosition[1] > kingsPosition[1])
                             {
                                 //South West
@@ -289,10 +555,11 @@ namespace _2dArray
                                         simulatedPosition[1] = positionXTemp;
                                         foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                         {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
+                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
                                             {
                                                 return true;
                                             }
+                                            //check to see you are the last piece in the list
                                             if (i == iterate &&
                                                 piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
                                             {
@@ -321,7 +588,7 @@ namespace _2dArray
                                         simulatedPosition[1] = positionXTemp;
                                         foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                         {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
+                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
                                             {
                                                 return true;
                                             }
@@ -335,7 +602,6 @@ namespace _2dArray
                                     }
                                 }
                                 break;
-
                             }
                             else if (currentPosition[0] > kingsPosition[0] && currentPosition[1] < kingsPosition[1])
                             {
@@ -354,7 +620,7 @@ namespace _2dArray
                                         simulatedPosition[1] = positionXTemp;
                                         foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                         {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
+                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
                                             {
                                                 return true;
                                             }
@@ -386,7 +652,7 @@ namespace _2dArray
                                         simulatedPosition[1] = positionXTemp;
                                         foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                         {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
+                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
                                             {
                                                 return true;
                                             }
@@ -403,263 +669,9 @@ namespace _2dArray
                             }
                             break;
                         }
-                    case 6:
-                        {
-                            currentPosition = moveEvaluator.GetPosition(piece.Item1);
-                            //Queen
-                            if ((currentPosition[0] > kingsPosition[0] || currentPosition[0] < kingsPosition[0]) &&
-                                currentPosition[1] == kingsPosition[1])
-                            {
-                                if (currentPosition[0] > kingsPosition[0])
-                                {
-                                    //Down
-                                    int iterate = currentPosition[0] - kingsPosition[0];
-                                    int[] simulatedPosition = new int[2];
-                                    int positionYTemp = new int();
-
-                                    for (int i = 1; i <= iterate; i++)
-                                    {
-                                        positionYTemp = currentPosition[0] + i;
-                                        simulatedPosition[0] = positionYTemp;
-                                        simulatedPosition[1] = currentPosition[1];
-
-                                        foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                        {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                            {
-                                                return true;
-                                            }
-                                            if (i == iterate &&
-                                                piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                            {
-                                                return false;
-                                            }
-                                            continue;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    //Assuming it must be Up
-                                    int iterate = kingsPosition[0] - currentPosition[0];
-                                    int[] simulatedPosition = new int[2];
-                                    int positionYTemp = new int();
-                                    for (int i = 1; i <= iterate; i++)
-                                    {
-                                        positionYTemp = currentPosition[0] - i;
-                                        simulatedPosition[0] = positionYTemp;
-                                        simulatedPosition[1] = currentPosition[1];
-                                        foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                        {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                            {
-                                                return true;
-                                            }
-                                            if (i == iterate &&
-                                                piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                            {
-                                                return false;
-                                            }
-                                            continue;
-                                        }
-                                    }
-                                }
-                            }
-                            else if (currentPosition[0] == kingsPosition[0])
-                            {
-                                //Horizontal
-                                if (currentPosition[1] > kingsPosition[1])
-                                {
-                                    //left
-                                    int iterate = currentPosition[1] - kingsPosition[1];
-                                    int[] simulatedPosition = new int[2];
-                                    int positionXTemp = new int();
-                                    for (int i = 1; i <= iterate; i++)
-                                    {
-                                        positionXTemp = currentPosition[1] - i;
-                                        simulatedPosition[1] = positionXTemp;
-                                        simulatedPosition[0] = currentPosition[0];
-                                        foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                        {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                            {
-                                                return true;
-                                            }
-                                            if (i == iterate &&
-                                                piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                            {
-                                                return false;
-                                            }
-                                            continue;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    //Assuming must be right
-                                    int iterate = kingsPosition[1] - currentPosition[1];
-                                    int[] simulatedPosition = new int[2];
-                                    int positionXTemp = new int();
-                                    for (int i = 1; i <= iterate; i++)
-                                    {
-                                        positionXTemp = currentPosition[1] + i;
-                                        simulatedPosition[1] = positionXTemp;
-                                        simulatedPosition[0] = currentPosition[0];
-                                        foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                        {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                            {
-                                                return true;
-                                            }
-                                            if (i == iterate &&
-                                                piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                            {
-                                                return false;
-                                            }
-                                            continue;
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                //Diagonal
-                                if (currentPosition[0] < kingsPosition[0] && currentPosition[1] > kingsPosition[1])
-                                {
-                                    //South West
-                                    int iterate = currentPosition[1] - kingsPosition[1];
-                                    int[] simulatedPosition = new int[2];
-                                    if (iterate == (kingsPosition[0] - currentPosition[0]))
-                                    {
-                                        for (int i = 1; i <= iterate; i++)
-                                        {
-                                            int positionXTemp = new int();
-                                            int positionYTemp = new int();
-                                            positionXTemp = currentPosition[1] - i;
-                                            positionYTemp = currentPosition[0] + i;
-                                            simulatedPosition[0] = positionYTemp;
-                                            simulatedPosition[1] = positionXTemp;
-                                            foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                            {
-                                                if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                                {
-                                                    return true;
-                                                }
-                                                if (i == iterate &&
-                                                    piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                                {
-                                                    return false;
-                                                }
-                                                continue;
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                                else if (currentPosition[0] > kingsPosition[0] && currentPosition[1] > kingsPosition[1])
-                                {
-                                    //North West
-                                    int iterate = currentPosition[0] - kingsPosition[0];
-                                    int[] simulatedPosition = new int[2];
-                                    if (iterate == (currentPosition[1] - kingsPosition[1]))
-                                    {
-                                        for (int i = 1; i <= iterate; i++)
-                                        {
-                                            int positionXTemp = new int();
-                                            int positionYTemp = new int();
-                                            positionXTemp = currentPosition[1] - i;
-                                            positionYTemp = currentPosition[0] - i;
-                                            simulatedPosition[0] = positionYTemp;
-                                            simulatedPosition[1] = positionXTemp;
-                                            foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                            {
-                                                if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                                {
-                                                    return true;
-                                                }
-                                                if (i == iterate &&
-                                                    piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                                {
-                                                    return false;
-                                                }
-                                                continue;
-                                            }
-                                        }
-                                    }
-                                    break;
-
-                                }
-                                else if (currentPosition[0] > kingsPosition[0] && currentPosition[1] < kingsPosition[1])
-                                {
-                                    //North East
-                                    int iterate = kingsPosition[1] - currentPosition[1];
-                                    int[] simulatedPosition = new int[2];
-                                    if (iterate == (currentPosition[0] - kingsPosition[0]))
-                                    {
-                                        for (int i = 1; i <= iterate; i++)
-                                        {
-                                            int positionXTemp = new int();
-                                            int positionYTemp = new int();
-                                            positionXTemp = currentPosition[1] + i;
-                                            positionYTemp = currentPosition[0] - i;
-                                            simulatedPosition[0] = positionYTemp;
-                                            simulatedPosition[1] = positionXTemp;
-                                            foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                            {
-                                                if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                                {
-                                                    return true;
-                                                }
-                                                if (i == iterate &&
-                                                    piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                                {
-                                                    return false;
-                                                }
-                                                continue;
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                                else if (currentPosition[0] < kingsPosition[0] && currentPosition[1] < kingsPosition[1])
-                                {
-                                    //South East
-                                    int iterate = kingsPosition[0] - currentPosition[0];
-                                    int[] simulatedPosition = new int[2];
-                                    if (iterate == (kingsPosition[1] - currentPosition[1]))
-                                    {
-                                        for (int i = 1; i <= iterate; i++)
-                                        {
-                                            int positionXTemp = new int();
-                                            int positionYTemp = new int();
-                                            positionXTemp = currentPosition[1] + i;
-                                            positionYTemp = currentPosition[0] + i;
-                                            simulatedPosition[0] = positionYTemp;
-                                            simulatedPosition[1] = positionXTemp;
-                                            foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
-                                            {
-                                                if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition))
-                                                {
-                                                    return true;
-                                                }
-                                                if (i == iterate &&
-                                                    piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
-                                                {
-                                                    return false;
-                                                }
-                                                continue;
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                                break;
-                            }
-                            break;
-                        }
-                }
+                        break;
+                    }
             }
-
             return true;
         }
 
@@ -681,11 +693,16 @@ namespace _2dArray
                 }
             }
 
-            foreach (Piece piece in piecesThatCanStopCheck)
+            //Does this need to be the other way round?
+            foreach (Tuple<Piece, int[]> pieceCausingCheck in listOfPiecesForCheckMateWithCurrentPosition)
             {
-                foreach (Tuple<Piece, int[]> pieceCausingCheck in listOfPiecesForCheckMateWithCurrentPosition)
+                foreach (Piece piece in piecesThatCanStopCheck)
                 {
-                    if (!moveEvaluator.EvaluateMove(true, piece, pieceCausingCheck.Item2))
+                    if (moveEvaluator.EvaluateMove(true, piece, pieceCausingCheck.Item2))
+                    {
+                        return true;
+                    }
+                    else
                     {
                         Tuple<Piece, int[]> pieceAndPosition = new Tuple<Piece, int[]>(pieceCausingCheck.Item1, pieceCausingCheck.Item2);
                         if (!listOfCheckPiecesThatCannotBeTaken.Contains(pieceAndPosition))
@@ -693,13 +710,56 @@ namespace _2dArray
                             listOfCheckPiecesThatCannotBeTaken.Add(pieceAndPosition);
                         }
                     }
-                    continue;
                 }
             }
             if (listOfCheckPiecesThatCannotBeTaken.Count > 0)
             {
                 return false;
             }
+            return true;
+        }
+
+        private bool CanEnemyKingEscapeCheckmate()
+        {
+            List<Piece> listOfMoversPieces = new List<Piece>();
+
+            for (int y = 0; y <= 7; y++)
+            {
+                for (int x = 0; x <= 7; x++)
+                {
+                    int[] escapePosition = new int[2]
+                    {
+                        y,
+                        x
+                    };
+                    bool populated = false;
+
+                    if (_currentGame._board.board.ElementAt(y).ElementAt(x).Value != null)
+                    {
+                        populated = true;
+                        if (_currentGame._board.board.ElementAt(y).ElementAt(x).Value.Colour != kingForCheck.Colour)
+                        {
+                            listOfMoversPieces.Add(_currentGame._board.board.ElementAt(y).ElementAt(x).Value);
+                        }
+                    }
+                    if (moveEvaluator.EvaluateMove(populated, kingForCheck, escapePosition))
+                    {
+                        listOfEnemyKingsEscapePositions.Add(escapePosition);
+                    }
+                }
+            }
+
+            foreach (int[] escapePosition in listOfEnemyKingsEscapePositions)
+            {
+                foreach (Piece piece in listOfMoversPieces)
+                {
+                    if (moveEvaluator.EvaluateMove(true, piece, escapePosition, true))
+                    {
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
 
@@ -726,7 +786,6 @@ namespace _2dArray
 
             if (!Simulated)
             {
-                //If not simulation
                 return false;
             }
 
@@ -789,13 +848,12 @@ namespace _2dArray
         private void ResetListForCheckMate()
         {
             List<Piece> tempListToDumpPieces = new List<Piece>();
+            List<int[]> tempListToDumpKingsEscapePositions = new List<int[]>();
+            int iterateListOfEnemyKingsEscapePositions = listOfEnemyKingsEscapePositions.Count();
             int iteratePiecesThatCanStopCheck = piecesThatCanStopCheck.Count();
             List<Tuple<Piece, int[]>> tempListToDumpPiecesAndPositions = new List<Tuple<Piece, int[]>>();
-            //Dictionary<Piece, List<int[]>> tempListToDumpPiecesAndTheirPositions = new Dictionary<Piece, List<int[]>>();
             int iterateListOfPiecesForCheckMateWithCurrentPosition = listOfPiecesForCheckMateWithCurrentPosition.Count;
             int iterateListOfCheckPiecesThatCannotBeTaken = listOfCheckPiecesThatCannotBeTaken.Count;
-            //int iterateListOfCheckPiecesAndTheirPositionsToCheck = listOfCheckPiecesAndTheirPositionsToCheck.Count;
-
 
             if (iteratePiecesThatCanStopCheck != 0)
             {
@@ -809,6 +867,22 @@ namespace _2dArray
                     {
                         Piece pieceToRemove = piecesThatCanStopCheck.ElementAt(i);
                         piecesThatCanStopCheck.Remove(pieceToRemove);
+                    }
+                }
+            }
+
+            if (iterateListOfEnemyKingsEscapePositions != 0)
+            {
+                foreach (int[] position in listOfEnemyKingsEscapePositions)
+                {
+                    tempListToDumpKingsEscapePositions.Add(position);
+                }
+                for (int i = 0; i <= iterateListOfEnemyKingsEscapePositions; iterateListOfEnemyKingsEscapePositions--)
+                {
+                    if (iterateListOfEnemyKingsEscapePositions != 0)
+                    {
+                        int[] positionToRemove = listOfEnemyKingsEscapePositions.ElementAt(i);
+                        listOfEnemyKingsEscapePositions.Remove(positionToRemove);
                     }
                 }
             }
@@ -846,22 +920,6 @@ namespace _2dArray
                     }
                 }
             }
-
-            //if (iterateListOfCheckPiecesAndTheirPositionsToCheck != 0)
-            //{
-            //    foreach (KeyValuePair<Piece, List<int[]>> pieceAndPositions in listOfCheckPiecesAndTheirPositionsToCheck)
-            //    {
-            //        tempListToDumpPiecesAndTheirPositions.Add(pieceAndPositions.Key, pieceAndPositions.Value);
-            //    }
-            //    for (int i = 0; i <= iterateListOfCheckPiecesAndTheirPositionsToCheck; iterateListOfCheckPiecesAndTheirPositionsToCheck--)
-            //    {
-            //        if (iterateListOfCheckPiecesAndTheirPositionsToCheck != 0)
-            //        {
-            //            KeyValuePair<Piece, List<int[]>> pieceAndPositionsToRemove = listOfCheckPiecesAndTheirPositionsToCheck.ElementAt(i);
-            //            listOfCheckPiecesAndTheirPositionsToCheck.Remove(pieceAndPositionsToRemove.Key);
-            //        }
-            //    }
-            //}
         }
 
         private void ResetListForCastling()

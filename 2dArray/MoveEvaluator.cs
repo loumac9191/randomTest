@@ -86,8 +86,12 @@ namespace _2dArray
                                     }
                                     else
                                     {
-                                        pawnToCheck.FirstMove = false;
-                                        return true;
+                                        if (!Simulation)
+                                        {
+                                            pawnToCheck.FirstMove = false;
+                                            return true;
+                                        }
+                                        return false;
                                     }
                                 }
                             }
@@ -136,8 +140,13 @@ namespace _2dArray
                                     }
                                     else
                                     {
-                                        pawnToCheck.FirstMove = false;
-                                        return true;
+                                        if (!Simulation)
+                                        {
+                                            pawnToCheck.FirstMove = false;
+                                            return true;
+                                        }
+                                        return false;
+
                                     }
                                 }
                             }
@@ -203,11 +212,13 @@ namespace _2dArray
                                 }
                                 else if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value == null)
                                 {
-                                    if (pawnToCheck.FirstMoveWasTwoSquares == true)
+                                    if (pawnToCheck.FirstMoveWasTwoSquares == true &&
+                                        !Simulation)
                                     {
                                         pawnToCheck.FirstMoveWasTwoSquares = false;
+                                        return true;
                                     }
-                                    return true;
+                                    return false;
                                 }
                                 break;
                             }
@@ -257,11 +268,13 @@ namespace _2dArray
                                 }
                                 else if (_currentGame._board.board.ElementAt(_moveToCoOrds[0]).ElementAt(_moveToCoOrds[1]).Value == null)
                                 {
-                                    if (pawnToCheck.FirstMoveWasTwoSquares == true)
+                                    if (pawnToCheck.FirstMoveWasTwoSquares == true && 
+                                        !Simulation)
                                     {
                                         pawnToCheck.FirstMoveWasTwoSquares = false;
+                                        return true;
                                     }
-                                    return true;
+                                    return false;
                                 }
                                 break;
                             }
@@ -975,12 +988,20 @@ namespace _2dArray
                             }
                             else
                             {
-                                return true;
+                                if (!Simulation)
+                                {
+                                    return true;
+                                }
+                                return false;
                             }
                         }
                         else
                         {
-                            return true;
+                            if (!Simulation)
+                            {
+                                return true;
+                            }
+                            return false;
                         }
                     }
                     break;

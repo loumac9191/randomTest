@@ -140,26 +140,26 @@ namespace _2dArray
             //***********************************************************************************************
             //***********************************************FOOLS MATE * *************************************
             //***********************************************************************************************
-            //string typeOfPiece = game._board.board.ElementAt(0).ElementAt(2).Value.GetType().ToString();
+            string typeOfPiece = game._board.board.ElementAt(0).ElementAt(2).Value.GetType().ToString();
 
-            //string testString = "e7";
+            string testString = "e7";
 
-            //int[] testIntArray = convertStuff.ConvertBoardPositionToCoordinate(testString);
+            int[] testIntArray = convertStuff.ConvertBoardPositionToCoordinate(testString);
 
-            //Console.WriteLine(typeOfPiece);
-            //Console.WriteLine(testIntArray);
+            Console.WriteLine(typeOfPiece);
+            Console.WriteLine(testIntArray);
 
             Piece e7 = game._board.board.ElementAt(1).ElementAt(4).Value;
-            Piece f2 = game._board.board.ElementAt(6).ElementAt(4).Value;
+            Piece e2 = game._board.board.ElementAt(6).ElementAt(4).Value;
             Piece d8 = game._board.board.ElementAt(0).ElementAt(3).Value;
             Piece g2 = game._board.board.ElementAt(6).ElementAt(5).Value;
 
-            int[] f2Tof3 = new int[]
+            int[] e2ToE3 = new int[]
             {
                 6,
-                6
+                5
             };
-            moveSomething.MovePiece(f2, f2Tof3);
+            moveSomething.MovePiece(e2, e2ToE3);
 
             int[] e7ToE5 = new int[]
             {
@@ -171,7 +171,7 @@ namespace _2dArray
             int[] g2Tog4 = new int[]
             {
                 5,
-                7
+                6
             };
             moveSomething.MovePiece(g2, g2Tog4);
 
@@ -184,8 +184,8 @@ namespace _2dArray
             Console.WriteLine("end");
 
 
-            //Console.WriteLine("Hello");
-            //Console.ReadLine();
+            Console.WriteLine("Hello");
+            Console.ReadLine();
             ////*****************************************************************************
             ////*************************TARRASCH VS ECKART 1889 ****************************
             ////*****************************************************************************
@@ -217,7 +217,7 @@ namespace _2dArray
             //int[] d7ToD5 = new int[]
             //{
             //    4,
-            //    4            
+            //    4
             //};
             ////4
             //moveSomething.MovePiece(d7, d7ToD5);

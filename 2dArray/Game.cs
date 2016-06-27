@@ -15,8 +15,6 @@ namespace _2dArray
         public int yVerticalBorder;
         public Player _playerOne;
         public Player _playerTwo;
-        //Pawns are having their FirstMove property set in the constructor of the Board
-        private Pawn firstMovePopulater;
         private int[] coOrds;
         public List<Piece> listOfRemovedPieces;
 
