@@ -44,12 +44,10 @@ namespace _2dArray
 
                     if (kvp.Value.InherentValue == 5 && kvp.Value.Colour != pieceMoved.Colour)
                     {
-                        //ONLY WORKING FOR CHECK
                         kingForCheck = kvp.Value as King;
                     }
                     else if (kvp.Value.Colour == pieceMoved.Colour)
                     {
-                        //This is adding things wrong
                         listOfPiecesForCheck.Add(kvp.Value);
                         continue;
                     }
@@ -103,7 +101,7 @@ namespace _2dArray
             kingForCheck = _currentGame._board.board.ElementAt(kingsPosition[0]).ElementAt(kingsPosition[1]).Value as King;
             if (CheckAllPiecesThatAreCheck())
             {
-                if (CanEnemyKingEscapeCheckmate())
+                if (!CanEnemyKingEscapeCheckmate())
                 {
                     return true;
                 }

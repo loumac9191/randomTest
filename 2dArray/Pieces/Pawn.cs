@@ -16,22 +16,6 @@ namespace _2dArray
             set { this.inherentValue = value; }
         }
 
-        private int distanceCapacity = 1;
-
-        public int DistanceCapacity
-        {
-            get { return this.distanceCapacity; }
-            set { this.distanceCapacity = value; }
-        }
-
-        private string moveDirection = "any";
-
-        public string MoveDirection
-        {
-            get { return this.moveDirection; }
-            set { this.moveDirection = value; }
-        }
-
         private string colour;
 
         public string Colour

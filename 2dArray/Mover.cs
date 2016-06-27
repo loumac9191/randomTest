@@ -26,7 +26,6 @@ namespace _2dArray
         private MoveEvaluator moveEval;
         private int yAxisBeforeCorrection;
         private int[] yx;
-        private bool _canMove;
 
         public Mover(Game CurrentGame)
         {
@@ -36,7 +35,6 @@ namespace _2dArray
             piecesClaimed = new SortedDictionary<string, Piece>();
         }
 
-        //DON'T THINK THIS NEEDS TO BE GIVEN THE CURRENT GAME AGAIN
         public void MovePiece(Piece PieceToMove, int[] MoveToCoOrdinates)
         {
             _pieceToMove = PieceToMove;
@@ -81,14 +79,7 @@ namespace _2dArray
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
 
-                    //bool checkMate = true
-                    bool check = boardEval.Check(_pieceToMove);
-
-                    //if (checkMate)
-                    //{
-
-                    //}
-                    if (check)
+                    if (boardEval.Check(_pieceToMove))
                     {
                         Console.WriteLine("Wew Check");
                         if (boardEval.CheckMate())
@@ -96,7 +87,6 @@ namespace _2dArray
                             Console.WriteLine("CHECKMATE!");
                         }
                     }
-                    //CheckMate
                 }
             }
             else
@@ -125,14 +115,7 @@ namespace _2dArray
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).Add(incumbentKey, _pieceToMove);
                     _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).OrderBy(x => x.Key);
 
-                    //bool checkMate = true
-                    bool check = boardEval.Check(_pieceToMove);
-
-                    //if (checkMate)
-                    //{
-
-                    //}
-                    if (check)
+                    if (boardEval.Check(_pieceToMove))
                     {
                         Console.WriteLine("Wew Check");
                         if (boardEval.CheckMate())
@@ -140,7 +123,6 @@ namespace _2dArray
                             Console.WriteLine("CHECKMATE!");
                         }
                     }
-                    //CheckMate
                 }
             }
         }
@@ -189,7 +171,6 @@ namespace _2dArray
             string CoordsOfRookAsString = _converter.ConvertXAxis(currentXAxisOfRook);
             string incumbentKeyOfRook = _converter.ConvertXAxis(CoOrdinatesForMove[1]);
 
-
             //Remove the pieceToMove from its current location
             _currentGame._board.board.ElementAt(currentYAxisOfRook).Remove(_currentGame._board.board.ElementAt(currentYAxisOfRook).ElementAt(currentXAxisOfRook).Key);
 
@@ -214,15 +195,5 @@ namespace _2dArray
             RenameXAxis(PositionOfPawn[1], CoordsOfPawnAsString);
             _currentGame._board.board.ElementAt(PositionOfPawn[0]).OrderBy(x => x.Key);
         }
-
-        //private void Check(Piece PieceToMove)
-        //{
-        //    bool check = boardEval.Check(_pieceToMove);
-
-        //    if (check)
-        //    {
-        //        Console.WriteLine("Wew Check");
-        //    }
-        //}
     }
 }

@@ -9,8 +9,6 @@ namespace _2dArray
     public interface Piece
     {
         int InherentValue { get; set; }
-        int DistanceCapacity { get; set; }
-        string MoveDirection { get; set; }
         string Colour { get; set; }
         string Owner { get; set; }
     }
