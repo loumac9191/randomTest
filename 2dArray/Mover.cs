@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _2dArray
 {
-    public class Mover : IPlayable
+    public class Mover
     {
         private Game _currentGame;
         private Converter _converter;
@@ -69,10 +69,10 @@ namespace _2dArray
                 if (boardEval.Check(PieceToMove))
                 {
                     Console.WriteLine("Wew Check");
-                    //if (boardEval.CheckMate())
-                    //{
-                    //    Console.WriteLine("CHECKMATE!");
-                    //}
+                    if (boardEval.CheckMate())
+                    {
+                        Console.WriteLine("CHECKMATE!");
+                    }
                 }
             }
             else
