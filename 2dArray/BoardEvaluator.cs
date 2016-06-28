@@ -823,21 +823,14 @@ namespace _2dArray
             int iterateCheck = listOfPiecesForCheck.Count();
             kingsPosition = null;
 
-            if (iterateCheck == 0)
-            {
-                return;
-            }
-
-            foreach (Piece piece in listOfPiecesForCheck)
-            {
-                tempListToDumpPieces.Add(piece);
-            }
+            if (iterateCheck == 0) { return; }
 
             for (int i = 0; i <= iterateCheck; iterateCheck--)
             {
                 if (iterateCheck != 0)
                 {
                     Piece pieceToRemove = listOfPiecesForCheck.ElementAt(i);
+                    tempListToDumpPieces.Add(pieceToRemove);
                     listOfPiecesForCheck.Remove(pieceToRemove);
                 }
             }
@@ -855,15 +848,12 @@ namespace _2dArray
 
             if (iteratePiecesThatCanStopCheck != 0)
             {
-                foreach (Piece piece in piecesThatCanStopCheck)
-                {
-                    tempListToDumpPieces.Add(piece);
-                }
                 for (int i = 0; i <= iteratePiecesThatCanStopCheck; iteratePiecesThatCanStopCheck--)
                 {
                     if (iteratePiecesThatCanStopCheck != 0)
                     {
                         Piece pieceToRemove = piecesThatCanStopCheck.ElementAt(i);
+                        tempListToDumpPieces.Add(pieceToRemove);
                         piecesThatCanStopCheck.Remove(pieceToRemove);
                     }
                 }
@@ -871,15 +861,12 @@ namespace _2dArray
 
             if (iterateListOfEnemyKingsEscapePositions != 0)
             {
-                foreach (int[] position in listOfEnemyKingsEscapePositions)
-                {
-                    tempListToDumpKingsEscapePositions.Add(position);
-                }
                 for (int i = 0; i <= iterateListOfEnemyKingsEscapePositions; iterateListOfEnemyKingsEscapePositions--)
                 {
                     if (iterateListOfEnemyKingsEscapePositions != 0)
                     {
                         int[] positionToRemove = listOfEnemyKingsEscapePositions.ElementAt(i);
+                        tempListToDumpKingsEscapePositions.Add(positionToRemove);
                         listOfEnemyKingsEscapePositions.Remove(positionToRemove);
                     }
                 }
@@ -887,16 +874,12 @@ namespace _2dArray
 
             if (iterateListOfPiecesForCheckMateWithCurrentPosition != 0)
             {
-                foreach (Tuple<Piece, int[]> pieceAndPosition in listOfPiecesForCheckMateWithCurrentPosition)
-                {
-                    Tuple<Piece, int[]> pieceAndPositionForDisposal = new Tuple<Piece, int[]>(pieceAndPosition.Item1, pieceAndPosition.Item2);
-                    tempListToDumpPiecesAndPositions.Add(pieceAndPositionForDisposal);
-                }
                 for (int i = 0; i <= iterateListOfPiecesForCheckMateWithCurrentPosition; iterateListOfPiecesForCheckMateWithCurrentPosition--)
                 {
                     if (iterateListOfPiecesForCheckMateWithCurrentPosition != 0)
                     {
                         Tuple<Piece, int[]> tupleToRemove = listOfPiecesForCheckMateWithCurrentPosition.ElementAt(i);
+                        tempListToDumpPiecesAndPositions.Add(tupleToRemove);
                         listOfPiecesForCheckMateWithCurrentPosition.Remove(tupleToRemove);
                     }
                 }
@@ -904,16 +887,12 @@ namespace _2dArray
 
             if (iterateListOfCheckPiecesThatCannotBeTaken != 0)
             {
-                foreach (Tuple<Piece, int[]> pieceAndPosition in listOfCheckPiecesThatCannotBeTaken)
-                {
-                    Tuple<Piece, int[]> pieceAndPositionForDisposal = new Tuple<Piece, int[]>(pieceAndPosition.Item1, pieceAndPosition.Item2);
-                    tempListToDumpPiecesAndPositions.Add(pieceAndPositionForDisposal);
-                }
                 for (int i = 0; i <= iterateListOfCheckPiecesThatCannotBeTaken; iterateListOfCheckPiecesThatCannotBeTaken--)
                 {
                     if (iterateListOfCheckPiecesThatCannotBeTaken != 0)
                     {
                         Tuple<Piece, int[]> tupleToRemove = listOfCheckPiecesThatCannotBeTaken.ElementAt(i);
+                        tempListToDumpPiecesAndPositions.Add(tupleToRemove);
                         listOfCheckPiecesThatCannotBeTaken.Remove(tupleToRemove);
                     }
                 }
@@ -925,22 +904,15 @@ namespace _2dArray
             int iterateEnemyPiecesForCastling = listOfEnemyPlayersPiecesForCastling.Count();
             List<Piece> tempListToDumpPieces = new List<Piece>();
 
-            if (iterateEnemyPiecesForCastling == 0)
-            {
-                return;
-            }
-
-            foreach (Piece piece in listOfEnemyPlayersPiecesForCastling)
-            {
-                tempListToDumpPieces.Add(piece);
-            }
+            if (iterateEnemyPiecesForCastling == 0) { return; }
 
             for (int i = 0; i <= iterateEnemyPiecesForCastling; iterateEnemyPiecesForCastling--)
             {
                 if (iterateEnemyPiecesForCastling != 0)
                 {
-                    Piece pieceToRemove = listOfEnemyPlayersPiecesForCastling.ElementAt(i);
-                    listOfEnemyPlayersPiecesForCastling.Remove(pieceToRemove);
+                    Piece pieceToDump = listOfEnemyPlayersPiecesForCastling.ElementAt(i);
+                    tempListToDumpPieces.Add(pieceToDump);
+                    listOfEnemyPlayersPiecesForCastling.Remove(pieceToDump);
                 }
             }
         }
