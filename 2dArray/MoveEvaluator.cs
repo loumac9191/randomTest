@@ -33,7 +33,8 @@ namespace _2dArray
             {
                 case 1:
                     Pawn pawnToCheck = PieceToEval as Pawn;
-                    return PawnMoveLogic(CurrentPosition, Populated, pawnToCheck, MoveToCoOrds, Simulation);
+                    if (pawnToCheck != null) { return PawnMoveLogic(CurrentPosition, Populated, pawnToCheck, MoveToCoOrds, Simulation); }
+                    break;
                 case 2:
                     return RookMoveLogic(CurrentPosition, Populated, PieceToEval, MoveToCoOrds, Simulation);
                 case 3:
@@ -42,7 +43,8 @@ namespace _2dArray
                     return BishopMoveLogic(CurrentPosition, Populated, PieceToEval, MoveToCoOrds, Simulation);
                 case 5:
                     King kingToEval = PieceToEval as King;
-                    return KingMoveLogic(CurrentPosition, Populated, kingToEval, MoveToCoOrds, Simulation, CastlingCheck);
+                    if (kingToEval != null) { return KingMoveLogic(CurrentPosition, Populated, kingToEval, MoveToCoOrds, Simulation, CastlingCheck); }
+                    break;
                 case 6:
                     return QueenMoveLogic(CurrentPosition, Populated, PieceToEval, MoveToCoOrds, Simulation);
             }
@@ -79,11 +81,6 @@ namespace _2dArray
         
         private bool PawnMoveLogic(int[] CurrentPosition, bool Populated, Pawn pawnToCheck, int[] MoveToCoOrds, bool Simulation)
         {
-            if (pawnToCheck == null)
-            {
-                return false;
-            }
-            //Is the property FirstMove set to true or false?
             if (pawnToCheck.FirstMove == true)
             {
                 if (pawnToCheck.Colour == "Black")

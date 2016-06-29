@@ -65,13 +65,21 @@ namespace WoofSortingAlgorithm
 
             static void Main()
             {
-                //A a1 = new A();
-                //A a2 = new B();
-                //A a3 = new C();
+            //A a1 = new A();
+            //A a2 = new B();
+            //A a3 = new C();
 
-                //Console.WriteLine(a1.GetType());
-                //Console.WriteLine(a2.GetType());
-                //Console.WriteLine(a3.GetType());
+            //Console.WriteLine(a1.GetType());
+            //Console.WriteLine(a2.GetType());
+            //Console.WriteLine(a3.GetType());
+
+
+            bool somethingToTest = false;
+            if (true)
+            {
+                somethingToTest = true;
+            }
+
 
             RandomComplexObj testTest = new RandomComplexObj()
             {
