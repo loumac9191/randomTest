@@ -57,11 +57,11 @@ namespace _2dArray
         }
 
         //Is Opponent in Check After Players Move
-        public bool Check(Piece pieceMoved)
+        public bool Check(Piece PieceMoved)
         {
             ResetListsForCheck();
             ResetListForCheckMate();
-            FindOpposingKingForCheck(pieceMoved);
+            FindOpposingKingForCheck(PieceMoved);
 
             if (kingForCheck == null)
             {
@@ -553,16 +553,21 @@ namespace _2dArray
                                         simulatedPosition[1] = positionXTemp;
                                         foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                         {
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
-                                            {
-                                                return true;
-                                            }
-                                            //check to see you are the last piece in the list
                                             if (i == iterate &&
                                                 piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
                                             {
                                                 return false;
                                             }
+                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                            {
+                                                return true;
+                                            }
+                                            //check to see you are the last piece in the list
+                                            //if (i == iterate &&
+                                            //    piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
+                                            //{
+                                            //    return false;
+                                            //}
                                             continue;
                                         }
                                     }
@@ -675,6 +680,7 @@ namespace _2dArray
 
         private bool CanPieceBeTaken()
         {
+
             foreach (SortedDictionary<string, Piece> row in _currentGame._board.board)
             {
                 foreach (KeyValuePair<string, Piece> kvp in row)
