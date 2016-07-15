@@ -553,14 +553,14 @@ namespace _2dArray
                                         simulatedPosition[1] = positionXTemp;
                                         foreach (Piece pieceThatCanStopCheckMate in piecesThatCanStopCheck)
                                         {
+                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
+                                            {
+                                                return true;
+                                            }
                                             if (i == iterate &&
                                                 piecesThatCanStopCheck.Last() == pieceThatCanStopCheckMate)
                                             {
                                                 return false;
-                                            }
-                                            if (moveEvaluator.EvaluateMove(false, pieceThatCanStopCheckMate, simulatedPosition, true))
-                                            {
-                                                return true;
                                             }
                                             //check to see you are the last piece in the list
                                             //if (i == iterate &&
@@ -755,15 +755,22 @@ namespace _2dArray
 
             foreach (int[] escapePosition in listOfEnemyKingsEscapePositions)
             {
+                List<Piece> piecesThatCanStopEscape = new List<Piece>();
+                int counterOfMP = 0;
+                
                 foreach (Piece piece in listOfMoversPieces)
                 {
+                    counterOfMP += 1;
                     if (moveEvaluator.EvaluateMove(true, piece, escapePosition, true))
                     {
-                        return false;
+                        piecesThatCanStopEscape.Add(piece);
+                        if (counterOfMP == listOfMoversPieces.Count())
+                        {
+                            return false;
+                        }                 
                     }
                 }
             }
-
             return true;
         }
 

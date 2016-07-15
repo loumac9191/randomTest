@@ -110,9 +110,12 @@ namespace _2dArray
                     //    {
                     //        if (Populated && !Simulation)
                     //        {
-                    //            ////Promotion
-                    //            //Promotion(pawnToCheck, MoveToCoOrds, CurrentPosition);
-                    //            //return true;
+                    //            if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour != pawnToCheck.Colour)
+                    //            {
+                    //                ////Promotion
+                    //                //Promotion(pawnToCheck, MoveToCoOrds, CurrentPosition);
+                    //                //return true;
+                    //            }
                     //        }
                     //        //return false;
                     //    }
@@ -196,9 +199,12 @@ namespace _2dArray
                     //    {
                     //        if (Populated && !Simulation)
                     //        {
-                    //            ////Promotion
-                    //            //Promotion(pawnToCheck, MoveToCoOrds, CurrentPosition);
-                    //            //return true;
+                    //            if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour != pawnToCheck.Colour)
+                    //            {
+                    //                ////Promotion
+                    //                //Promotion(pawnToCheck, MoveToCoOrds, CurrentPosition);
+                    //                //return true;
+                    //            }
                     //        }
                     //        //return false;
                     //    }
@@ -311,7 +317,7 @@ namespace _2dArray
                                 pawnToCheck.FirstMoveWasTwoSquares = false;
                                 return true;
                             }
-                            return false;
+                            return true;
                         }
                         return false;
                     }
@@ -369,7 +375,7 @@ namespace _2dArray
                                 pawnToCheck.FirstMoveWasTwoSquares = false;
                                 return true;
                             }
-                            return false;
+                            return true;
                         }
                         return false;
                     }
@@ -400,18 +406,6 @@ namespace _2dArray
                         {
                             if (i == iterate)
                             {
-                                if (Simulation)
-                                {
-                                    if (Populated)
-                                    {
-                                        if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
-                                        {
-                                            return false;
-                                        }
-                                        return true;
-                                    }
-                                    return true;
-                                }
                                 if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
                                 {
                                     return false;
@@ -451,18 +445,6 @@ namespace _2dArray
                         {
                             if (i == iterate)
                             {
-                                if (Simulation)
-                                {
-                                    if (Populated)
-                                    {
-                                        if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
-                                        {
-                                            return false;
-                                        }
-                                        return true;
-                                    }
-                                    return true;
-                                }
                                 if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
                                 {
                                     return false;
@@ -494,7 +476,7 @@ namespace _2dArray
             //Horizontal
             else
             {
-                if ((MoveToCoOrds[1] > CurrentPosition[1] || MoveToCoOrds[1] < MoveToCoOrds[1]) &&
+                if ((MoveToCoOrds[1] > CurrentPosition[1] || MoveToCoOrds[1] < CurrentPosition[1]) &&
                     MoveToCoOrds[0] == CurrentPosition[0])
                 {
                     //Right
@@ -508,18 +490,6 @@ namespace _2dArray
                             {
                                 if (i == iterate)
                                 {
-                                    if (Simulation)
-                                    {
-                                        if (Populated)
-                                        {
-                                            if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
-                                            {
-                                                return false;
-                                            }
-                                            return true;
-                                        }
-                                        return true;
-                                    }
                                     if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
                                     {
                                         return false;
@@ -560,18 +530,6 @@ namespace _2dArray
                                 {
                                     if (i == iterate)
                                     {
-                                        if (Simulation)
-                                        {
-                                            if (Populated)
-                                            {
-                                                if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
-                                                {
-                                                    return false;
-                                                }
-                                                return true;
-                                            }
-                                            return true;
-                                        }
                                         if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
                                         {
                                             return false;
@@ -621,6 +579,10 @@ namespace _2dArray
                 ((CurrentPosition[1] + 2) == MoveToCoOrds[1] && ((CurrentPosition[0] - 1) == MoveToCoOrds[0] || (CurrentPosition[0] + 1) == MoveToCoOrds[0])) ||
                 ((CurrentPosition[1] - 2) == MoveToCoOrds[1] && ((CurrentPosition[0] - 1) == MoveToCoOrds[0] || (CurrentPosition[0] + 1) == MoveToCoOrds[0])))
             {
+                if (Simulation && Populated)
+                {
+                    return true;
+                }
                 if (Populated)
                 {
                     if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
@@ -1165,18 +1127,6 @@ namespace _2dArray
                         {
                             if (i == iterate)
                             {
-                                if (Simulation)
-                                {
-                                    if (Populated)
-                                    {
-                                        if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
-                                        {
-                                            return false;
-                                        }
-                                        return true;
-                                    }
-                                    return true;
-                                }
                                 if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
                                 {
                                     return false;
@@ -1215,18 +1165,6 @@ namespace _2dArray
                         {
                             if (i == iterate)
                             {
-                                if (Simulation)
-                                {
-                                    if (Populated)
-                                    {
-                                        if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
-                                        {
-                                            return false;
-                                        }
-                                        return true;
-                                    }
-                                    return true;
-                                }
                                 if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
                                 {
                                     return false;
@@ -1256,7 +1194,7 @@ namespace _2dArray
                 }
             }
             //Horizontal
-            else if ((MoveToCoOrds[1] > CurrentPosition[1] || MoveToCoOrds[1] < MoveToCoOrds[1]) &&
+            else if ((MoveToCoOrds[1] > CurrentPosition[1] || MoveToCoOrds[1] < CurrentPosition[1]) &&
                 MoveToCoOrds[0] == CurrentPosition[0])
             {
                 //Right
@@ -1270,19 +1208,6 @@ namespace _2dArray
                         {
                             if (i == iterate)
                             {
-                                //This part is breaking it
-                                //if (Simulation)
-                                //{
-                                //    if (Populated)
-                                //    {
-                                //        if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
-                                //        {
-                                //            return false;
-                                //        }
-                                //        return true;
-                                //    }
-                                //    return true;
-                                //}
                                 if (CurrentBoard.ElementAt(CurrentPosition[0]).ElementAt(positionTemp).Value.Colour == PieceToEval.Colour)
                                 {
                                     return false;
@@ -1323,18 +1248,6 @@ namespace _2dArray
                             {
                                 if (i == iterate)
                                 {
-                                    if (Simulation)
-                                    {
-                                        if (Populated)
-                                        {
-                                            if (CurrentBoard.ElementAt(MoveToCoOrds[0]).ElementAt(MoveToCoOrds[1]).Value.Colour == PieceToEval.Colour)
-                                            {
-                                                return false;
-                                            }
-                                            return true;
-                                        }
-                                        return true;
-                                    }
                                     if (CurrentBoard.ElementAt(CurrentPosition[0]).ElementAt(positionTemp).Value.Colour == PieceToEval.Colour)
                                     {
                                         return false;

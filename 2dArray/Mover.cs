@@ -40,6 +40,14 @@ namespace _2dArray
                 //Need to tell the game that the move wasn't valid
                 //Announcer class which talks to the game
             }
+            if (populated)
+            {
+                if (_currentGame._board.board.ElementAt(MoveToCoOrdinates[0]).ElementAt(MoveToCoOrdinates[1]).Value.Colour == PieceToMove.Colour)
+                {
+                    //Announcer
+                    return;
+                }
+            }
             if (moveEval.EvaluateMove(populated, PieceToMove,MoveToCoOrdinates))
             {
                 //Remove the pieceToMove from its current location
