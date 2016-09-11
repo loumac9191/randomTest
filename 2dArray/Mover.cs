@@ -48,7 +48,7 @@ namespace _2dArray
                     return;
                 }
             }
-            if (moveEval.EvaluateMove(populated, PieceToMove,MoveToCoOrdinates))
+            if (moveEval.EvaluateMove(populated, PieceToMove, MoveToCoOrdinates))
             {
                 //Remove the pieceToMove from its current location
                 _currentGame._board.board.ElementAt(currentYAxis).Remove(_currentGame._board.board.ElementAt(currentYAxis).ElementAt(currentXAxis).Key);
@@ -64,10 +64,10 @@ namespace _2dArray
 
                 if (populated)
                 {
-                    ////Remove the piece from the destination and place this in the games removed list?
-                    //KeyValuePair<string, Piece> kvpForPieceRemoved = _currentGame._board.board.ElementAt(_moveToCoOrdinates[0]).ElementAt(_moveToCoOrdinates[1]);
+                    //Remove the piece from the destination and place this in the games removed list?
+                    KeyValuePair<string, Piece> kvpForPieceRemoved = _currentGame._board.board.ElementAt(MoveToCoOrdinates[0]).ElementAt(MoveToCoOrdinates[1]);
 
-                    //_currentGame.listOfRemovedPieces.Add(kvpForPieceRemoved.Value);
+                    _currentGame.listOfRemovedPieces.Add(kvpForPieceRemoved.Value);
                 }
 
                 //Move and Reorder

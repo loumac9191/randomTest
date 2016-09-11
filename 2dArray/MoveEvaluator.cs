@@ -81,7 +81,12 @@ namespace _2dArray
             }
             _mover.MoveRookForCastling(CorrectionToSendToMover, RookToMove);
         }
-        
+
+        private void Promotion(Pawn PawnToMove, int[] MoveToCoOrds, int[] CurrentPosition)
+        {
+            //bool result = 
+        }
+  
         private bool PawnMoveLogic(int[] CurrentPosition, bool Populated, Pawn pawnToCheck, int[] MoveToCoOrds, bool Simulation)
         {
             List<SortedDictionary<string, Piece>> CurrentBoard = _currentGame._board.board;
